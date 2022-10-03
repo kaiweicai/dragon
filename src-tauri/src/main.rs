@@ -3,6 +3,7 @@ use app::{
     init_context,
     meuns::menu::{init_system_tray, menu_event, system_tray_menu_event, windows_event},
     plugin::db::init_sqlite,
+    server::init_server,
     APPLICATION_CONTEXT,
 };
 use tauri::{generate_context, generate_handler, Builder, Manager, Window, Menu};
@@ -19,7 +20,7 @@ async fn main() {
             let main_window = _app.get_window("main").unwrap();
 
             APPLICATION_CONTEXT.set::<Window>(main_window);
-            //init_server(); //初始化一个本地server
+            init_server(); //初始化一个本地server
             Ok(())
         })
         //系统事件

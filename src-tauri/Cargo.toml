@@ -8,6 +8,10 @@ repository = ""
 default-run = "app"
 edition = "2021"
 
+members = [
+    "cassie_web",
+]
+
 
 [build-dependencies]
 tauri-build = { version = "1.0.4", features = [] }
