@@ -1,6 +1,6 @@
 use axum::{handler::Handler, http::Uri, response::IntoResponse, Router, Server};
 use cassie_common::RespVO;
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use cassie_web::{
     init_context,
     routers::{admin, api},
@@ -32,7 +32,7 @@ async fn main() {
     //初始化上环境下文
     init_context().await;
 
-    let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     let server = format!(
         "{}:{}",
         cassie_config.server().host(),

@@ -7,7 +7,7 @@ use axum::{response::IntoResponse, Router};
 use cassie_common::RespVO;
 
 use axum::extract::{Path, Query};
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use cassie_domain::dto::sys_dict_dto::SysDictDataDTO;
 use cassie_domain::entity::PageData;
 use cassie_domain::request::SysDictQuery;
@@ -71,7 +71,7 @@ pub async fn edit(Json(arg): Json<SysDictDataDTO>) -> impl IntoResponse {
 }
 
 pub async fn delete(Path(id): Path<String>) -> impl IntoResponse {
-    let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     if *cassie_config.is_demo() {
         return RespVO::from(&"演示删除成功".to_string()).resp_json();
     }

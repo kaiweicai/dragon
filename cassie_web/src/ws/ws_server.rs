@@ -7,7 +7,7 @@ use crate::middleware::checked_token;
 use crate::ws::ws_handle::{handle_msg, off_line, off_line_by_uid, on_line};
 use crate::ws::PEER_MAP;
 use crate::APPLICATION_CONTEXT;
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::handshake::server::{Request, Response};
 use tokio_tungstenite::tungstenite::http::StatusCode;
@@ -80,7 +80,7 @@ async fn handle_connection(raw_stream: TcpStream, addr: SocketAddr) {
 
 //实例化一个 ws server
 pub async fn init_ws() -> Result<(), IoError> {
-    let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     //如果ws端口开启了 则启动 websocket
     if cassie_config.server().ws().is_some() {
         let addr = format!(

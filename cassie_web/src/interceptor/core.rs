@@ -1,4 +1,4 @@
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use sqlparser::ast::Assignment;
 use sqlparser::ast::OnInsert;
 use sqlparser::ast::Select;
@@ -23,7 +23,7 @@ pub fn build_insert(
     table: bool,
     on: Option<OnInsert>,
 ) -> Option<String> {
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     let mut c = columns.clone();
     let agency_column = Ident {
         value: config.tenant().column().clone(),
@@ -64,7 +64,7 @@ pub fn build_insert(
 }
 ///构建租户化where条件语句
 pub fn build_where(agency_code: String, selection: Option<Expr>) -> Option<Expr> {
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     let u_selection = match selection {
         //如果原SQL已经有查询条件 则直接加上 租户化条件
         Some(selection) => Option::from(Expr::BinaryOp {
@@ -120,7 +120,7 @@ pub fn build_delete(
 
 //构建租户化select
 pub fn build_select(select: Select, agency_code: String) -> String {
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     //克隆一份做备份
     let mut select1 = select.clone();
     //处理租户字段
@@ -130,7 +130,7 @@ pub fn build_select(select: Select, agency_code: String) -> String {
 
 //递归查找 租户列是否存在 存在则返回true
 pub fn deep_find(selection: &Expr) -> bool {
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     let column = config.tenant().column().clone();
     match selection {
         //判断具体的某个查询条件是不是租户字段
@@ -160,7 +160,7 @@ pub fn deep_find(selection: &Expr) -> bool {
     return false;
 }
 
-pub fn has_table(table_info: ObjectName, config: &ApplicationConfig) -> bool {
+pub fn has_table(table_info: ObjectName, config: &WebApplicationConfig) -> bool {
     let ObjectName(table_info) = table_info;
     let tableinfo = table_info.get(0).unwrap();
     //判断有表名称没有被忽略
@@ -181,7 +181,7 @@ pub fn intercept_query(select: Select) -> bool {
             return false;
         }
     }
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     //获取到 from 表名 有可能存在 join
     for elem in from.iter() {
         let relation = &elem.relation;
@@ -211,7 +211,7 @@ pub fn intercept_update(elem: TableWithJoins, selection: Option<Expr>) -> bool {
             return false;
         }
     }
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     //获取到 from 表名 有可能存在 join
 
     let relation = &elem.relation;
@@ -241,7 +241,7 @@ pub fn intercept_delete(table_info: ObjectName, selection: Option<Expr>) -> bool
             return false;
         }
     }
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     //获取到 from 表名 有可能存在 join
     if has_table(table_info, config) {
         return false;

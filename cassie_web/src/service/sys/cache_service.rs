@@ -2,7 +2,7 @@ use crate::service::redis_service::RedisService;
 use crate::APPLICATION_CONTEXT;
 use async_trait::async_trait;
 use cassie_common::error::{Error, Result};
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use log::info;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
@@ -28,7 +28,7 @@ pub struct CacheService {
 
 impl CacheService {
     pub fn new() -> Result<Self> {
-        let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+        let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
         match config.cache_type().as_str() {
             "redis" => {
                 info!("cache_type: redis");

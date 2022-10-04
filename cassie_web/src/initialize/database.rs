@@ -1,12 +1,12 @@
 use crate::{AgencyInterceptor, APPLICATION_CONTEXT};
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use cassie_orm::dao::{init_mongodb, init_rbatis};
 use log::info;
 use mongodb::Database;
 use rbatis::rbatis::Rbatis;
 
 pub async fn init_database() {
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
 
     let mut rbatis = init_rbatis(config).await;
     rbatis.add_sql_intercept(AgencyInterceptor {

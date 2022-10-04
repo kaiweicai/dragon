@@ -7,10 +7,10 @@ use std::time::Duration;
 
 use crate::APPLICATION_CONTEXT;
 
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 
 pub fn init_log() {
-    let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     //create log dir
     std::fs::create_dir_all(&cassie_config.log_dir());
     //initialize fast log

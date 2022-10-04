@@ -10,12 +10,12 @@ use crate::service::sys_params_service::SysParamsService;
 // use crate::service::sys_role_service::SysRoleService;
 // use crate::service::sys_user_service::SysUserService;
 use crate::APPLICATION_CONTEXT;
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 // use cassie_storage::upload::upload_service::UploadService;
 use log::info;
 
 pub async fn init_service() {
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     APPLICATION_CONTEXT.set::<CacheService>(CacheService::new().unwrap());
     info!("CacheService init success!");
     APPLICATION_CONTEXT.set::<SysAuthService>(SysAuthService::default());

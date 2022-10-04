@@ -16,3 +16,11 @@
 2022-10-04 00:08:30.913955142 INFO app::server - local://0.0.0.0:8888
 2022-10-04 02:48:59.118297232 INFO app::initalize - cassie db 已经存在 table storage already exists
 2022-10-04 02:52:37.696488886 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 13:55:24.844810385 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 15:59:03.03089829 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 16:00:58.117039586 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 16:06:57.197893293 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 16:51:32.858411823 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 17:06:56.797627564 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 17:15:06.478495144 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-04 17:23:50.056151233 INFO app::initalize - cassie db 已经存在 table storage already exists

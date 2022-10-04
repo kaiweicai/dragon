@@ -1,9 +1,9 @@
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use rbatis::rbatis::Rbatis;
 pub mod mapper;
 
 ///实例化 rbatis orm 连接池
-pub async fn init_rbatis(cassie_config: &ApplicationConfig) -> Rbatis {
+pub async fn init_rbatis(cassie_config: &WebApplicationConfig) -> Rbatis {
     let rbatis = Rbatis::new();
     if cassie_config.debug().eq(&false) && rbatis.is_debug_mode() {
         panic!(
@@ -26,7 +26,7 @@ pub async fn init_rbatis(cassie_config: &ApplicationConfig) -> Rbatis {
 
 use mongodb::{options::ClientOptions, Client, Database};
 
-pub async fn init_mongodb(cassie_config: &ApplicationConfig) -> Database {
+pub async fn init_mongodb(cassie_config: &WebApplicationConfig) -> Database {
     let client_options = ClientOptions::parse(cassie_config.mongodb_url().clone().as_str())
         .await
         .expect(" mongodb link database fail!");

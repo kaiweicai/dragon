@@ -44,7 +44,7 @@ use crate::{ config::log::init_log};
 use axum::http::Uri;
 use axum::response::IntoResponse;
 use axum::{Router, Server};
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 pub use deno_runtime::deno_core;
 use log::info;
 use log::warn;
@@ -71,7 +71,8 @@ pub async fn init_context() {
     print_banner();
     // //第一步加载配置
     init_config().await;
-    init_log();
+    //tauri 已经加载了程序，故此处无需加载。
+    // init_log();
     // info!("ConfigContext init complete");
     // //第二步初始化数据源
     // init_database().await;
@@ -144,7 +145,7 @@ pub fn init_server() {
         //初始化上环境下文
         init_context().await;
 
-        let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+        let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
         let server = format!(
             "{}:{}",
             cassie_config.server().host(),

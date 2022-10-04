@@ -4,7 +4,7 @@ use crate::APPLICATION_CONTEXT;
 use cassie_common::error::Error;
 use cassie_common::error::Result;
 use cassie_common::utils::password_encoder::PasswordEncoder;
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use cassie_domain::dto::sign_in::SignInDTO;
 use cassie_domain::dto::sys_log::SysLogLoginDto;
 use cassie_domain::entity::sys_entitys::SysUser;
@@ -96,7 +96,7 @@ impl SysAuthService {
      *email:348040933@qq.com
      */
     pub async fn get_user_info(&self, user: &SysUser) -> Result<SignInVO> {
-        let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+        let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
         //去除密码，增加安全性
         let mut user = user.clone();
         user.password = None;

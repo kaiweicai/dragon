@@ -6,7 +6,7 @@ use axum::{
 };
 use cassie_common::error::Error;
 use cassie_common::RespVO;
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 
 use super::{checked_token, set_local};
 
@@ -26,7 +26,7 @@ where
     type Rejection = Error;
 
     async fn from_request(req: &mut RequestParts<B>) -> Result<Self, Self::Rejection> {
-        let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+        let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
 
         /*获取method path */
         let action = req.method().clone().to_string();

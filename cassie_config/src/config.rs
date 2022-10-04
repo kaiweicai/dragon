@@ -70,7 +70,7 @@ pub enum UploadType {
     Debug, PartialEq, serde::Serialize, serde::Deserialize, Clone, Getters, Setters, MutGetters,
 )]
 #[getset(get_mut = "pub", get = "pub", set = "pub")]
-pub struct ApplicationConfig {
+pub struct WebApplicationConfig {
     debug: bool,
     is_demo: bool,
     ///redis地址
@@ -117,7 +117,7 @@ pub struct ApplicationConfig {
     wxapp: Wxapp,
 }
 
-impl ApplicationConfig {
+impl WebApplicationConfig {
     pub fn new(yml_data: &str) -> Self {
         let config = match serde_yaml::from_str(yml_data) {
             Ok(e) => e,

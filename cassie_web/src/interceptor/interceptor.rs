@@ -9,7 +9,7 @@ use super::core::intercept_update;
 use crate::middleware::get_local;
 use crate::APPLICATION_CONTEXT;
 use cached::proc_macro::cached;
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use rbatis::plugin::intercept::SqlIntercept;
 use rbatis::rbatis::Rbatis;
 use rbatis::Error;
@@ -62,7 +62,7 @@ impl SqlIntercept for AgencyInterceptor {
 #[cached(time = 3600, size = 100)]
 pub fn build(up_sql: String, agency_code: String) -> String {
     //获取配置类
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     //获取默认数据库方言
     let dialect = GenericDialect {};
     //解析sql

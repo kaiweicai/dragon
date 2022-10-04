@@ -2,7 +2,7 @@ use crate::{config::ApplicationConfig, plugin::db::SqliteMap, APPLICATION_CONTEX
 use log::info;
 use rusqlite::Connection;
 pub async fn init_config() {
-    let content = include_str!("../application.yml");
+    let content = include_str!("../../application.yml");
     let config = ApplicationConfig::new(content);
     APPLICATION_CONTEXT.set::<ApplicationConfig>(config);
 }

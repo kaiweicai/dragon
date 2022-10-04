@@ -6,7 +6,7 @@ pub mod event;
 
 use crate::APPLICATION_CONTEXT;
 use cassie_common::error::Error;
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use cassie_domain::request::RequestModel;
 use std::sync::{Arc, Mutex};
 use thread_local::ThreadLocal;
@@ -23,7 +23,7 @@ lazy_static! {
  */
 pub fn checked_token(token: &str) -> Result<JWTToken, Error> {
     //check token alive
-    let cassie_config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+    let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     let token = JWTToken::verify(cassie_config.jwt_secret(), token);
     token
 }

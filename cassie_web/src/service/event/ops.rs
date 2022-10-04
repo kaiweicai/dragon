@@ -1,6 +1,6 @@
 use std::sync::{Arc, Mutex};
 
-use cassie_config::config::ApplicationConfig;
+use cassie_config::config::WebApplicationConfig;
 use cassie_domain::dto::{sys_dict_dto::SysDictTypeDTO, sys_user_dto::SysUserDTO};
 use deno_core::{op, Extension, OpDecl};
 
@@ -13,8 +13,8 @@ use crate::{
 
 //获取系统配置
 #[op]
-fn op_config() -> Result<ApplicationConfig, deno_core::error::AnyError> {
-    let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
+fn op_config() -> Result<WebApplicationConfig, deno_core::error::AnyError> {
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
     Ok(config.clone())
 }
 //获取系统字典

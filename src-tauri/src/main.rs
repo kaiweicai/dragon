@@ -8,6 +8,7 @@ use app::{
 };
 use tauri::{generate_context, generate_handler, Builder, Manager, Window, Menu};
 
+// 启动项目主程序
 #[tokio::main]
 async fn main() {
     init_context().await;

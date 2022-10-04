@@ -29,6 +29,7 @@ pub async fn init_context() {
     init_config().await;
 }
 
+// 初始化log，确定log的存放文件的位置，文件的大小等信息。
 pub fn init_log() {
     //create log dir
     let _r =std::fs::create_dir_all(&"logs/");
