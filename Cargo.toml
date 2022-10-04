@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = [
+   "cassie_config",
+   "cassie_common",
+   "cassie_web",
+   "cassie_domain",
+   "cassie_macros",
+   "cassie_orm",
+   "src-tauri",
+]
+[profile.release]
+codegen-units = 1
+incremental = true
+lto = true
+opt-level = 'z' # Optimize for size
+
