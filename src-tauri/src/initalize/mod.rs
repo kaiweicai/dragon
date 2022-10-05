@@ -7,7 +7,7 @@ pub async fn init_config() {
     APPLICATION_CONTEXT.set::<ApplicationConfig>(config);
 }
 
-//初始化默认存储
+/// 初始化默认存储
 pub fn init_db() {
     APPLICATION_CONTEXT.set::<SqliteMap>(SqliteMap::default());
     init_default();

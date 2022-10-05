@@ -71,7 +71,7 @@ pub async fn init_context() {
     print_banner();
     // //第一步加载配置
     init_config().await;
-    //tauri 已经加载了程序，故此处无需加载。
+    //tauri 已经加载了log，故此处无需加载。
     // init_log();
     // info!("ConfigContext init complete");
     // //第二步初始化数据源
@@ -142,6 +142,7 @@ async fn fallback(uri: Uri) -> impl IntoResponse {
 //初始化一个本地server
 pub fn init_server() {
     tokio::spawn(async {
+        info!("start initialize the web server");
         //初始化上环境下文
         init_context().await;
 
@@ -158,7 +159,7 @@ pub fn init_server() {
             .max_age(Duration::from_secs(60) * 10);
         //绑定端口 初始化 路由
         let app = Router::new()
-            // .nest("/admin", admin::routers())
+            .nest("/admin", routers::admin::routers())
             // .nest("/api", api::routers())
             .layer(cors);
             // .fallback(fallback.into_service());
@@ -167,5 +168,6 @@ pub fn init_server() {
             .serve(app.into_make_service())
             .await
             .unwrap();
+        info!("end initialize the web server");
     });
 }

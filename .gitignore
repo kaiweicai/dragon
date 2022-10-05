@@ -2,6 +2,7 @@
 node_modules
 target
 /dist
+/logs/
 cassie.db3
 # local env files
 .env.local
@@ -20,3 +21,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+src-tauri/logs/temp.log
