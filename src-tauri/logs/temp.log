@@ -82,3 +82,60 @@
 2022-10-06 23:38:55.857981103 INFO cassie_web::initialize::rules - init JsRuntime time 37 millisecond!
 2022-10-06 23:38:58.0556332 INFO cassie_web::service::event - 事件个数：0
 2022-10-06 23:40:01.452306545 INFO cassie_web::service::event - 事件个数：0
+2022-10-06 23:53:13.86404547 INFO app::initalize - cassie 实例化成功
+2022-10-06 23:53:14.333182661 INFO cassie_web - start initialize the web server
+2022-10-06 23:53:14.333918318 INFO cassie_web::initialize::config - current file is:Ok(Some(DirEntry(DirEntry("./application.yml"))))
+2022-10-06 23:53:14.336043712 INFO cassie_web::initialize::service - CacheService init success!
+2022-10-06 23:53:14.336082265 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-06 23:53:14.336088062 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-06 23:53:14.33609337 INFO cassie_web::initialize::service - SysParamsService init success!
+2022-10-06 23:53:14.336099027 INFO cassie_web::initialize::service - SysDictTypeService init success!
+2022-10-06 23:53:14.336103777 INFO cassie_web::initialize::service - SysDictDataService init success!
+2022-10-06 23:53:14.336108945 INFO cassie_web::initialize::service - AsiGroupService init success!
+2022-10-06 23:53:14.336113764 INFO cassie_web::initialize::service - LogLoginService init success!
+2022-10-06 23:53:14.336119561 INFO cassie_web::initialize::service - LogOperationService init success!
+2022-10-06 23:53:14.336214967 INFO cassie_web::initialize::service - EventConfigService init success!
+2022-10-06 23:53:14.336222161 INFO cassie_web::initialize::service - UserService init success!
+2022-10-06 23:53:14.336227748 INFO cassie_web::initialize::service - WechatUserService init success!
+2022-10-06 23:53:14.336639822 INFO cassie_web - start initialize the web server is:"0.0.0.0:9999"
+2022-10-06 23:53:14.346604889 INFO cassie_web::initialize::rules - cassie js path file:///home/cloudweisz/work/ruststudy/cassie_admin/cassie_web/js/cassie.js 
+2022-10-06 23:53:14.383946269 INFO cassie_web::initialize::rules - init JsRuntime time 38 millisecond!
+2022-10-06 23:53:16.724816823 INFO cassie_web::service::event - 事件个数：0
+2022-10-07 00:52:17.163808006 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-07 00:52:17.610955063 INFO cassie_web - start initialize the web server
+2022-10-07 00:52:17.611637072 INFO cassie_web::initialize::config - current file is:Ok(Some(DirEntry(DirEntry("./application.yml"))))
+2022-10-07 00:52:17.61368261 INFO cassie_web::initialize::service - CacheService init success!
+2022-10-07 00:52:17.613717112 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 00:52:17.613721861 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 00:52:17.613785697 INFO cassie_web::initialize::service - SysParamsService init success!
+2022-10-07 00:52:17.613793798 INFO cassie_web::initialize::service - SysDictTypeService init success!
+2022-10-07 00:52:17.613798198 INFO cassie_web::initialize::service - SysDictDataService init success!
+2022-10-07 00:52:17.613803506 INFO cassie_web::initialize::service - AsiGroupService init success!
+2022-10-07 00:52:17.613809164 INFO cassie_web::initialize::service - LogLoginService init success!
+2022-10-07 00:52:17.613814402 INFO cassie_web::initialize::service - LogOperationService init success!
+2022-10-07 00:52:17.613819081 INFO cassie_web::initialize::service - EventConfigService init success!
+2022-10-07 00:52:17.6138239 INFO cassie_web::initialize::service - UserService init success!
+2022-10-07 00:52:17.613829697 INFO cassie_web::initialize::service - WechatUserService init success!
+2022-10-07 00:52:17.614522183 INFO cassie_web - start initialize the web server is:"0.0.0.0:9999"
+2022-10-07 00:52:17.618862595 INFO cassie_web::initialize::rules - cassie js path file:///home/cloudweisz/work/ruststudy/cassie_admin/cassie_web/js/cassie.js 
+2022-10-07 00:52:17.664923655 INFO cassie_web::initialize::rules - init JsRuntime time 46 millisecond!
+2022-10-07 00:52:20.173364841 INFO cassie_web::service::event - 事件个数：0
+2022-10-07 00:57:23.196256755 INFO app::initalize - cassie db 已经存在 table storage already exists
+2022-10-07 00:57:23.682422984 INFO cassie_web - start initialize the web server
+2022-10-07 00:57:23.683342808 INFO cassie_web::initialize::config - current file is:Ok(Some(DirEntry(DirEntry("./application.yml"))))
+2022-10-07 00:57:23.686166814 INFO cassie_web::initialize::service - CacheService init success!
+2022-10-07 00:57:23.686206834 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 00:57:23.686212561 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 00:57:23.686289248 INFO cassie_web::initialize::service - SysParamsService init success!
+2022-10-07 00:57:23.686297629 INFO cassie_web::initialize::service - SysDictTypeService init success!
+2022-10-07 00:57:23.686304194 INFO cassie_web::initialize::service - SysDictDataService init success!
+2022-10-07 00:57:23.686309921 INFO cassie_web::initialize::service - AsiGroupService init success!
+2022-10-07 00:57:23.686315229 INFO cassie_web::initialize::service - LogLoginService init success!
+2022-10-07 00:57:23.686321026 INFO cassie_web::initialize::service - LogOperationService init success!
+2022-10-07 00:57:23.686325845 INFO cassie_web::initialize::service - EventConfigService init success!
+2022-10-07 00:57:23.686331921 INFO cassie_web::initialize::service - UserService init success!
+2022-10-07 00:57:23.686337578 INFO cassie_web::initialize::service - WechatUserService init success!
+2022-10-07 00:57:23.686781497 INFO cassie_web - start initialize the web server is:"0.0.0.0:9999"
+2022-10-07 00:57:23.692871262 INFO cassie_web::initialize::rules - cassie js path file:///home/cloudweisz/work/ruststudy/cassie_admin/cassie_web/js/cassie.js 
+2022-10-07 00:57:23.72582352 INFO cassie_web::initialize::rules - init JsRuntime time 33 millisecond!
+2022-10-07 00:57:26.146364948 INFO cassie_web::service::event - 事件个数：0

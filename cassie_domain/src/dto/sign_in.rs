@@ -13,10 +13,10 @@ pub struct SignInDTO {
     #[validate(length(min = 6, message = "密码最少6个字符"))]
     password: Option<String>,
     //验证码，可用是短信验证码，图片验证码,二维码验证码...
-    #[validate(required)]
-    #[validate(length(equal = 4, message = "验证码必须为4位"))]
+    // #[validate(required)]
+    // #[validate(length(equal = 4, message = "验证码必须为4位"))]
     vcode: Option<String>,
-    #[validate(required)]
+    // #[validate(required)]
     uuid: Option<String>,
 }
 

@@ -74,9 +74,9 @@ pub async fn init_context() {
     //tauri 已经加载了log，故此处无需加载。
     // init_log();
     // info!("ConfigContext init complete");
-    // //第二步初始化数据源
-    // init_database().await;
-    // info!("DataBase init complete");
+    //第二步初始化数据源
+    init_database().await;
+    info!("DataBase init complete");
     // //第三步初始化所有的 服务类
     init_service().await;
     // info!("ServiceContext init complete");
@@ -123,7 +123,6 @@ fn print_banner() {
 | |___| (_| \__ \__ \ |  __/  / ____ \  >  <| |_| | | | | | |  / ____ \ (_| | | | | | | | | | |
  \_____\__,_|___/___/_|\___| /_/    \_\/_/\_\\__,_|_| |_| |_| /_/    \_\__,_|_| |_| |_|_|_| |_|
 
-                            &&&&&&&&&
 "#;
     println!("{}", banner);
 }

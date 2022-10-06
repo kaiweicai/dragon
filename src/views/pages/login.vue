@@ -51,7 +51,7 @@
                 </span>
               </el-input>
             </el-form-item>
-            <el-form-item prop="captcha">
+            <!-- <el-form-item prop="captcha">
               <el-row :gutter="20">
                 <el-col :span="14">
                   <el-input v-model="dataForm.vcode" :placeholder="$t('login.captcha')">
@@ -66,7 +66,7 @@
                   <img :src="captchaPath" @click="getCaptcha_base64()">
                 </el-col>
               </el-row>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
               <el-button type="primary" @click="dataFormSubmitHandle()" class="w-percent-100">{{ $t('login.title') }}
               </el-button>
@@ -114,7 +114,7 @@ export default {
           { required: true, message: this.$t('validate.required'), trigger: 'blur' }
         ],
         vcode: [
-          { required: true, message: this.$t('validate.required'), trigger: 'blur' }
+          { required: false, message: this.$t('validate.required'), trigger: 'blur' }
         ]
       }
     }
@@ -172,7 +172,7 @@ export default {
         this.$http.post('/login', this.dataForm
         ).then(({ data: res }) => {
           if (res.code != 0) {
-            this.getCaptcha()
+            // this.getCaptcha()
             return this.$message.error(res.msg)
           }
           Cookies.set('access_token', res.data.access_token)

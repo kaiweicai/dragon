@@ -13,6 +13,8 @@ use cassie_common::RespVO;
 use cassie_domain::dto::sign_in::SignInDTO;
 use validator::Validate;
 
+
+/// 用户登录接口。
 pub async fn login(Json(sign): Json<SignInDTO>) -> impl IntoResponse {
     // let cache_service = APPLICATION_CONTEXT.get::<CacheService>();
     let sys_auth_service = APPLICATION_CONTEXT.get::<SysAuthService>();
@@ -30,6 +32,10 @@ pub async fn login(Json(sign): Json<SignInDTO>) -> impl IntoResponse {
     let vo = sys_auth_service.sign_in(&sign).await;
 
     return RespVO::from_result(&vo).resp_json();
+}
+
+pub async fn testd_ragon(Path(dragon):Path<String>)->impl IntoResponse{
+    return RespVO::from(&dragon).resp_json();
 }
 
 //本地应用，暂时不需要验证码。
