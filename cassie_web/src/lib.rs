@@ -33,7 +33,7 @@ use std::time::Duration;
 // use crate::initialize::casbin::init_casbin;
 use crate::initialize::config::init_config;
 use crate::initialize::database::init_database;
-// use crate::initialize::event::init_event_bus;
+use crate::initialize::event::init_event_bus;
 // use crate::initialize::rules::init_rules;
 use crate::initialize::service::init_service;
 use crate::interceptor::interceptor::AgencyInterceptor;
@@ -78,14 +78,14 @@ pub async fn init_context() {
     // init_database().await;
     // info!("DataBase init complete");
     // //第三步初始化所有的 服务类
-    // init_service().await;
+    init_service().await;
     // info!("ServiceContext init complete");
     // //第三步初始化casbinCContext
     // init_casbin().await;
     // info!("CasbinService init complete");
     // init_rules().await;
     // info!("RulesContext init complete");
-    // init_event_bus().await;
+    init_event_bus().await;
     // info!("EventBus init complete");
     // tokio::spawn(init_ws());
     // //nacos 服务注册
@@ -152,6 +152,7 @@ pub fn init_server() {
             cassie_config.server().host(),
             cassie_config.server().port()
         );
+        info!("start initialize the web server is:{:?}",&server);
         let cors = CorsLayer::new()
             .allow_methods(Any)
             .allow_origin(Any)

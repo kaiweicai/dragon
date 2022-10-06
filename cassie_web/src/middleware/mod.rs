@@ -29,10 +29,16 @@ pub fn checked_token(token: &str) -> Result<JWTToken, Error> {
 }
 
 pub fn get_local() -> Option<RequestModel> {
+    // let req = REQUEST_CONTEXT.clone();
+    // let request_model = req.lock().unwrap();
+    // match request_model.get() {
+    //     None => None,
+    //     Some(e) => Some(e.clone()),
+    // }
     let req = REQUEST_CONTEXT.clone();
     let request_model = req.lock().unwrap();
     match request_model.get() {
-        None => None,
+        None => Some(RequestModel::default()),
         Some(e) => Some(e.clone()),
     }
 }

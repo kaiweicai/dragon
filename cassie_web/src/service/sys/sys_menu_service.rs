@@ -1,3 +1,5 @@
+use std::vec;
+
 use crate::service::crud_service::CrudService;
 use crate::APPLICATION_CONTEXT;
 use cassie_common::error::Result;
@@ -71,20 +73,37 @@ pub async fn get_user_menu_list(
     super_admin: i32,
     agency_code: String,
 ) -> Result<Vec<SysMenuDTO>> {
-    let rb = APPLICATION_CONTEXT.get::<Rbatis>();
-    print!("{}", super_admin);
-    let result = if super_admin > 0 {
-        menu_list(&mut rb.as_executor(), "0").await.unwrap()
-    } else {
-        user_menu_list(
-            &mut rb.as_executor(),
-            uid.as_str(),
-            "0",
-            agency_code.as_str(),
-        )
-        .await
-        .unwrap()
-    };
+    // let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+    // print!("{}", super_admin);
+    // let result = if super_admin > 0 {
+    //     menu_list(&mut rb.as_executor(), "0").await.unwrap()
+    // } else {
+    //     user_menu_list(
+    //         &mut rb.as_executor(),
+    //         uid.as_str(),
+    //         "0",
+    //         agency_code.as_str(),
+    //     )
+    //     .await
+    //     .unwrap()
+    // };
+    let result = Some(vec![SysMenu {
+        id: Some(1),
+        pid: Some(1),
+        url: Some("".to_string()),
+        name: Some("".to_string()),
+        menu_type: Some(1),
+        icon: Some("".to_string()),
+        permissions: Some("".to_string()),
+        sort: Some(1),
+        del_flag: Some(1),
+        creator: Some(1),
+        updater: Some(1),
+        method: Some("".to_string()),
+        path: Some("".to_string()),
+        create_date: None,
+        update_date: None,
+    }]);
     let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
     Ok(sys_menu_service.build(result.unwrap()))
 }

@@ -23,15 +23,15 @@ pub async fn consume_sys(e: CassieEvent) {
     match e {
         //登录事件
         CassieEvent::LogLogin(dto) => {
-            let mut entity = dto.into();
-            let log_login_service = APPLICATION_CONTEXT.get::<LogLoginService>();
-            log_login_service.save(&mut entity).await;
+            // let mut entity = dto.into();
+            // let log_login_service = APPLICATION_CONTEXT.get::<LogLoginService>();
+            // log_login_service.save(&mut entity).await;
         }
         //操作事件
         CassieEvent::LogOperation(dto) => {
-            let mut entity = dto.into();
-            let log_operation_service = APPLICATION_CONTEXT.get::<LogOperationService>();
-            log_operation_service.save(&mut entity).await;
+            // let mut entity = dto.into();
+            // let log_operation_service = APPLICATION_CONTEXT.get::<LogOperationService>();
+            // log_operation_service.save(&mut entity).await;
         }
         //消息事件
         CassieEvent::Sms { sms_type } => {

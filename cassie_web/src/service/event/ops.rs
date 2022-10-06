@@ -6,7 +6,7 @@ use deno_core::{op, Extension, OpDecl};
 
 use crate::{
     service::{
-        crud_service::CrudService, sys_dict_service::get_all_list
+        crud_service::CrudService, sys_dict_service::get_all_list, sys_user_service::SysUserService
     },
     APPLICATION_CONTEXT,
 };
@@ -25,34 +25,34 @@ fn op_all_dict() -> Result<Vec<SysDictTypeDTO>, deno_core::error::AnyError> {
 }
 
 //获取用户信息
-// #[op]
-// pub fn op_user_info(id: String) -> Result<SysUserDTO, deno_core::error::AnyError> {
-//     let user_service = APPLICATION_CONTEXT.get::<SysUserService>();
-//     let vo = async_std::task::block_on(async { user_service.get(id).await });
-//     Ok(vo.unwrap())
-// }
+#[op]
+pub fn op_user_info(id: String) -> Result<SysUserDTO, deno_core::error::AnyError> {
+    let user_service = APPLICATION_CONTEXT.get::<SysUserService>();
+    let vo = async_std::task::block_on(async { user_service.get(id).await });
+    Ok(vo.unwrap())
+}
 
-// pub fn init_sys_ops() -> Extension {
-//     let config = APPLICATION_CONTEXT.get::<ApplicationConfig>();
-//     let mut builder = Extension::builder();
+pub fn init_sys_ops() -> Extension {
+    let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
+    let mut builder = Extension::builder();
 
-//     //如果是开发环境 则重写 op_print 方法
-//     let f = |op: OpDecl| match op.name {
-//         "op_print" => op_print::decl(),
-//         _ => op,
-//     };
-//     if *config.debug() {
-//         builder.middleware(f);
-//     }
-//     builder
-//         .ops(vec![
-//             op_user_info::decl(),
-//             op_all_dict::decl(),
-//             op_config::decl(),
-//             op_print::decl(),
-//         ])
-//         .build()
-// }
+    //如果是开发环境 则重写 op_print 方法
+    let f = |op: OpDecl| match op.name {
+        "op_print" => op_print::decl(),
+        _ => op,
+    };
+    if *config.debug() {
+        builder.middleware(f);
+    }
+    builder
+        .ops(vec![
+            op_user_info::decl(),
+            op_all_dict::decl(),
+            op_config::decl(),
+            op_print::decl(),
+        ])
+        .build()
+}
 
 #[op]
 pub fn op_print(msg: String, is_err: bool) -> Result<(), deno_core::error::AnyError> {

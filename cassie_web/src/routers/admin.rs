@@ -34,22 +34,22 @@ pub fn need_auth_routers() -> Router {
         //-------------------------------------参数服务-------------------------------------------------------
         .merge(sys_params_resource::init_router())
         //-------------------------------------字典服务-------------------------------------------------------
-        .merge(sys_dict_type_resource::init_router())
-        .merge(sys_dict_value_resource::init_router())
+        // .merge(sys_dict_type_resource::init_router())
+        // .merge(sys_dict_value_resource::init_router())
         //-------------------------------------动态表单分组服务-------------------------------------------------------
-        .merge(asi_group_resource::init_router())
+        // .merge(asi_group_resource::init_router())
         //-------------------------------------动态表单column服务-------------------------------------------------------
-        .merge(asi_group_column_resource::init_router())
-        //-------------------------------------动态表单value服务-------------------------------------------------------
-        .merge(asi_group_values_resource::init_router())
+        // .merge(asi_group_column_resource::init_router())
+        // //-------------------------------------动态表单value服务-------------------------------------------------------
+        // .merge(asi_group_values_resource::init_router())
         //-------------------------------------upload服务-------------------------------------------------------
         // .merge(sys_upload_resource::init_router())
         //-------------------------------------系统配置-------------------------------------------------------
         .merge(sys_config_resource::init_router())
         .merge(sys_config_tab_resource::init_router())
         //-------------------------------------组合数据-------------------------------------------------------
-        .merge(sys_group_resource::init_router())
-        .merge(sys_group_data_resource::init_router())
+        // .merge(sys_group_resource::init_router())
+        // .merge(sys_group_data_resource::init_router())
         // .merge(init_router())
         .layer(layer_fn(|inner| EventMiddleware { inner })) //日志记录
         // .layer(from_extractor::<auth_admin::Auth>()) //权限拦截

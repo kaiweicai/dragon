@@ -1,6 +1,6 @@
 use crate::service::api::user_service::{UserService, WechatUserService};
 use crate::service::asi::asi_service::AsiGroupService;
-use crate::service::cache_service::CacheService;
+// use crate::service::cache_service::CacheService;
 use crate::service::event_service::EventConfigService;
 use crate::service::log::log_service::{LogLoginService, LogOperationService};
 use crate::service::sys_auth_service::SysAuthService;
@@ -16,7 +16,7 @@ use log::info;
 
 pub async fn init_service() {
     let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
-    APPLICATION_CONTEXT.set::<CacheService>(CacheService::new().unwrap());
+    // APPLICATION_CONTEXT.set::<CacheService>(CacheService::new().unwrap());
     info!("CacheService init success!");
     APPLICATION_CONTEXT.set::<SysAuthService>(SysAuthService::default());
     // info!("SysUserService init success!");

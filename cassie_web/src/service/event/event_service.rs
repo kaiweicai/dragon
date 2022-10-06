@@ -1,5 +1,6 @@
 use crate::{
-    service::{cache_service::CacheService, crud_service::CrudService},
+    // service::{cache_service::CacheService, crud_service::CrudService},
+    service::{crud_service::CrudService},
     APPLICATION_CONTEXT,
 };
 use cassie_common::error::Result;
@@ -26,21 +27,22 @@ impl CrudService<EventConfig, EventConfigDTO, EventQuery> for EventConfigService
 }
 //加载全量事件配置到缓存中
 pub async fn load_event() -> Result<Vec<EventConfigDTO>> {
-    let cache_service = APPLICATION_CONTEXT.get::<CacheService>();
-    match cache_service
-        .get_json::<Vec<EventConfigDTO>>("event_config")
-        .await
-    {
-        Ok(list) => Ok(list),
-        Err(e) => {
-            let service = APPLICATION_CONTEXT.get::<EventConfigService>();
-            let query = vec!["0".to_string()];
-            let list = service
-                .fetch_list_by_column(EventConfig::status(), &query)
-                .await
-                .unwrap();
-            cache_service.set_json("event_config", &list).await;
-            Ok(list)
-        }
-    }
+    // let cache_service = APPLICATION_CONTEXT.get::<CacheService>();
+    // match cache_service
+    //     .get_json::<Vec<EventConfigDTO>>("event_config")
+    //     .await
+    // {
+    //     Ok(list) => Ok(list),
+    //     Err(e) => {
+    //         let service = APPLICATION_CONTEXT.get::<EventConfigService>();
+    //         let query = vec!["0".to_string()];
+    //         let list = service
+    //             .fetch_list_by_column(EventConfig::status(), &query)
+    //             .await
+    //             .unwrap();
+    //         cache_service.set_json("event_config", &list).await;
+    //         Ok(list)
+    //     }
+    // }
+    Ok(Default::default())
 }

@@ -1,10 +1,13 @@
 use crate::APPLICATION_CONTEXT;
 use cassie_config::config::WebApplicationConfig;
-use tokio::fs::read_to_string;
+use log::info;
+use tokio::fs::{read_to_string,read_dir};
 
 //初始化配置信息
 pub async fn init_config() {
-    let content = read_to_string("application.yml").await.unwrap();
+    let file = read_dir("./").await.unwrap().next_entry().await;
+    info!("current file is:{:?}",file);
+    let content = read_to_string("./application.yml").await.unwrap();
     let mut config = WebApplicationConfig::new(content.as_str());
     let mut list = match config.admin_auth_list_api().clone() {
         Some(e) => e,
