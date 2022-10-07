@@ -19,6 +19,7 @@ chrono = "0.4"
 rbson = "2.0"
 rbs = { version = "0.1.10"}
 rbatis = { version = "4.0"}
+rbdc-sqlite = { version = "0.1" }
 async-std = "1.10"
 #redis
 redis = { version = "0.21.5", features = ["tokio"] }

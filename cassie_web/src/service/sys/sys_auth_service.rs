@@ -11,6 +11,7 @@ use cassie_domain::entity::sys_entitys::SysUser;
 use cassie_domain::vo::jwt::JWTToken;
 use cassie_domain::vo::sign_in::SignInVO;
 use rbatis::rbatis::Rbatis;
+use rbdc_sqlite::driver::SqliteDriver;
 use rbson::DateTime;
 const REDIS_KEY_RETRY: &'static str = "login:login_retry";
 /**
@@ -36,11 +37,11 @@ impl SysAuthService {
      */
     pub async fn sign_in(&self, arg: &SignInDTO) -> Result<SignInVO> {
         /*验证码 验证*/
-        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
         // let user: Option<SysUser> = rb
         //     .fetch_by_wrapper(rb.new_wrapper().eq(SysUser::username(), &arg.username()))
         //     .await?;
-        let user: Option<SysUser> = Some(SysUser::default());
+        let user: Option<SysUser> = SysUser::select_by_username(&mut rb, arg.username().clone().unwrap()).await?;
         let user = user.ok_or_else(|| {
             Error::from(format!(
                 "账号:{} 不存在!",

@@ -1,6 +1,6 @@
 use crate::request::tree::TreeModel;
 use rbatis::rbdc::datetime::DateTime;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 /**
 *struct:SysUser
@@ -9,7 +9,7 @@ use serde::{Serialize, Deserialize};
 *email:348040933@qq.com
 */
 //#[crud_table(table_name:sys_user)]
-#[derive(Clone, Debug,Default)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct SysUser {
     pub id: Option<i64>,
     pub username: Option<String>,
@@ -30,6 +30,10 @@ pub struct SysUser {
     pub updater: Option<i64>,
     pub update_date: Option<DateTime>,
 }
+
+rbatis::crud!(SysUser {});
+
+impl_select!(SysUser{select_by_username(username:String) -> Option => "`where username = #{username} limit 1`"});
 /**
 *struct:SysDictType
 *desc:字典表 定义表

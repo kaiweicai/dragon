@@ -899,6 +899,7 @@ dependencies = [
  "percent-encoding",
  "pharos",
  "rbatis",
+ "rbdc-sqlite",
  "rbs",
  "rbson",
  "redis",
