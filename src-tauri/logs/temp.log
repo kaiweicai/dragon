@@ -139,3 +139,53 @@
 2022-10-07 00:57:23.692871262 INFO cassie_web::initialize::rules - cassie js path file:///home/cloudweisz/work/ruststudy/cassie_admin/cassie_web/js/cassie.js 
 2022-10-07 00:57:23.72582352 INFO cassie_web::initialize::rules - init JsRuntime time 33 millisecond!
 2022-10-07 00:57:26.146364948 INFO cassie_web::service::event - 事件个数：0
+2022-10-07 21:50:33.29941047 INFO app::initalize - cassie db 已经存在 table storage already exists in 
+    CREATE TABLE storage (
+        id              INTEGER PRIMARY KEY,
+        key            TEXT NOT NULL,
+        value            TEXT NOT NULL
+        )
+       at offset 18
+2022-10-07 21:50:33.821313035 INFO cassie_web - start initialize the web server
+2022-10-07 21:50:33.823684605 INFO cassie_web::initialize::config - current file is:Ok(Some(DirEntry(DirEntry("./application.yml"))))
+2022-10-07 21:50:33.850132186 INFO cassie_web::initialize::database - link database success!mysql://root:root@localhost:3306/rivet_admin
+2022-10-07 21:50:33.952918657 INFO cassie_web::initialize::database - mongodb link database (mongodb://localhost:27017)...
+2022-10-07 21:50:33.952943451 INFO cassie_web - DataBase init complete
+2022-10-07 21:50:33.952949178 INFO cassie_web::initialize::service - CacheService init success!
+2022-10-07 21:50:33.953016507 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 21:50:33.953023281 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 21:50:33.953027123 INFO cassie_web::initialize::service - SysParamsService init success!
+2022-10-07 21:50:33.953030894 INFO cassie_web::initialize::service - SysDictTypeService init success!
+2022-10-07 21:50:33.953034666 INFO cassie_web::initialize::service - SysDictDataService init success!
+2022-10-07 21:50:33.953037948 INFO cassie_web::initialize::service - AsiGroupService init success!
+2022-10-07 21:50:33.953042209 INFO cassie_web::initialize::service - LogLoginService init success!
+2022-10-07 21:50:33.95304605 INFO cassie_web::initialize::service - LogOperationService init success!
+2022-10-07 21:50:33.953048983 INFO cassie_web::initialize::service - EventConfigService init success!
+2022-10-07 21:50:33.953052336 INFO cassie_web::initialize::service - UserService init success!
+2022-10-07 21:50:33.953064768 INFO cassie_web::initialize::service - WechatUserService init success!
+2022-10-07 21:50:33.953263609 INFO cassie_web - start initialize the web server is:"0.0.0.0:9999"
+2022-10-07 22:10:33.932533053 INFO app::initalize - cassie db 已经存在 table storage already exists in 
+    CREATE TABLE storage (
+        id              INTEGER PRIMARY KEY,
+        key            TEXT NOT NULL,
+        value            TEXT NOT NULL
+        )
+       at offset 18
+2022-10-07 22:10:34.370220785 INFO cassie_web - start initialize the web server
+2022-10-07 22:10:34.371901961 INFO cassie_web::initialize::config - current file is:Ok(Some(DirEntry(DirEntry("./application.yml"))))
+2022-10-07 22:10:34.398125893 INFO cassie_web::initialize::database - link database success!mysql://root:root@localhost:3306/rivet_admin
+2022-10-07 22:10:34.503832002 INFO cassie_web::initialize::database - mongodb link database (mongodb://localhost:27017)...
+2022-10-07 22:10:34.503862523 INFO cassie_web - DataBase init complete
+2022-10-07 22:10:34.50394794 INFO cassie_web::initialize::service - CacheService init success!
+2022-10-07 22:10:34.503955553 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 22:10:34.503960791 INFO cassie_web::initialize::service - SysMenuService init success!
+2022-10-07 22:10:34.503966588 INFO cassie_web::initialize::service - SysParamsService init success!
+2022-10-07 22:10:34.503971896 INFO cassie_web::initialize::service - SysDictTypeService init success!
+2022-10-07 22:10:34.503977064 INFO cassie_web::initialize::service - SysDictDataService init success!
+2022-10-07 22:10:34.503982163 INFO cassie_web::initialize::service - AsiGroupService init success!
+2022-10-07 22:10:34.503987401 INFO cassie_web::initialize::service - LogLoginService init success!
+2022-10-07 22:10:34.503992569 INFO cassie_web::initialize::service - LogOperationService init success!
+2022-10-07 22:10:34.503997807 INFO cassie_web::initialize::service - EventConfigService init success!
+2022-10-07 22:10:34.504009262 INFO cassie_web::initialize::service - UserService init success!
+2022-10-07 22:10:34.504015268 INFO cassie_web::initialize::service - WechatUserService init success!
+2022-10-07 22:10:34.504392627 INFO cassie_web - start initialize the web server is:"0.0.0.0:9999"

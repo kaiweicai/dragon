@@ -13,11 +13,11 @@ pub async fn init_rbatis(cassie_config: &WebApplicationConfig) -> Rbatis {
     //连接数据库
     println!(
         "rbatis link database ({})...",
-        cassie_config.sqlitebase_url().clone()
+        cassie_config.sqlitebase_url()
     );
     rbatis
-        .link(SqliteDriver {},&cassie_config.sqlitebase_url())
-        .await
+        .init(SqliteDriver {},&cassie_config.sqlitebase_url())
+        // .await
         .expect("rbatis link database fail!");
     println!("rbatis link database success!");
 

@@ -3,10 +3,10 @@ use cassie_domain::{
     entity::user_entity::{User, WechatUser},
     request::UserQuery,
 };
-use rbatis::rbatis::Rbatis;
+use rbatis::{rbatis::Rbatis, crud};
 
 use crate::{service::crud_service::CrudService, APPLICATION_CONTEXT};
-
+use rbatis::{impl_insert, impl_update, impl_delete, impl_select_page};
 pub struct UserService;
 
 // impl CrudService<User, UserDTO, UserQuery> for UserService {

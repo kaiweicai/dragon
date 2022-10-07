@@ -1,5 +1,7 @@
+use serde::{Serialize, Deserialize};
+
 //#[crud_table(table_name:user)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct User {
     pub id: Option<i64>,
     pub account: Option<String>,
@@ -20,6 +22,8 @@ pub struct User {
     pub addres: Option<String>,
     pub login_type: Option<String>,
 }
+
+crud!(User{});
 
 impl_field_name_method!(User {
     id,

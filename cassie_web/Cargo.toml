@@ -17,6 +17,7 @@ serde_json = "1.0"
 chrono = "0.4"
 #orm 类似于java的mybatis
 rbson = "2.0"
+rbs = { version = "0.1.10"}
 rbatis = { version = "4.0"}
 async-std = "1.10"
 #redis

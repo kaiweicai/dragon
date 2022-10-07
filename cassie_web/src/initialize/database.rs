@@ -8,7 +8,7 @@ use rbatis::rbatis::Rbatis;
 pub async fn init_database() {
     let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
 
-    let mut rbatis = init_rbatis(config).await;
+    let rbatis = init_rbatis(config).await;
     // rbatis.add_sql_intercept(AgencyInterceptor {
     //     enable: config.tenant().enable().clone(),
     //     column: config.tenant().column().clone(),
