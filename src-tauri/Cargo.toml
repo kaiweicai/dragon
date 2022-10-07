@@ -29,7 +29,8 @@ serde_yaml = "0.8"
 tokio = { version = "1" ,features = ["full"] }
 axum = {version="0.5.9"}
 tower-http = { version = "0.3.4",features= ["cors"] }
-rusqlite = { version = "0.27.0", features = ["bundled"] }
+rusqlite = { version = "0.28.0", features = ["bundled"] }
+# rbdc-sqlite = { version = "0.1.14" }
 thiserror = "1.0"
 log = "0.4"
 fast_log = { version="1.5.1", features = ["lz4","zip", "gzip"] }

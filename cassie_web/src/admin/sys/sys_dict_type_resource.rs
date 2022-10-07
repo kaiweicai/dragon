@@ -20,18 +20,19 @@ use cassie_domain::request::SysDictQuery;
  */
 
 pub async fn page(arg: Option<Query<SysDictQuery>>) -> impl IntoResponse {
-    let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
-    let arg = arg.unwrap();
-    let vo = sys_dict_type_service
-        .page(
-            &arg,
-            PageData {
-                page_no: arg.page().clone(),
-                page_size: arg.limit().clone(),
-            },
-        )
-        .await;
-    RespVO::from_result(&vo).resp_json()
+    // let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
+    // let arg = arg.unwrap();
+    // let vo = sys_dict_type_service
+    //     .page(
+    //         &arg,
+    //         PageData {
+    //             page_no: arg.page().clone(),
+    //             page_size: arg.limit().clone(),
+    //         },
+    //     )
+    //     .await;
+    // RespVO::from_result(&vo).resp_json()
+    todo!()
 }
 
 /**
@@ -41,9 +42,10 @@ pub async fn page(arg: Option<Query<SysDictQuery>>) -> impl IntoResponse {
  *email:348040933@qq.com
  */
 pub async fn get_by_id(Path(id): Path<String>) -> impl IntoResponse {
-    let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
-    let dto = sys_dict_type_service.get(id).await;
-    RespVO::from_result(&dto).resp_json()
+    // let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
+    // let dto = sys_dict_type_service.get(id).await;
+    // RespVO::from_result(&dto).resp_json()
+    todo!()
 }
 
 /**
@@ -53,29 +55,32 @@ pub async fn get_by_id(Path(id): Path<String>) -> impl IntoResponse {
  *email:348040933@qq.com
  */
 pub async fn save(Json(arg): Json<SysDictTypeDTO>) -> impl IntoResponse {
-    let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
-    let mut entity = arg.into();
-    let vo = sys_dict_type_service.save(&mut entity).await;
-    RespVO::from_result(&vo).resp_json()
+    // let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
+    // let mut entity = arg.into();
+    // let vo = sys_dict_type_service.save(&mut entity).await;
+    // RespVO::from_result(&vo).resp_json()
+    todo!()
 }
 
 pub async fn edit(Json(arg): Json<SysDictTypeDTO>) -> impl IntoResponse {
-    let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
-    let id = arg.id().clone();
-    let mut entity = arg.into();
-    sys_dict_type_service
-        .update_by_id(id.unwrap().to_string(), &mut entity)
-        .await;
-    RespVO::from(&"更新成功".to_string()).resp_json()
+    // let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
+    // let id = arg.id().clone();
+    // let mut entity = arg.into();
+    // sys_dict_type_service
+    //     .update_by_id(id.unwrap().to_string(), &mut entity)
+    //     .await;
+    // RespVO::from(&"更新成功".to_string()).resp_json()
+    todo!()
 }
 pub async fn delete(Path(id): Path<String>) -> impl IntoResponse {
-    let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
-    if *cassie_config.is_demo() {
-        return RespVO::from(&"演示删除成功".to_string()).resp_json();
-    }
-    let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
-    sys_dict_type_service.del(&id).await;
-    RespVO::from(&"删除成功".to_string()).resp_json()
+    // let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
+    // if *cassie_config.is_demo() {
+    //     return RespVO::from(&"演示删除成功".to_string()).resp_json();
+    // }
+    // let sys_dict_type_service = APPLICATION_CONTEXT.get::<SysDictTypeService>();
+    // sys_dict_type_service.del(&id).await;
+    // RespVO::from(&"删除成功".to_string()).resp_json()
+    todo!()
 }
 
 pub async fn all() -> impl IntoResponse {

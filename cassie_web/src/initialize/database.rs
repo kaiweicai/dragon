@@ -9,11 +9,11 @@ pub async fn init_database() {
     let config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
 
     let mut rbatis = init_rbatis(config).await;
-    rbatis.add_sql_intercept(AgencyInterceptor {
-        enable: config.tenant().enable().clone(),
-        column: config.tenant().column().clone(),
-        ignore_table: config.tenant().ignore_table().clone(),
-    });
+    // rbatis.add_sql_intercept(AgencyInterceptor {
+    //     enable: config.tenant().enable().clone(),
+    //     column: config.tenant().column().clone(),
+    //     ignore_table: config.tenant().ignore_table().clone(),
+    // });
     info!("link database success!{}", config.database_url());
     APPLICATION_CONTEXT.set::<Rbatis>(rbatis);
 

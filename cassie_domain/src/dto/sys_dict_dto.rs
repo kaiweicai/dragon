@@ -1,4 +1,4 @@
-use rbatis::DateTimeNative;
+use rbatis::rbdc::datetime::DateTime;
 use serde::{Deserialize, Serialize};
 
 use crate::entity::sys_entitys::{SysDictData, SysDictType};
@@ -19,9 +19,9 @@ pub struct SysDictTypeDTO {
     remark: Option<String>,
     sort: Option<u32>,
     creator: Option<i64>,
-    create_date: Option<DateTimeNative>,
+    create_date: Option<DateTime>,
     updater: Option<i64>,
-    update_date: Option<DateTimeNative>,
+    update_date: Option<DateTime>,
     data_list: Option<Vec<SysDictDataDTO>>,
 }
 
@@ -72,9 +72,9 @@ pub struct SysDictDataDTO {
     remark: Option<String>,
     sort: Option<u32>,
     creator: Option<i64>,
-    create_date: Option<DateTimeNative>,
+    create_date: Option<DateTime>,
     updater: Option<i64>,
-    update_date: Option<DateTimeNative>,
+    update_date: Option<DateTime>,
 }
 
 impl Into<SysDictData> for SysDictDataDTO {

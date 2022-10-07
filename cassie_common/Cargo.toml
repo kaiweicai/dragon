@@ -14,5 +14,5 @@ tokio = { version="1", features = ["full"] }
 md5 = "0.7.0"
 rustflake = "0.1.0"
 
-rbatis = { version = "3.0", default-features = false, features = ["mysql", "runtime-async-std-rustls"] }
+rbatis = { version = "4.0"}
 rbson = "2.0.3"

@@ -1,5 +1,5 @@
 use crate::entity::log::{SysLogLogin, SysLogOperation};
-use rbatis::DateTimeNative;
+use rbatis::rbdc::datetime::DateTime;
 use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Serialize, Deserialize, Getters, Setters, Default, PartialEq)]
 #[getset(get = "pub", set = "pub")]
@@ -10,7 +10,7 @@ pub struct SysLogLoginDto {
     ip: Option<String>,
     creator_name: Option<String>,
     creator: Option<i64>,
-    create_date: Option<DateTimeNative>,
+    create_date: Option<DateTime>,
 }
 
 impl From<SysLogLogin> for SysLogLoginDto {
@@ -54,7 +54,7 @@ pub struct SysLogOperationDto {
     request_time: Option<String>,
     status: Option<i8>,
     creator: Option<i64>,
-    create_date: Option<DateTimeNative>,
+    create_date: Option<DateTime>,
 }
 impl Into<SysLogOperation> for SysLogOperationDto {
     fn into(self) -> SysLogOperation {

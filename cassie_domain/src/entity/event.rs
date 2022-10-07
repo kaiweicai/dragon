@@ -1,4 +1,4 @@
-#[crud_table(table_name:sys_event_config)]
+//#[crud_table(table_name:sys_event_config)]
 #[derive(Clone, Debug, Getters, Setters, Default)]
 pub struct EventConfig {
     pub id: Option<i64>,

@@ -14,10 +14,10 @@ impl Default for SysConfigService {
         SysConfigService {}
     }
 }
-impl CrudService<SysConfig, SysConfigDTO, SysConfigQuery> for SysConfigService {
-    fn get_wrapper(arg: &SysConfigQuery) -> rbatis::wrapper::Wrapper {
-        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
-        rb.new_wrapper()
-    }
-    fn set_save_common_fields(&self, common: CommonField, data: &mut SysConfig) {}
-}
+// impl CrudService<SysConfig, SysConfigDTO, SysConfigQuery> for SysConfigService {
+//     // fn get_wrapper(arg: &SysConfigQuery) -> rbatis::wrapper::Wrapper {
+//     //     let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+//     //     rb.new_wrapper()
+//     // }
+//     fn set_save_common_fields(&self, common: CommonField, data: &mut SysConfig) {}
+// }

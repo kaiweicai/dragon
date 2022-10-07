@@ -1,4 +1,4 @@
-#[crud_table(table_name:user)]
+//#[crud_table(table_name:user)]
 #[derive(Clone, Debug)]
 pub struct User {
     pub id: Option<i64>,
@@ -41,7 +41,7 @@ impl_field_name_method!(User {
     login_type,
 });
 
-#[crud_table(table_name:wechat_user)]
+//#[crud_table(table_name:wechat_user)]
 #[derive(Clone, Debug)]
 pub struct WechatUser {
     pub id: Option<i64>,

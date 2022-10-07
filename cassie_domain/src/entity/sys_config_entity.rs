@@ -1,4 +1,4 @@
-#[crud_table(table_name:sys_config)]
+//#[crud_table(table_name:sys_config)]
 #[derive(Clone, Debug)]
 pub struct SysConfig {
     pub id: Option<i32>,            // 配置id

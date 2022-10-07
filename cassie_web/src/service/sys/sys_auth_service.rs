@@ -10,9 +10,8 @@ use cassie_domain::dto::sys_log::SysLogLoginDto;
 use cassie_domain::entity::sys_entitys::SysUser;
 use cassie_domain::vo::jwt::JWTToken;
 use cassie_domain::vo::sign_in::SignInVO;
-use rbatis::crud::CRUD;
 use rbatis::rbatis::Rbatis;
-use rbatis::DateTimeNative;
+use rbson::DateTime;
 const REDIS_KEY_RETRY: &'static str = "login:login_retry";
 /**
 *struct:SysAuthService
@@ -38,9 +37,10 @@ impl SysAuthService {
     pub async fn sign_in(&self, arg: &SignInDTO) -> Result<SignInVO> {
         /*验证码 验证*/
         let rb = APPLICATION_CONTEXT.get::<Rbatis>();
-        let user: Option<SysUser> = rb
-            .fetch_by_wrapper(rb.new_wrapper().eq(SysUser::username(), &arg.username()))
-            .await?;
+        // let user: Option<SysUser> = rb
+        //     .fetch_by_wrapper(rb.new_wrapper().eq(SysUser::username(), &arg.username()))
+        //     .await?;
+        let user: Option<SysUser> = Some(SysUser::default());
         let user = user.ok_or_else(|| {
             Error::from(format!(
                 "账号:{} 不存在!",
@@ -82,12 +82,13 @@ impl SysAuthService {
      *email:348040933@qq.com
      */
     pub async fn get_user_info_by_token(&self, token: &JWTToken) -> Result<SignInVO> {
-        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
-        let user: Option<SysUser> = rb
-            .fetch_by_wrapper(rb.new_wrapper().eq(SysUser::id(), &token.id()))
-            .await?;
-        let user = user.ok_or_else(|| Error::from(format!("账号:{} 不存在!", token.username())))?;
-        return self.get_user_info(&user).await;
+        // let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        // let user: Option<SysUser> = rb
+        //     .fetch_by_wrapper(rb.new_wrapper().eq(SysUser::id(), &token.id()))
+        //     .await?;
+        // let user = user.ok_or_else(|| Error::from(format!("账号:{} 不存在!", token.username())))?;
+        // return self.get_user_info(&user).await;
+        todo!()
     }
     /**
      *method:get_user_info
@@ -114,7 +115,7 @@ impl SysAuthService {
         jwt_token.set_from(Default::default());
         jwt_token.set_username(user.username.clone().unwrap_or_default());
         jwt_token.set_agency_code(agency_code.clone().unwrap_or_default());
-        jwt_token.set_exp(DateTimeNative::now().timestamp_millis() as usize);
+        jwt_token.set_exp(DateTime::now().timestamp_millis() as usize);
         sign_vo.set_access_token(jwt_token.create_token(cassie_config.jwt_secret())?);
         return Ok(sign_vo);
     }

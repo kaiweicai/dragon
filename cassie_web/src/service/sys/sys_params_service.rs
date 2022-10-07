@@ -21,14 +21,14 @@ impl Default for SysParamsService {
         SysParamsService {}
     }
 }
-impl CrudService<SysParams, SysParamsDTO, SysParamsQuery> for SysParamsService {
-    fn get_wrapper(arg: &SysParamsQuery) -> rbatis::wrapper::Wrapper {
-        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
-        rb.new_wrapper()
-    }
-    fn set_save_common_fields(&self, common: CommonField, data: &mut SysParams) {
-        data.id = common.id;
-        data.creator = common.creator;
-        data.create_date = common.create_date;
-    }
-}
+// impl CrudService<SysParams, SysParamsDTO, SysParamsQuery> for SysParamsService {
+//     fn get_wrapper(arg: &SysParamsQuery) -> rbatis::wrapper::Wrapper {
+//         let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+//         rb.new_wrapper()
+//     }
+//     fn set_save_common_fields(&self, common: CommonField, data: &mut SysParams) {
+//         data.id = common.id;
+//         data.creator = common.creator;
+//         data.create_date = common.create_date;
+//     }
+// }

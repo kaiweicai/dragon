@@ -27,9 +27,10 @@ fn op_all_dict() -> Result<Vec<SysDictTypeDTO>, deno_core::error::AnyError> {
 //获取用户信息
 #[op]
 pub fn op_user_info(id: String) -> Result<SysUserDTO, deno_core::error::AnyError> {
-    let user_service = APPLICATION_CONTEXT.get::<SysUserService>();
-    let vo = async_std::task::block_on(async { user_service.get(id).await });
-    Ok(vo.unwrap())
+    // let user_service = APPLICATION_CONTEXT.get::<SysUserService>();
+    // let vo = async_std::task::block_on(async { user_service.get(id).await });
+    // Ok(vo.unwrap())
+    todo!()
 }
 
 pub fn init_sys_ops() -> Extension {

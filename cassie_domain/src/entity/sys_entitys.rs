@@ -1,5 +1,6 @@
 use crate::request::tree::TreeModel;
-use rbatis::DateTimeNative;
+use rbatis::rbdc::datetime::DateTime;
+use serde::{Serialize, Deserialize};
 
 /**
 *struct:SysUser
@@ -7,8 +8,8 @@ use rbatis::DateTimeNative;
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_user)]
-#[derive(Clone, Debug)]
+//#[crud_table(table_name:sys_user)]
+#[derive(Clone, Debug,Default)]
 pub struct SysUser {
     pub id: Option<i64>,
     pub username: Option<String>,
@@ -25,9 +26,9 @@ pub struct SysUser {
     pub status: Option<i32>,
     pub del_flag: Option<i32>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
 }
 /**
 *struct:SysDictType
@@ -35,7 +36,7 @@ pub struct SysUser {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_dict_type)]
+//#[crud_table(table_name:sys_dict_type)]
 #[derive(Clone, Debug)]
 pub struct SysDictType {
     pub id: Option<i64>,
@@ -48,9 +49,9 @@ pub struct SysDictType {
     //排序
     pub sort: Option<u32>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
 }
 
 impl_field_name_method!(SysUser {
@@ -91,7 +92,7 @@ impl_field_name_method!(SysDictType {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_dict_data)]
+//#[crud_table(table_name:sys_dict_data)]
 #[derive(Clone, Debug)]
 pub struct SysDictData {
     pub id: Option<i64>,
@@ -101,9 +102,9 @@ pub struct SysDictData {
     pub remark: Option<String>,
     pub sort: Option<u32>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
 }
 impl_field_name_method!(SysDictData {
     id,
@@ -124,7 +125,7 @@ impl_field_name_method!(SysDictData {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_params)]
+//#[crud_table(table_name:sys_params)]
 #[derive(Clone, Debug)]
 pub struct SysParams {
     pub id: Option<i64>,
@@ -133,9 +134,9 @@ pub struct SysParams {
     pub remark: Option<String>,
     pub del_flag: Option<u8>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
 }
 impl_field_name_method!(SysParams {
     id,
@@ -155,7 +156,7 @@ impl_field_name_method!(SysParams {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_role)]
+//#[crud_table(table_name:sys_role)]
 #[derive(Clone, Debug)]
 pub struct SysRole {
     pub id: Option<i64>,
@@ -164,9 +165,9 @@ pub struct SysRole {
     pub dept_id: Option<u64>,
     pub del_flag: Option<u8>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
 }
 impl_field_name_method!(SysRole {
     id,
@@ -186,14 +187,14 @@ impl_field_name_method!(SysRole {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_role_data_scope)]
+//#[crud_table(table_name:sys_role_data_scope)]
 #[derive(Clone, Debug)]
 pub struct SysRoleDataScope {
     pub id: Option<i64>,
     pub role_id: Option<i64>,
     pub dept_id: Option<i64>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 impl_field_name_method!(SysRoleDataScope {
     id,
@@ -209,14 +210,14 @@ impl_field_name_method!(SysRoleDataScope {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_role_user)]
+//#[crud_table(table_name:sys_role_user)]
 #[derive(Clone, Debug)]
 pub struct SysRoleUser {
     pub id: Option<i64>,
     pub role_id: Option<i64>,
     pub user_id: Option<i64>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 impl_field_name_method!(SysRoleUser {
     id,
@@ -232,14 +233,14 @@ impl_field_name_method!(SysRoleUser {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_role_menu)]
+//#[crud_table(table_name:sys_role_menu)]
 #[derive(Clone, Debug)]
 pub struct SysRoleMenu {
     pub id: Option<i64>,
     pub role_id: Option<i64>,
     pub menu_id: Option<i64>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 impl_field_name_method!(SysRoleMenu {
     id,
@@ -255,8 +256,8 @@ impl_field_name_method!(SysRoleMenu {
 *author:String
 *email:348040933@qq.com
 */
-#[crud_table(table_name:sys_menu)]
-#[derive(Clone, Debug)]
+//#[crud_table(table_name:sys_menu)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SysMenu {
     pub id: Option<i64>,
     pub pid: Option<i64>,
@@ -268,9 +269,9 @@ pub struct SysMenu {
     pub sort: Option<u64>,
     pub del_flag: Option<u8>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
     pub method: Option<String>,
     pub path: Option<String>,
 }
@@ -309,7 +310,7 @@ impl TreeModel for SysMenu {
 pub struct CommonField {
     pub id: Option<i64>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
 }

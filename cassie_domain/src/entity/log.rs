@@ -1,6 +1,6 @@
-use rbatis::DateTimeNative;
+use rbatis::rbdc::datetime::DateTime;
 
-#[crud_table(table_name:sys_log_login)]
+//#[crud_table(table_name:sys_log_login)]
 #[derive(Clone, Debug)]
 pub struct SysLogLogin {
     pub id: Option<i64>,
@@ -9,7 +9,7 @@ pub struct SysLogLogin {
     pub ip: Option<String>,
     pub creator_name: Option<String>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 impl_field_name_method!(SysLogLogin {
     id,
@@ -21,7 +21,7 @@ impl_field_name_method!(SysLogLogin {
     create_date
 });
 
-#[crud_table(table_name:sys_log_operation)]
+//#[crud_table(table_name:sys_log_operation)]
 #[derive(Clone, Debug)]
 pub struct SysLogOperation {
     pub id: Option<i64>,
@@ -34,7 +34,7 @@ pub struct SysLogOperation {
     pub request_time: Option<String>,
     pub status: Option<i8>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 impl_field_name_method!(SysLogOperation {
     id,

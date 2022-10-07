@@ -1,4 +1,4 @@
-use rbatis::DateTimeNative;
+use rbatis::rbdc::datetime::DateTime;
 use serde::{Deserialize, Serialize};
 
 use crate::entity::sys_entitys::SysParams;
@@ -15,9 +15,9 @@ pub struct SysParamsDTO {
     remark: Option<String>,
     del_flag: Option<u8>,
     creator: Option<i64>,
-    create_date: Option<DateTimeNative>,
+    create_date: Option<DateTime>,
     updater: Option<i64>,
-    update_date: Option<DateTimeNative>,
+    update_date: Option<DateTime>,
 }
 
 impl Into<SysParams> for SysParamsDTO {

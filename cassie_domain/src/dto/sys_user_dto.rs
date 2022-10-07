@@ -1,6 +1,7 @@
 use crate::entity::sys_entitys::SysUser;
 use serde::{Deserialize, Serialize};
 use validator_derive::Validate;
+use rbatis::rbdc::datetime::DateTime;
 #[derive(Clone, Debug, Serialize, Validate, Deserialize, Getters, Setters, Default)]
 #[serde(rename_all = "camelCase")]
 #[getset(get = "pub", set = "pub")]
@@ -26,9 +27,9 @@ pub struct SysUserDTO {
     status: Option<i32>,
     del_flag: Option<i32>,
     creator: Option<i64>,
-    create_date: Option<rbatis::DateTimeNative>,
+    create_date: Option<DateTime>,
     updater: Option<i64>,
-    update_date: Option<rbatis::DateTimeNative>,
+    update_date: Option<DateTime>,
 }
 
 impl Into<SysUser> for SysUserDTO {

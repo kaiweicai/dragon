@@ -23,18 +23,19 @@ use cassie_macros::api_operation;
  */
 
 pub async fn page(arg: Option<Query<SysMenuQuery>>) -> impl IntoResponse {
-    let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
-    let arg = arg.unwrap();
-    let vo = sys_menu_service
-        .page(
-            &arg,
-            PageData {
-                page_no: arg.page().clone(),
-                page_size: arg.limit().clone(),
-            },
-        )
-        .await;
-    RespVO::from_result(&vo).resp_json()
+    // let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
+    // let arg = arg.unwrap();
+    // let vo = sys_menu_service
+    //     .page(
+    //         &arg,
+    //         PageData {
+    //             page_no: arg.page().clone(),
+    //             page_size: arg.limit().clone(),
+    //         },
+    //     )
+    //     .await;
+    // RespVO::from_result(&vo).resp_json()
+    todo!()
 }
 
 pub async fn list() -> impl IntoResponse {
@@ -66,19 +67,21 @@ pub async fn nav() -> impl IntoResponse {
  *email:348040933@qq.com
  */
 pub async fn get_by_id(Path(id): Path<String>) -> impl IntoResponse {
-    let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
-    let dto = sys_menu_service.get(id).await;
-    RespVO::from_result(&dto).resp_json()
+    // let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
+    // let dto = sys_menu_service.get(id).await;
+    // RespVO::from_result(&dto).resp_json()
+    todo!()
 }
 
 pub async fn delete(Path(id): Path<String>) -> impl IntoResponse {
-    let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
-    if *cassie_config.is_demo() {
-        return RespVO::from(&"演示删除成功".to_string()).resp_json();
-    }
-    let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
-    sys_menu_service.del(&id).await;
-    RespVO::from(&"删除成功".to_string()).resp_json()
+    // let cassie_config = APPLICATION_CONTEXT.get::<WebApplicationConfig>();
+    // if *cassie_config.is_demo() {
+    //     return RespVO::from(&"演示删除成功".to_string()).resp_json();
+    // }
+    // let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
+    // sys_menu_service.del(&id).await;
+    // RespVO::from(&"删除成功".to_string()).resp_json()
+    todo!()
 }
 
 /**

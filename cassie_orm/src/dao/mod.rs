@@ -13,10 +13,10 @@ pub async fn init_rbatis(cassie_config: &WebApplicationConfig) -> Rbatis {
     //连接数据库
     println!(
         "rbatis link database ({})...",
-        cassie_config.database_url().clone()
+        cassie_config.sqlitebase_url().clone()
     );
     rbatis
-        .link(&cassie_config.database_url())
+        .link(SqliteDriver {},&cassie_config.sqlitebase_url())
         .await
         .expect("rbatis link database fail!");
     println!("rbatis link database success!");
@@ -25,6 +25,7 @@ pub async fn init_rbatis(cassie_config: &WebApplicationConfig) -> Rbatis {
 }
 
 use mongodb::{options::ClientOptions, Client, Database};
+use rbdc_sqlite::driver::SqliteDriver;
 
 pub async fn init_mongodb(cassie_config: &WebApplicationConfig) -> Database {
     let client_options = ClientOptions::parse(cassie_config.mongodb_url().clone().as_str())

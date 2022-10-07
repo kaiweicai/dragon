@@ -1,4 +1,4 @@
-#[crud_table(table_name:sys_group)]
+//#[crud_table(table_name:sys_group)]
 #[derive(Clone, Debug)]
 pub struct SysGroup {
     pub id: Option<i32>,             // 组合数据ID

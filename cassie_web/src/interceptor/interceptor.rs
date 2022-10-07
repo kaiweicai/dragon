@@ -29,34 +29,34 @@ pub struct AgencyInterceptor {
     pub ignore_table: Vec<String>,
 }
 impl AgencyInterceptor {}
-impl SqlIntercept for AgencyInterceptor {
-    //sql拦截逻辑
-    fn do_intercept(
-        &self,
-        rb: &Rbatis,
-        sql: &mut String,
-        args: &mut Vec<Bson>,
-        is_prepared_sql: bool,
-    ) -> Result<(), Error> {
-        //判断是否开启租户化
-        if self.enable {
-            if let Some(request_model) = get_local() {
-                //只对管理端进行租户化
-                match request_model.from() {
-                    cassie_domain::vo::jwt::Source::Admin => {
-                        *sql = build(sql.clone(), request_model.agency_code().clone());
-                    }
-                    _ => {}
-                }
-            }
-        }
-        return Ok(());
-    }
+// impl SqlIntercept for AgencyInterceptor {
+//     //sql拦截逻辑
+//     fn do_intercept(
+//         &self,
+//         rb: &Rbatis,
+//         sql: &mut String,
+//         args: &mut Vec<Bson>,
+//         is_prepared_sql: bool,
+//     ) -> Result<(), Error> {
+//         //判断是否开启租户化
+//         if self.enable {
+//             if let Some(request_model) = get_local() {
+//                 //只对管理端进行租户化
+//                 match request_model.from() {
+//                     cassie_domain::vo::jwt::Source::Admin => {
+//                         *sql = build(sql.clone(), request_model.agency_code().clone());
+//                     }
+//                     _ => {}
+//                 }
+//             }
+//         }
+//         return Ok(());
+//     }
 
-    fn name(&self) -> &str {
-        std::any::type_name::<Self>()
-    }
-}
+//     fn name(&self) -> &str {
+//         std::any::type_name::<Self>()
+//     }
+// }
 
 //租户化sql生成
 #[cached(time = 3600, size = 100)]

@@ -23,15 +23,17 @@ pub async fn list(arg: Option<Query<AsiQuery>>) -> impl IntoResponse {
 }
 
 pub async fn get_by_id(Path(id): Path<String>) -> impl IntoResponse {
-    let asi_service = APPLICATION_CONTEXT.get::<AsiGroupService>();
-    let dto = asi_service.get(id).await;
-    RespVO::from_result(&dto).resp_json()
+    // let asi_service = APPLICATION_CONTEXT.get::<AsiGroupService>();
+    // let dto = asi_service.get(id).await;
+    // RespVO::from_result(&dto).resp_json()
+    todo!()
 }
 
 pub async fn delete(Path(id): Path<String>) -> impl IntoResponse {
-    let asi_service = APPLICATION_CONTEXT.get::<AsiGroupService>();
-    asi_service.del(&id).await;
-    RespVO::from(&"删除成功".to_string()).resp_json()
+    // let asi_service = APPLICATION_CONTEXT.get::<AsiGroupService>();
+    // asi_service.del(&id).await;
+    // RespVO::from(&"删除成功".to_string()).resp_json()
+    todo!()
 }
 
 pub async fn save(Json(arg): Json<AsiGroupDTO>) -> impl IntoResponse {
@@ -41,13 +43,14 @@ pub async fn save(Json(arg): Json<AsiGroupDTO>) -> impl IntoResponse {
 }
 
 pub async fn edit(Json(arg): Json<AsiGroupDTO>) -> impl IntoResponse {
-    let asi_service = APPLICATION_CONTEXT.get::<AsiGroupService>();
+    // let asi_service = APPLICATION_CONTEXT.get::<AsiGroupService>();
 
-    let id = arg.id().clone();
-    asi_service
-        .update_by_id(id.unwrap().to_string(), &mut arg.into())
-        .await;
-    RespVO::from(&"更新成功".to_string()).resp_json()
+    // let id = arg.id().clone();
+    // asi_service
+    //     .update_by_id(id.unwrap().to_string(), &mut arg.into())
+    //     .await;
+    // RespVO::from(&"更新成功".to_string()).resp_json()
+    todo!()
 }
 pub fn init_router() -> Router {
     Router::new()

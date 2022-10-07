@@ -22,3 +22,5 @@ yarn-error.log*
 *.sln
 *.sw*
 src-tauri/logs/temp.log
+
+sqlite.db

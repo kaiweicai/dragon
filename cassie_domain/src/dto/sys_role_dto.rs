@@ -1,5 +1,5 @@
 use crate::entity::sys_entitys::{SysRole, SysRoleDataScope, SysRoleMenu, SysRoleUser};
-use rbatis::DateTimeNative;
+use rbatis::rbdc::datetime::DateTime;
 use serde::{Deserialize, Serialize};
 use validator_derive::Validate;
 
@@ -15,9 +15,9 @@ pub struct SysRoleDTO {
     pub dept_id: Option<u64>,
     pub del_flag: Option<u8>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
     pub updater: Option<i64>,
-    pub update_date: Option<DateTimeNative>,
+    pub update_date: Option<DateTime>,
     pub menuid_list: Option<Vec<i64>>,
 }
 
@@ -61,7 +61,7 @@ pub struct SysRoleDataScopeDTO {
     pub role_id: Option<i64>,
     pub dept_id: Option<i64>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 
 impl Into<SysRoleDataScope> for SysRoleDataScopeDTO {
@@ -95,7 +95,7 @@ pub struct SysRoleMenuDTO {
     pub role_id: Option<i64>,
     pub menu_id: Option<i64>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 
 impl Into<SysRoleMenu> for SysRoleMenuDTO {
@@ -129,7 +129,7 @@ pub struct SysRoleUserDTO {
     pub role_id: Option<i64>,
     pub user_id: Option<i64>,
     pub creator: Option<i64>,
-    pub create_date: Option<DateTimeNative>,
+    pub create_date: Option<DateTime>,
 }
 
 impl Into<SysRoleUser> for SysRoleUserDTO {

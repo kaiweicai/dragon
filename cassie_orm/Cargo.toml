@@ -8,7 +8,8 @@ edition = "2021"
 path = "src/lib.rs"
 [dependencies]
 rbson = "2.0"
-rbatis = { version = "3.0", default-features = false, features = ["mysql", "runtime-async-std-rustls"] }
+rbatis = { version = "4.0"}
+rbdc-sqlite = { version = "0.1" }
 mongodb = { version = "2.1.0", default-features = false, features = ["async-std-runtime"] }
 cassie_domain = { path = "../cassie_domain" }
 cassie_common = { path = "../cassie_common" }

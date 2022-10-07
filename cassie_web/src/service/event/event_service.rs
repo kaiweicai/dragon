@@ -11,20 +11,20 @@ use rbatis::rbatis::Rbatis;
 
 pub struct EventConfigService {}
 impl EventConfigService {}
-impl CrudService<EventConfig, EventConfigDTO, EventQuery> for EventConfigService {
-    fn get_wrapper(arg: &EventQuery) -> rbatis::wrapper::Wrapper {
-        let rb = APPLICATION_CONTEXT.get::<Rbatis>();
-        rb.new_wrapper()
-    }
+// impl CrudService<EventConfig, EventConfigDTO, EventQuery> for EventConfigService {
+//     fn get_wrapper(arg: &EventQuery) -> rbatis::wrapper::Wrapper {
+//         let rb = APPLICATION_CONTEXT.get::<Rbatis>();
+//         rb.new_wrapper()
+//     }
 
-    fn set_save_common_fields(
-        &self,
-        common: cassie_domain::entity::sys_entitys::CommonField,
-        data: &mut EventConfig,
-    ) {
-        data.id = common.id;
-    }
-}
+//     fn set_save_common_fields(
+//         &self,
+//         common: cassie_domain::entity::sys_entitys::CommonField,
+//         data: &mut EventConfig,
+//     ) {
+//         data.id = common.id;
+//     }
+// }
 //加载全量事件配置到缓存中
 pub async fn load_event() -> Result<Vec<EventConfigDTO>> {
     // let cache_service = APPLICATION_CONTEXT.get::<CacheService>();

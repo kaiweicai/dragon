@@ -115,6 +115,7 @@ pub struct WebApplicationConfig {
     //oss 配置
     oss: OSSConfig,
     wxapp: Wxapp,
+    sqlitebase_url: String,
 }
 
 impl WebApplicationConfig {
