@@ -24,3 +24,4 @@ yarn-error.log*
 src-tauri/logs/temp.log
 
 sqlite.db
+dragon.db3

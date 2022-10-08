@@ -39,12 +39,12 @@ pub async fn init_script_consumer() {
         }
     });
     let opts = ObserveConfig::from(filter).channel(Channel::Unbounded);
-    let mut events = pharos.observe_shared(opts).await.unwrap();
-    let mut workers = init(None).await;
-    loop {
-        let event = events.next().await.unwrap();
-        if let CassieEvent::Custom(cus) = event {
-            consume_script(&mut workers, cus).await;
-        }
-    }
+    // let mut events = pharos.observe_shared(opts).await.unwrap();
+    // let mut workers = init(None).await;
+    // loop {
+    //     let event = events.next().await.unwrap();
+    //     if let CassieEvent::Custom(cus) = event {
+    //         consume_script(&mut workers, cus).await;
+    //     }
+    // }
 }

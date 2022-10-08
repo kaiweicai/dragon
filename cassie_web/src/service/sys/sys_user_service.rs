@@ -1,5 +1,5 @@
 use crate::{middleware::get_local, APPLICATION_CONTEXT};
-use cassie_common::utils::password_encoder::PasswordEncoder;
+use cassie_common::error::Result;
 use cassie_domain::{
     dto::sys_user_dto::SysUserDTO, entity::sys_entitys::SysUser, request::SysUserQuery,
 };
@@ -28,6 +28,13 @@ impl Default for SysUserService {
     }
 }
 impl SysUserService {
+    ///根据ID获取用户
+    pub async fn get_user_by_id(&self,id:String) -> Result<SysUserDTO> {
+        let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
+        let user = SysUser::select_by_column(&mut rb, "id", id).await?;
+        return Ok((*user.get(0).unwrap()).clone().into());
+    }
+
     //根据id删除用户
     pub async fn delete_user(&self, id: String) {
         // let user_info = self.get(id.clone()).await.unwrap();

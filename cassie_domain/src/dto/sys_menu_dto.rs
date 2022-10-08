@@ -7,22 +7,22 @@ use crate::request::tree::TreeModel;
 #[derive(Clone, Debug, Serialize, Deserialize, Getters, Setters, Default)]
 #[getset(get = "pub", set = "pub")]
 pub struct SysMenuDTO {
-    id: Option<i64>,
-    pid: Option<i64>,
-    url: Option<String>,
-    name: Option<String>,
-    menu_type: Option<u8>,
-    icon: Option<String>,
-    permissions: Option<String>,
-    sort: Option<u64>,
-    del_flag: Option<u8>,
-    creator: Option<i64>,
-    create_date: Option<DateTime>,
-    updater: Option<i64>,
-    update_date: Option<DateTime>,
-    method: Option<String>,
-    path: Option<String>,
-    children: Option<Vec<SysMenuDTO>>,
+   pub id: Option<i64>,
+   pub  pid: Option<i64>,
+   pub  url: Option<String>,
+   pub  name: Option<String>,
+   pub  menu_type: Option<u8>,
+   pub  icon: Option<String>,
+   pub  permissions: Option<String>,
+   pub  sort: Option<u64>,
+   pub  del_flag: Option<u8>,
+   pub  creator: Option<i64>,
+   pub  create_date: Option<DateTime>,
+   pub  updater: Option<i64>,
+   pub  update_date: Option<DateTime>,
+   pub  method: Option<String>,
+   pub  path: Option<String>,
+   pub  children: Option<Vec<SysMenuDTO>>,
 }
 
 impl TreeModel for SysMenuDTO {

@@ -66,7 +66,8 @@ CasbinService 权限服务
 */
 
 pub static APPLICATION_CONTEXT: Container![Send + Sync] = <Container![Send + Sync]>::new();
-/*初始化环境上下文*/
+/// 初始化环境上下文
+/// 注册单例组件，包括数据库，配置，服务注册。
 pub async fn init_context() {
     print_banner();
     // //第一步加载配置
