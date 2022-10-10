@@ -1,3 +1,4 @@
+use crate::service::dragon_origin_service::DragonService;
 // use crate::service::cache_service::CacheService;
 use crate::service::sys_auth_service::SysAuthService;
 use crate::APPLICATION_CONTEXT;
@@ -11,26 +12,18 @@ use captcha::Captcha;
 use cassie_common::error::Error;
 use cassie_common::RespVO;
 use cassie_domain::dto::sign_in::SignInDTO;
+use cassie_domain::dto::sys_user_dto::DragonOriginDTO;
 use validator::Validate;
 
 /// 用户登录接口。
-pub async fn login(Json(sign): Json<SignInDTO>) -> impl IntoResponse {
-    // let cache_service = APPLICATION_CONTEXT.get::<CacheService>();
-    let sys_auth_service = APPLICATION_CONTEXT.get::<SysAuthService>();
-    if let Err(e) = sign.validate() {
+pub async fn insert(Json(dragon): Json<DragonOriginDTO>) -> impl IntoResponse {
+    let dragon_service = APPLICATION_CONTEXT.get::<DragonService>();
+    if let Err(e) = dragon.validate() {
         return RespVO::<()>::from_error(&Error::E(e.to_string())).resp_json();
     }
-    // if let Ok(code) = cache_service
-    //     .get_string(&format!("_captch:uuid_{}", &sign.uuid().clone().unwrap()))
-    //     .await
-    // {
-    //     if !code.eq(&sign.vcode().clone().unwrap()) {
-    //         return RespVO::<()>::from_error(&Error::E("验证码错误".to_string())).resp_json();
-    //     }
-    // }
-    let vo = sys_auth_service.sign_in(&sign).await;
+    let vo = dragon_service.save(&dragon).await;
 
-    return RespVO::from_result(&vo).resp_json();
+    return RespVO::from(&"保存接龙数据成功".to_string()).into();
 }
 
 pub async fn testd_ragon(Path(dragon): Path<String>) -> impl IntoResponse {

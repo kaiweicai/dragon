@@ -86,23 +86,43 @@ pub async fn get_user_menu_list(
     //     .await
     //     .unwrap()
     // };
-    let result = Some(vec![SysMenu {
-        id: Some(1),
-        pid: Some(1),
-        url: Some("".to_string()),
-        name: Some("".to_string()),
-        menu_type: Some(1),
-        icon: Some("".to_string()),
-        permissions: Some("".to_string()),
-        sort: Some(1),
-        del_flag: Some(1),
-        creator: Some(1),
-        updater: Some(1),
-        method: Some("".to_string()),
-        path: Some("".to_string()),
-        create_date: None,
-        update_date: None,
-    }]);
+    let result = Some(vec![
+        SysMenu {
+            id: Some(1),
+            pid: Some(0),
+            url: None,
+            name: Some("接龙管理".to_string()),
+            menu_type: Some(0),
+            icon: None,
+            permissions: Some("".to_string()),
+            sort: Some(1),
+            del_flag: Some(0),
+            creator: Some(1),
+            updater: Some(1),
+            method: Some("".to_string()),
+            path: None,
+            create_date: None,
+            update_date: None,
+        },
+        SysMenu {
+            id: Some(2),
+            pid: Some(1),
+            url: Some("dragon/list".to_string()),
+            name: Some("添加接龙".to_string()),
+            menu_type: Some(0),
+            icon: None,
+            permissions: Some("".to_string()),
+            sort: Some(1),
+            del_flag: Some(0),
+            creator: Some(1),
+            updater: Some(1),
+            method: Some("".to_string()),
+            path: None,
+            create_date: None,
+            update_date: None,
+        },
+    ]);
+
     let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
     Ok(sys_menu_service.build(result.unwrap()))
 }

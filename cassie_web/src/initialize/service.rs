@@ -1,5 +1,6 @@
 use crate::service::api::user_service::{UserService, WechatUserService};
 use crate::service::asi::asi_service::AsiGroupService;
+use crate::service::dragon_origin_service::DragonService;
 // use crate::service::cache_service::CacheService;
 use crate::service::event_service::EventConfigService;
 use crate::service::log::log_service::{LogLoginService, LogOperationService};
@@ -9,8 +10,8 @@ use crate::service::sys_menu_service::SysMenuService;
 use crate::service::sys_params_service::SysParamsService;
 // use crate::service::sys_role_service::SysRoleService;
 // use crate::service::sys_user_service::SysUserService;
-use crate::APPLICATION_CONTEXT;
 use crate::service::sys_user_service::SysUserService;
+use crate::APPLICATION_CONTEXT;
 use cassie_config::config::WebApplicationConfig;
 // use cassie_storage::upload::upload_service::UploadService;
 use log::info;
@@ -22,7 +23,8 @@ pub async fn init_service() {
     APPLICATION_CONTEXT.set::<SysAuthService>(SysAuthService::default());
     info!("SysUserService init success!");
     APPLICATION_CONTEXT.set::<SysUserService>(SysUserService::default());
-    // info!("SysRoleService init success!");
+    APPLICATION_CONTEXT.set::<DragonService>(DragonService{});
+    info!("DragonOriginService init success!");
     // APPLICATION_CONTEXT.set::<SysRoleService>(SysRoleService::default());
     info!("SysMenuService init success!");
     APPLICATION_CONTEXT.set::<SysMenuService>(SysMenuService::default());

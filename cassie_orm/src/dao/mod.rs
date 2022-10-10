@@ -16,7 +16,7 @@ pub async fn init_rbatis(cassie_config: &WebApplicationConfig) -> Rbatis {
         cassie_config.sqlitebase_url()
     );
     rbatis
-        .init(SqliteDriver {},&cassie_config.sqlitebase_url())
+        .init(SqliteDriver {}, &cassie_config.sqlitebase_url())
         // .await
         .expect("rbatis link database fail!");
     println!("rbatis link database success!");

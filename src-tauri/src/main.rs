@@ -6,7 +6,7 @@ use app::{
     server::init_server,
     APPLICATION_CONTEXT,
 };
-use tauri::{generate_context, generate_handler, Builder, Manager, Window, Menu};
+use tauri::{generate_context, generate_handler, Builder, Manager, Menu, Window};
 
 // 启动项目主程序
 #[tokio::main]
@@ -30,7 +30,6 @@ async fn main() {
         .on_menu_event(menu_event)
         //托盘事件
         .on_system_tray_event(system_tray_menu_event)
-        
         //为js提供调用方法
         .invoke_handler(generate_handler![close_splashscreen])
         .run(generate_context!())

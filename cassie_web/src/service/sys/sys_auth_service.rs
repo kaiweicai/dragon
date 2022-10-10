@@ -41,7 +41,8 @@ impl SysAuthService {
         // let user: Option<SysUser> = rb
         //     .fetch_by_wrapper(rb.new_wrapper().eq(SysUser::username(), &arg.username()))
         //     .await?;
-        let user: Option<SysUser> = SysUser::select_by_username(&mut rb, arg.username().clone().unwrap()).await?;
+        let user: Option<SysUser> =
+            SysUser::select_by_username(&mut rb, arg.username().clone().unwrap()).await?;
         let user = user.ok_or_else(|| {
             Error::from(format!(
                 "账号:{} 不存在!",

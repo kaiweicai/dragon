@@ -1,6 +1,6 @@
 use crate::{
     // service::{cache_service::CacheService, crud_service::CrudService},
-    service::{crud_service::CrudService},
+    service::crud_service::CrudService,
     APPLICATION_CONTEXT,
 };
 use cassie_common::error::Result;

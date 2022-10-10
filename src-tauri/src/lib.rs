@@ -7,7 +7,7 @@ use fast_log::consts::LogSize;
 use fast_log::plugin::file_split::RollingType;
 use fast_log::plugin::packer::ZipPacker;
 use initalize::{init_config, init_db};
-use log::{LevelFilter};
+use log::LevelFilter;
 use state::Container;
 use std::time::Duration;
 
@@ -32,7 +32,7 @@ pub async fn init_context() {
 /// 初始化log，确定log的存放文件的位置，文件的大小等信息。
 pub fn init_log() {
     //create log dir
-    let _r =std::fs::create_dir_all(&"logs/");
+    let _r = std::fs::create_dir_all(&"logs/");
     //initialize fast log
     fast_log::init(
         Config::new()
@@ -79,4 +79,3 @@ fn str_to_rolling(arg: &str) -> RollingType {
         _ => RollingType::All,
     }
 }
-

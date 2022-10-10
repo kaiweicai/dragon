@@ -29,7 +29,7 @@ impl Default for SysUserService {
 }
 impl SysUserService {
     ///根据ID获取用户
-    pub async fn get_user_by_id(&self,id:String) -> Result<SysUserDTO> {
+    pub async fn get_user_by_id(&self, id: String) -> Result<SysUserDTO> {
         let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
         let user = SysUser::select_by_column(&mut rb, "id", id).await?;
         return Ok((*user.get(0).unwrap()).clone().into());

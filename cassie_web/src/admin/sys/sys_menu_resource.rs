@@ -42,27 +42,27 @@ pub async fn list() -> impl IntoResponse {
     // let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();
     // let vo = sys_menu_service.menu_list().await;
     // RespVO::from_result(&vo).resp_json()
-    let vo = SysMenuDTO{
-        id: Some(1),
-        pid: Some(1),
-        url: Some("/dragon/add".to_string()),
-        name: Some("添加今日接龙".to_string()),
-        menu_type: Some(0),
-        icon: None,
-        permissions: None,
-        sort: Some(0),
-        del_flag: Some(0),
-        creator:Some(1),
-        create_date: None,
-        updater: Some(1),
-        update_date: None,
-        method: None,
-        path: Some("".to_string()),
-        children: None,
-    };
-    let vec_vo = vec![vo];
-    RespVO::from(&vec_vo).resp_json()
-
+    // let vo = SysMenuDTO{
+    //     id: Some(1),
+    //     pid: Some(0),
+    //     url: Some("/#/dragon/list".to_string()),
+    //     name: Some("添加今日接龙".to_string()),
+    //     menu_type: Some(0),
+    //     icon: None,
+    //     permissions: None,
+    //     sort: Some(0),
+    //     del_flag: Some(0),
+    //     creator:Some(1),
+    //     create_date: None,
+    //     updater: Some(1),
+    //     update_date: None,
+    //     method: None,
+    //     path: Some("".to_string()),
+    //     children: None,
+    // };
+    // let vec_vo = vec![vo];
+    // RespVO::from(&vec_vo).resp_json()
+    todo!()
 }
 ///api_operation event_bus触发器
 /// #[api_operation("result=false")] 返回值为Result类型 默认是true   false

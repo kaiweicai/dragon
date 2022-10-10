@@ -26,7 +26,8 @@ export const pageRoutes = [
   { path: '/chat', component: () => import('@/views/modules/chat'), name: 'chat', meta: { title: 'chat' } },
   { path: '/medical', component: () => import('@/views/modules/editor/medical'), name: 'chat', meta: { title: '病历' } },
   { path: '/builder', component: () => import('@/views/modules/editor/builder'), name: 'builder', meta: { title: '编辑器' } },
-  { path: '/konva', component: () => import('@/views/modules/editor/konvaeditor'), name: 'konva', meta: { title: 'konva' } }
+  { path: '/konva', component: () => import('@/views/modules/editor/konvaeditor'), name: 'konva', meta: { title: 'konva' } },
+  { path: '/dragon', component: () => import('@/views/modules/editor/builder'), name: 'builder', meta: { title: '编辑器' } }
 ]
 
 // 模块路由(基于主入口布局页面)
@@ -84,12 +85,12 @@ router.beforeEach((to, from, next) => {
     return next()
   }
   // 获取字典列表, 添加并全局变量保存
-  http.get('/dict/type/all').then(({ data: res }) => {
-    if (res.code != 0) {
-      return
-    }
-    window.SITE_CONFIG['dictList'] = res.data
-  }).catch(() => {})
+  // http.get('/dict/type/all').then(({ data: res }) => {
+  //   if (res.code != 0) {
+  //     return
+  //   }
+  //   window.SITE_CONFIG['dictList'] = res.data
+  // }).catch(() => {})
   // 获取菜单列表, 添加并全局变量保存
   http.get('/menu/nav').then(({ data: res }) => {
     // eslint-disable-next-line eqeqeq

@@ -72,11 +72,10 @@ pub fn system_tray_menu_event(app: &AppHandle, event: SystemTrayEvent) {
             _ => {}
         },
         ////右键事件
-        SystemTrayEvent::RightClick {.. } => {},
+        SystemTrayEvent::RightClick { .. } => {}
         //双击事件
-        SystemTrayEvent::DoubleClick { ..} =>{},
-        _ => {},
-
+        SystemTrayEvent::DoubleClick { .. } => {}
+        _ => {}
     }
 }
 

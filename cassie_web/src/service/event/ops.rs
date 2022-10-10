@@ -6,7 +6,7 @@ use deno_core::{op, Extension, OpDecl};
 
 use crate::{
     service::{
-        crud_service::CrudService, sys_dict_service::get_all_list, sys_user_service::SysUserService
+        crud_service::CrudService, sys_dict_service::get_all_list, sys_user_service::SysUserService,
     },
     APPLICATION_CONTEXT,
 };

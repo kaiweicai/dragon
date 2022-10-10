@@ -89,7 +89,6 @@ impl AsiGroupService {
     pub async fn save_group(&self, group: AsiGroupDTO) -> Result<i64> {
         // let rb = APPLICATION_CONTEXT.get::<Rbatis>();
         // /*查询有没有重复的*/
-
         // let g = group.group_code().clone();
         // let count = rb
         //     .fetch_count_by_wrapper::<AsiGroup>(

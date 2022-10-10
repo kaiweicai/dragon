@@ -1,8 +1,8 @@
 use crate::middleware::get_local;
 use crate::service::crud_service::CrudService;
 // use crate::service::sys_user_service::SysUserService;
-use crate::APPLICATION_CONTEXT;
 use crate::service::sys_user_service::SysUserService;
+use crate::APPLICATION_CONTEXT;
 use axum::extract::{Path, Query};
 use axum::response::IntoResponse;
 use axum::routing::get;
@@ -101,6 +101,6 @@ pub fn init_router() -> Router {
     Router::new()
         // .route("/user", get(page).post(save).put(save))
         .route("/user/info", get(info))
-        // .route("/user/list", get(list))
-        // .route("/user/:id", get(get_user_by_id).delete(delete))
+    // .route("/user/list", get(list))
+    // .route("/user/:id", get(get_user_by_id).delete(delete))
 }

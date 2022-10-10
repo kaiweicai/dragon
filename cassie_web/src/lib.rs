@@ -40,10 +40,11 @@ use crate::interceptor::interceptor::AgencyInterceptor;
 use crate::nacos::register_service;
 use crate::ws::ws_server::init_ws;
 // use crate::{cici_casbin::casbin_service::CasbinService, config::log::init_log};
-use crate::{ config::log::init_log};
+use crate::config::log::init_log;
 use axum::http::Uri;
 use axum::response::IntoResponse;
 use axum::{Router, Server};
+use cassie_common::RespVO;
 use cassie_config::config::WebApplicationConfig;
 pub use deno_runtime::deno_core;
 use log::info;
@@ -54,7 +55,6 @@ use observe::event::CustomEvent;
 use service::fire_event;
 use state::Container;
 use tower_http::cors::{Any, CorsLayer};
-use cassie_common::RespVO;
 /*
 整个项目上下文ApplicationContext
 包括：
@@ -152,7 +152,7 @@ pub fn init_server() {
             cassie_config.server().host(),
             cassie_config.server().port()
         );
-        info!("start initialize the web server is:{:?}",&server);
+        info!("start initialize the web server is:{:?}", &server);
         let cors = CorsLayer::new()
             .allow_methods(Any)
             .allow_origin(Any)
@@ -163,7 +163,7 @@ pub fn init_server() {
             .nest("/admin", routers::admin::routers())
             // .nest("/api", api::routers())
             .layer(cors);
-            // .fallback(fallback.into_service());
+        // .fallback(fallback.into_service());
         // 启动服务
         Server::bind(&server.parse().unwrap())
             .serve(app.into_make_service())

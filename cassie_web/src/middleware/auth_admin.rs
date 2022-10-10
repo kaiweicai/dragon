@@ -35,7 +35,6 @@
 //         let path = req.uri().path().to_string();
 
 //         /*获取token*/
-
 //         let value = HeaderValue::from_str("").unwrap();
 //         let headers = req.headers();
 //         let token = headers.get("access_token").unwrap_or(&value);
