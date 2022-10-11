@@ -1,3 +1,4 @@
+use crate::admin::sys::sys_dragon_resource;
 use crate::middleware::clean_context::ContextMiddleware;
 use crate::{
     admin::{
@@ -29,6 +30,8 @@ pub fn need_auth_routers() -> Router {
         .merge(sys_menu_resource::init_router())
         //-------------------------------------用户服务-------------------------------------------------------
         .merge(sys_user_resource::init_router())
+        //-------------------------------------接龙服务-------------------------------------------------------
+        .merge(sys_dragon_resource::init_router())
         //-------------------------------------角色服务-------------------------------------------------------
         // .merge(sys_role_resource::init_router())
         //-------------------------------------参数服务-------------------------------------------------------

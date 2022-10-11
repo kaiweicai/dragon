@@ -5,7 +5,7 @@ use validator_derive::Validate;
 #[serde(rename_all = "camelCase")]
 #[getset(get = "pub", set = "pub")]
 pub struct DragonOriginDTO {
-    id: i64,
+    id: Option<i64>,
     content: String,
     create_date: Option<String>,
 }
