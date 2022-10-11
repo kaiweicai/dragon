@@ -32,21 +32,12 @@
         @sort-change="dataListSortChangeHandle"
         style="width: 100%;">
         <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-        <el-table-column prop="username" label="用户名" sortable="custom" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="agency_code" label="租户" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="email" label="邮箱" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="mobile" label="手机号" sortable="custom" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="status" label="状态" sortable="custom" header-align="center" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.status === 0" size="small" type="danger">{{ $t('user.status0') }}</el-tag>
-            <el-tag v-else size="small" type="success">{{ $t('user.status1') }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="create_date" :label="$t('user.createDate')" sortable="custom" header-align="center" align="center" width="180"></el-table-column>
+        <el-table-column prop="content" label="接龙用户" sortable="custom" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="createDate" label="创建日期" header-align="center" align="center"></el-table-column>
         <el-table-column :label="$t('handle')" fixed="right" header-align="center" align="center" width="150">
           <template slot-scope="scope">
-            <el-button  v-if="scope.row.super_admin === 0" type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button>
-            <el-button v-if="scope.row.super_admin === 0"  type="text" size="small" @click="deleteHandle(scope.row.id)">{{ $t('delete') }}</el-button>
+            <el-button   type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button>
+            <el-button  type="text" size="small" @click="deleteHandle(scope.row.id)">{{ $t('delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -73,9 +64,9 @@ export default {
   data () {
     return {
       mixinViewModuleOptions: {
-        getDataListURL: '/user',
-        getDataListIsPage: true,
-        deleteURL: '/user',
+        getDataListURL: '/dragon/list',
+        getDataListIsPage: false,
+        deleteURL: '/dragon',
         deleteIsBatch: false,
         exportURL: '/user/export'
       },

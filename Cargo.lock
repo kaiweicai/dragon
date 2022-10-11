@@ -876,6 +876,7 @@ dependencies = [
  "async-std",
  "async-trait",
  "axum",
+ "base64 0.13.0",
  "cached",
  "captcha",
  "casbin",
