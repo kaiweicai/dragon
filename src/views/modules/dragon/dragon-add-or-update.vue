@@ -4,7 +4,7 @@
       <el-form-item  prop="content" :label="$t('dragon.content')">
         <el-input type="textarea" v-model="dataForm.content" :placeholder="$t('dragon.content')"></el-input>
       </el-form-item>
-      <el-form-item prop="createDate" :label="$t('dragon.createDate')" :class="{ 'is-required': !dataForm.id }">
+      <!-- <el-form-item prop="createDate" :label="$t('dragon.createDate')" :class="{ 'is-required': !dataForm.id }">
           <el-date-picker
             v-model="dataForm.createDate"
             align="right"
@@ -12,7 +12,7 @@
             :placeholder="$t('dragon.createDate')"
             >
           </el-date-picker>
-        </el-form-item>
+        </el-form-item> -->
     </el-form>
     <template slot="footer">
       <el-button @click="visible = false">{{ $t('cancel') }}</el-button>
@@ -35,7 +35,7 @@ export default {
       dataForm: {
         id: '',
         content: '',
-        createDate: '',
+        // createDate: '',
       }
     }
   },
@@ -126,7 +126,7 @@ export default {
         }
         this.$http[!this.dataForm.id ? 'post' : 'put']('/dragon', {
           content:Base64.encode(this.dataForm.content),
-          createDate:this.dataForm.createDate,
+          // createDate:this.dataForm.createDate,
         }).then(({ data: res }) => {
           if (res.code !== 0) {
             return this.$message.error(res.msg)

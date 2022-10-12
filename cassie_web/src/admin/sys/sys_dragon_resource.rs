@@ -9,6 +9,7 @@ use axum::{Json, Router};
 use cassie_common::error::Error;
 use cassie_common::RespVO;
 use cassie_domain::dto::dragon_dto::DragonOriginDTO;
+use chrono::{Local, Datelike};
 use log::info;
 use validator::Validate;
 
@@ -21,6 +22,8 @@ pub async fn insert(Json(mut dragon): Json<DragonOriginDTO>) -> impl IntoRespons
     // let content = dragon.content();
     base64::encode("".to_string());
     dragon.set_content(String::from_utf8(base64::decode(dragon.content()).unwrap()).unwrap());
+    let now = Local::now();
+    dragon.set_create_date(Some(format!("{}-{:02}-{:02}",now.year(),now.month(),now.day())));
     dragon_service.save(dragon).await;
 
     return RespVO::from(&"保存接龙数据成功".to_string()).resp_json();
