@@ -44,6 +44,6 @@ pub async fn del(Path(id):Path<String>) -> impl IntoResponse {
 pub fn init_router() -> Router {
     Router::new()
         .route("/dragon/list", get(list))
-        .route("/dragon/insert", post(insert))
+        .route("/dragon", post(insert))
         .route("/dragon/:id", delete(del))
 }

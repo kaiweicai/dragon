@@ -396,6 +396,10 @@ t.role.createDate = '创建时间'
 t.role.menuList = '菜单授权'
 t.role.deptList = '数据授权'
 
+t.dragon={}
+t.dragon.content = '接龙数据'
+t.dragon.createDate = '创建日期'
+
 t.user = {}
 t.user.username = '用户名'
 t.user.deptName = '所属部门'

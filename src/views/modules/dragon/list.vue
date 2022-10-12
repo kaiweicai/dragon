@@ -58,7 +58,7 @@
 
 <script>
 import mixinViewModule from '@/mixins/view-module'
-// import AddOrUpdate from './user-add-or-update'
+import AddOrUpdate from './dragon-add-or-update'
 export default {
   mixins: [mixinViewModule],
   data () {
@@ -71,15 +71,13 @@ export default {
         exportURL: '/user/export'
       },
       dataForm: {
-        username: '',
-        deptId: '',
-        postId: '',
-        gender: ''
+        content: '',
+        createDate: '',
       }
     }
   },
   components: {
-    // AddOrUpdate
+    AddOrUpdate
   },
   created () {
   },
