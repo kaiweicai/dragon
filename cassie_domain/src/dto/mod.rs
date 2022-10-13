@@ -14,6 +14,7 @@ pub mod sys_role_dto;
 pub mod sys_user_dto;
 pub mod user_dto;
 pub mod dragon_dto;
+pub mod dragon_data_dto;
 
 use serde::{Deserialize, Serialize};
 

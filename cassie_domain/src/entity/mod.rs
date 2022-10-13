@@ -10,5 +10,6 @@ pub mod sys_entitys;
 pub mod sys_group_data_entity;
 pub mod sys_group_entity;
 pub mod user_entity;
+pub mod dragon_data_entity;
 pub use pagedata::*;
 pub use sms::*;

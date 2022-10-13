@@ -840,6 +840,7 @@ dependencies = [
  "rbatis",
  "rbs",
  "rbson",
+ "regex",
  "serde",
  "serde_json",
  "validator",
