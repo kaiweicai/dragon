@@ -36,8 +36,9 @@
         <el-table-column prop="createDate" label="创建日期" header-align="center" align="center"></el-table-column>
         <el-table-column :label="$t('handle')" fixed="right" header-align="center" align="center" width="150">
           <template slot-scope="scope">
-            <el-button   type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button>
-            <el-button  type="text" size="small" @click="deleteHandle(scope.row.id)">{{ $t('delete') }}</el-button>
+            <!-- <el-button   type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button> -->
+            <el-button type="text" size="small" @click="gentodaydata(scope.row.id)">{{ $t('gentodaydata') }}</el-button>
+            <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">{{ $t('delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,13 +53,15 @@
       </el-pagination>
       <!-- 弹窗, 新增 / 修改 -->
       <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+      <TodayData v-if="todayDataVisible" ref="todayData" ></TodayData>
     </div>
   </el-card>
 </template>
 
 <script>
 import mixinViewModule from '@/mixins/view-module'
-import AddOrUpdate from './dragon-add-or-update'
+import AddOrUpdate from './dragon-add-or-update';
+import TodayData from './dragon-today-data';
 export default {
   mixins: [mixinViewModule],
   data () {
@@ -73,15 +76,24 @@ export default {
       dataForm: {
         content: '',
         createDate: '',
-      }
+      },
+      todayDataVisible: false,
     }
   },
   components: {
-    AddOrUpdate
+    AddOrUpdate,
+    TodayData,
   },
   created () {
   },
   methods: {
+    gentodaydata(id){
+      this.todayDataVisible = true;
+      this.$nextTick(() => {
+        // this.$refs.data.dataForm.smsCode = row.smsCode
+        this.$refs.todayData.init(id);
+      })
+    }
   }
 }
 </script>

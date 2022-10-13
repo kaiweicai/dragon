@@ -29,8 +29,8 @@ export default {
   data () {
     return {
       visible: false,
-      // roleList: [],
-      // roleIdListDefault: [],
+      roleList: [],
+      roleIdListDefault: [],
       postList: [],
       dataForm: {
         id: '',
@@ -81,41 +81,26 @@ export default {
   //   }
   // },
   methods: {
-    init () {
+    init (id) {
       this.visible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
-        // Promise.all([
-        //   this.getRoleList()
-        // ]).then(() => {
-        //   if (this.dataForm.id) {
-        //     this.getInfo()
-        //   }
-        // })
+        Promise.all([
+          this.loadTodayData(id)
+        ]).then(() => {
+          if (this.dataForm.id) {
+            this.getInfo()
+          }
+        })
       })
     },
-    // // 获取角色列表
-    // getRoleList () {
-    //   return this.$http.get('/role/list').then(({ data: res }) => {
-    //     if (res.code != 0) {
-    //       return this.$message.error(res.msg)
-    //     }
-    //     this.roleList = res.data
-    //   }).catch(() => {})
-    // },
     // 获取信息
-    getInfo () {
-      this.$http.get(`/user/${this.dataForm.id}`).then(({ data: res }) => {
+    loadTodayData (id) {
+      this.$http.get(`/dragon/todaydata/${id}`).then(({ data: res }) => {
         if (res.code !== 0) {
           return this.$message.error(res.msg)
         }
-        this.dataForm = {
-          ...this.dataForm,
-          ...res.data,
-          // role_id: 0
-        }
-        // 角色配置, 区分是否为默认角色
-        // this.roleIdListDefault.push(res.data.role_id)
+        alert(res.data);
       }).catch(() => {})
     },
     // 表单提交

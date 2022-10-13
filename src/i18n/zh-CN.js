@@ -8,6 +8,7 @@ t.brand.mini = 'CASSIE'
 
 t.add = '新增'
 t.delete = '删除'
+t.gentodaydata = '生成当日分类数据'
 t.deleteBatch = '删除'
 t.update = '修改'
 t.query = '查询'
