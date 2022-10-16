@@ -3,7 +3,7 @@ use std::collections::{BTreeMap, HashSet};
 use crate::APPLICATION_CONTEXT;
 use cassie_common::error::Result;
 use cassie_domain::{
-    dto::{dragon_data_dto::DragonDataDTO, dragon_dto::DragonOriginDTO},
+    dto::{dragon_data_dto::{DragonDataDTO, DragonDataVecDTO}, dragon_dto::DragonOriginDTO},
     entity::{dragon_data_entity::DragonData, dragon_orign::DragonOrigin},
 };
 use rbatis::rbatis::Rbatis;
@@ -40,10 +40,11 @@ impl DragonService {
     }
 
     ///获取当天接龙列表
-    pub async fn gen_today_dragon_data(id: String) -> Result<BTreeMap::<u64, HashSet<String>>> {
+    ///获取当天接龙列表
+    pub async fn gen_today_dragon_data(id: String) -> Result<Vec<DragonDataVecDTO>> {
         let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
         let drogon_origin_today = DragonOrigin::select_by_column(&mut rb, "id", id).await?;
-        let mut invest_map = BTreeMap::<u64, HashSet<String>>::new();
+        let mut invest_map = BTreeMap::<u64, Vec<DragonData>>::new();
         let dragons = drogon_origin_today
             .get(0)
             .unwrap()
@@ -54,13 +55,17 @@ impl DragonService {
             let dragon:DragonData = (*line).try_into().unwrap();
             // println!("{:?}", dragon);
             if let None = invest_map.get(&dragon.amount) {
-                invest_map.insert(dragon.amount, HashSet::new());
+                invest_map.insert(dragon.amount, Vec::new());
             }
             invest_map
                 .get_mut(&dragon.amount)
                 .unwrap()
-                .insert(dragon.name);
+                .push(dragon);
         }
-        return Ok(invest_map);
+        let dto_vec:Vec<DragonDataVecDTO> = invest_map.iter().map(|entry|DragonDataVecDTO{
+            amount: *entry.0,
+            dragonDataVec: entry.1.clone(),
+        }).collect();
+        return Ok(dto_vec);
     }
 }

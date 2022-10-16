@@ -74,7 +74,7 @@ cassie_macros = {path= "../cassie_macros" }
 #cassie 规则引擎
 deno_core = "0.154.0"
 deno_runtime = "0.80.0"
-
+v8="0.53.1"
 #ws
 futures-channel = "0.3.21"
 futures-util = { version = "0.3", default-features = false, features = ["sink", "std"] }

@@ -8,6 +8,7 @@ pub struct DragonData {
     pub name: String,
     pub amount: u64,
     pub prior: Option<bool>,
+    pub disable:Option<bool>,
 }
 
 crud!(DragonData {});
@@ -43,7 +44,6 @@ impl TryFrom<&str> for DragonData {
                 }
             },
             name: data[1].to_string(),
-
             amount: match data[2].parse() {
                 Ok(n) => n,
                 Err(e) => {
@@ -53,6 +53,7 @@ impl TryFrom<&str> for DragonData {
                 }
             },
             prior: None,
+            disable:Some(false),
         };
         Ok(dragon)
     }
