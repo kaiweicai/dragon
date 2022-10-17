@@ -11,6 +11,8 @@ use cassie_domain::{
 };
 use rbatis::rbatis::Rbatis;
 
+use super::dragon_data_service;
+
 // use crate::cici_casbin::casbin_service::CasbinService;
 
 /**
@@ -34,7 +36,7 @@ impl DragonService {
     //保存用户
     pub async fn save(&self, dragon: DragonOriginDTO) {
         let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
-        DragonService::save_today_dragon_data(
+        dragon_data_service::save_today_dragon_data(
             dragon.content().clone(),
             dragon.create_date().clone(),
         )
@@ -75,24 +77,4 @@ impl DragonService {
         return Ok(dto_vec);
     }
 
-    ///获取当天接龙列表
-    async fn save_today_dragon_data(content: String, create_date: Option<String>) {
-        let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
-        let dragons = content.split('\n').collect::<Vec<&str>>();
-        let mut invest_map = BTreeMap::<u64, Vec<DragonData>>::new();
-        for line in dragons.iter() {
-            let dragon_data: DragonData = (*line).try_into().unwrap();
-
-            if let None = invest_map.get(&dragon_data.amount) {
-                invest_map.insert(dragon_data.amount, Vec::new());
-            }
-            invest_map.get_mut(&dragon_data.amount).unwrap().push(dragon_data.clone());
-        }
-        for (_,dto_vec) in invest_map.iter_mut(){
-            for dragon_data in dto_vec.iter_mut(){
-                dragon_data.create_date = create_date.clone();
-                DragonData::insert(&mut rb, &dragon_data).await;
-            }
-        }
-    }
 }

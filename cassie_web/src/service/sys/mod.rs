@@ -1,6 +1,7 @@
 pub mod cache_service;
 pub mod crud_service;
 pub mod dragon_origin_service;
+pub mod dragon_data_service;
 pub mod redis_service;
 pub mod sys_auth_service;
 pub mod sys_config_service;

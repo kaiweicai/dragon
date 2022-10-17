@@ -1,3 +1,4 @@
+use crate::service::dragon_data_service;
 use crate::service::dragon_origin_service::DragonService;
 // use crate::service::cache_service::CacheService;
 use crate::APPLICATION_CONTEXT;
@@ -55,10 +56,17 @@ pub async fn gen_today_dragon_data(Path(id): Path<String>)-> impl IntoResponse{
     return RespVO::from_result(&today_dragon_data).resp_json();
 }
 
+///获取dragondata 列表
+pub async fn get_dragon_data_by_create_date(Path(create_date):Path<String>) -> impl IntoResponse{
+    let dradon_list = dragon_data_service::list(create_date).await;
+    return RespVO::from_result(&dradon_list).resp_json();
+}
+
 
 pub fn init_router() -> Router {
     Router::new()
         .route("/dragon/list", get(list))
+        .route("/dragondata/list/:create_date", get(get_dragon_data_by_create_date))
         .route("/dragon", post(insert))
         .route("/dragon/:id", delete(del))
         .route("/dragon/todaydata/:id", get(gen_today_dragon_data))

@@ -7,8 +7,8 @@ pub struct DragonData {
     pub no: u64,
     pub name: String,
     pub amount: u64,
-    pub prior: Option<bool>,
-    pub disable:Option<bool>,
+    pub prior: Option<u8>,
+    pub disable:Option<u8>,
     pub create_date:Option<String>,
 }
 
@@ -53,8 +53,8 @@ impl TryFrom<&str> for DragonData {
                     // panic!("error parsing data[2]");
                 }
             },
-            prior: Some(false),
-            disable:Some(false),
+            prior: Some(0),
+            disable:Some(0),
             create_date:None,
         };
         Ok(dragon)
