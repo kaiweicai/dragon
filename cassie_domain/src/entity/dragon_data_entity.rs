@@ -2,13 +2,14 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 
 //接龙
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize,Getters,Setters)]
 pub struct DragonData {
     pub no: u64,
     pub name: String,
     pub amount: u64,
     pub prior: Option<bool>,
     pub disable:Option<bool>,
+    pub create_date:Option<String>,
 }
 
 crud!(DragonData {});
@@ -52,8 +53,9 @@ impl TryFrom<&str> for DragonData {
                     // panic!("error parsing data[2]");
                 }
             },
-            prior: None,
+            prior: Some(false),
             disable:Some(false),
+            create_date:None,
         };
         Ok(dragon)
     }
