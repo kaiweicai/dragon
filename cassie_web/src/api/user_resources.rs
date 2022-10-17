@@ -1,11 +1,7 @@
 use axum::{response::IntoResponse, routing::get, Router};
-use cassie_common::RespVO;
 
-use crate::{
-    middleware::get_local,
-    service::{api::user_service::UserService, crud_service::CrudService},
-    APPLICATION_CONTEXT,
-};
+
+
 
 //获取用户信息
 pub async fn get_user_info() -> impl IntoResponse {

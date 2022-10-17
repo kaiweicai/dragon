@@ -3,15 +3,15 @@ use crate::service::crud_service::CrudService;
 // use crate::service::sys_user_service::SysUserService;
 use crate::service::sys_user_service::SysUserService;
 use crate::APPLICATION_CONTEXT;
-use axum::extract::{Path, Query};
+use axum::extract::{Path};
 use axum::response::IntoResponse;
 use axum::routing::get;
 use axum::{Json, Router};
 use cassie_common::error::Error;
 use cassie_common::RespVO;
 use cassie_domain::dto::sys_user_dto::SysUserDTO;
-use cassie_domain::entity::PageData;
-use cassie_domain::request::SysUserQuery;
+
+
 use validator::Validate;
 
 // /**

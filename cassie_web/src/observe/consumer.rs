@@ -1,11 +1,11 @@
 use async_std::prelude::StreamExt;
-use log::info;
-use pharos::{Channel, Filter, ObserveConfig, SharedPharos};
-use std::thread;
 
-use crate::service::{consume_script, consume_sys};
+use pharos::{Channel, Filter, ObserveConfig, SharedPharos};
+
+
+use crate::service::{consume_sys};
 // use crate::{initialize::rules::init, CustomEvent, APPLICATION_CONTEXT};
-use crate::{initialize::rules::init, CustomEvent, APPLICATION_CONTEXT};
+use crate::{APPLICATION_CONTEXT};
 
 use super::event::CassieEvent;
 

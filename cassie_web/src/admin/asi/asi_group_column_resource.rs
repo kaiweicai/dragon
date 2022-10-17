@@ -1,16 +1,13 @@
-use crate::{
-    service::{asi::asi_service::AsiGroupService, crud_service::CrudService},
-    APPLICATION_CONTEXT,
-};
+
 use axum::{
     extract::{Path, Query},
     response::IntoResponse,
     routing::get,
     Json, Router,
 };
-use cassie_common::{error::Error, RespVO};
-use cassie_domain::{dto::asi_dto::AsiGroupColumnDTO, entity::PageData, request::AsiQuery};
-use validator::Validate;
+
+use cassie_domain::{dto::asi_dto::AsiGroupColumnDTO, request::AsiQuery};
+
 
 pub async fn get_column_one(Path(id): Path<String>) -> impl IntoResponse {
     // let asi_service = APPLICATION_CONTEXT.get::<AsiGroupService>();

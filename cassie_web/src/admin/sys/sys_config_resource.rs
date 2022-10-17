@@ -1,5 +1,5 @@
-use crate::service::{crud_service::CrudService, sys_config_service::SysConfigService};
-use crate::APPLICATION_CONTEXT;
+
+
 
 use axum::{
     extract::{Path, Query},
@@ -7,8 +7,8 @@ use axum::{
     routing::get,
     Json, Router,
 };
-use cassie_common::{error::Error, RespVO};
-use cassie_domain::{dto::sys_config_dto::SysConfigDTO, entity::PageData, request::SysConfigQuery};
+
+use cassie_domain::{dto::sys_config_dto::SysConfigDTO, request::SysConfigQuery};
 
 pub async fn page(arg: Option<Query<SysConfigQuery>>) -> impl IntoResponse {
     // let service = APPLICATION_CONTEXT.get::<SysConfigService>();

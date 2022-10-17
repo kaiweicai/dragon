@@ -1,12 +1,8 @@
-use cassie_domain::{
-    dto::user_dto::{UserDTO, WechatUserDTO},
-    entity::user_entity::{User, WechatUser},
-    request::UserQuery,
-};
-use rbatis::{crud, rbatis::Rbatis};
 
-use crate::{service::crud_service::CrudService, APPLICATION_CONTEXT};
-use rbatis::{impl_delete, impl_insert, impl_select_page, impl_update};
+
+
+
+
 pub struct UserService;
 
 // impl CrudService<User, UserDTO, UserQuery> for UserService {

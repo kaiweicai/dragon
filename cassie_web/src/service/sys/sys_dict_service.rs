@@ -1,14 +1,12 @@
-use super::crud_service::CrudService;
-use crate::APPLICATION_CONTEXT;
+
+
 use cached::proc_macro::cached;
 use cassie_common::error::Result;
-use cassie_domain::entity::sys_entitys::CommonField;
+
 use cassie_domain::{
-    dto::sys_dict_dto::{SysDictDataDTO, SysDictTypeDTO},
-    entity::sys_entitys::{SysDictData, SysDictType},
-    request::SysDictQuery,
+    dto::sys_dict_dto::{SysDictTypeDTO},
 };
-use rbatis::rbatis::Rbatis;
+
 
 /**
 *struct:SysDictTypeService

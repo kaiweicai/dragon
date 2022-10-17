@@ -1,13 +1,13 @@
-use crate::middleware::get_local;
-use crate::APPLICATION_CONTEXT;
-use async_std::stream::Skip;
+
+
+
 use async_trait::async_trait;
 use cassie_common::error::Result;
 use cassie_domain::entity::pagedata::PageData;
 use cassie_domain::entity::sys_entitys::CommonField;
-use rbatis::rbatis::Rbatis;
-use rbatis::rbdc::datetime::DateTime;
-use rbatis::sql::{Page, PageRequest};
+
+
+use rbatis::sql::{Page};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use std::convert::From;
@@ -106,7 +106,7 @@ where
     /**
      * 根据id更新实体
      */
-    fn update_by_id(&self, id: String, mut data: &Entity) {
+    fn update_by_id(&self, id: String, data: &Entity) {
         // let rb = APPLICATION_CONTEXT.get::<Rbatis>();
         // let wrapper = rb.new_wrapper().eq("id", id);
         // rb.update_by_wrapper(
@@ -157,7 +157,7 @@ where
     /**
      * 批量保存实体
      */
-    fn save_batch(&self, mut list: &Vec<Entity>) {
+    fn save_batch(&self, list: &Vec<Entity>) {
         // let rb = APPLICATION_CONTEXT.get::<Rbatis>();
         // rb.save_batch(&mut list, &[Skip::Column("id")]).await;
         todo!()

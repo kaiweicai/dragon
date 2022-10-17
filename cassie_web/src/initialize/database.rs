@@ -1,4 +1,4 @@
-use crate::{AgencyInterceptor, APPLICATION_CONTEXT};
+use crate::{APPLICATION_CONTEXT};
 use cassie_config::config::WebApplicationConfig;
 use cassie_orm::dao::{init_mongodb, init_rbatis};
 use log::info;

@@ -1,17 +1,17 @@
-use crate::service::{crud_service::CrudService, sys_group_data_service::SysGroupDataService};
 
-use crate::APPLICATION_CONTEXT;
+
+
 use axum::{
     extract::{Path, Query},
     response::IntoResponse,
     routing::get,
     Json, Router,
 };
-use cassie_common::{error::Error, RespVO};
+
 use cassie_domain::{
-    dto::sys_group_data_dto::SysGroupDataDTO, entity::PageData, request::SysGroupDataQuery,
+    dto::sys_group_data_dto::SysGroupDataDTO, request::SysGroupDataQuery,
 };
-use validator::Validate;
+
 
 pub async fn page(arg: Option<Query<SysGroupDataQuery>>) -> impl IntoResponse {
     // let service = APPLICATION_CONTEXT.get::<SysGroupDataService>();

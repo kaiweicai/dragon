@@ -1,15 +1,15 @@
-use crate::{middleware::get_local, APPLICATION_CONTEXT};
+use crate::{APPLICATION_CONTEXT};
 use cassie_common::error::Result;
 use cassie_domain::{
-    dto::sys_user_dto::SysUserDTO, entity::sys_entitys::SysUser, request::SysUserQuery,
+    dto::sys_user_dto::SysUserDTO, entity::sys_entitys::SysUser,
 };
 use rbatis::rbatis::Rbatis;
 
 use super::crud_service::CrudService;
 use super::sys_role_user_service::SysRoleUserService;
 // use crate::cici_casbin::casbin_service::CasbinService;
-use casbin::MgmtApi;
-use cassie_domain::entity::sys_entitys::{CommonField, SysRoleUser};
+
+
 
 /**
  *struct:SysUserService

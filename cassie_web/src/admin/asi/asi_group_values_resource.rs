@@ -8,7 +8,7 @@ use axum::{
     routing::{get, post},
     Json, Router,
 };
-use cassie_common::{error::Error, RespVO};
+use cassie_common::{RespVO};
 use cassie_domain::request::AsiQuery;
 use std::collections::HashMap;
 

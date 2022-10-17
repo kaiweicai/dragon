@@ -1,7 +1,7 @@
 use axum::{middleware::from_extractor, Router};
 
 use crate::{
-    api::{user_resources, wxapp_resources},
+    api::{user_resources},
     middleware::auth_api,
 };
 

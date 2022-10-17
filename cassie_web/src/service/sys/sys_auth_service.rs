@@ -11,7 +11,7 @@ use cassie_domain::entity::sys_entitys::SysUser;
 use cassie_domain::vo::jwt::JWTToken;
 use cassie_domain::vo::sign_in::SignInVO;
 use rbatis::rbatis::Rbatis;
-use rbdc_sqlite::driver::SqliteDriver;
+
 use rbson::DateTime;
 const REDIS_KEY_RETRY: &'static str = "login:login_retry";
 /**

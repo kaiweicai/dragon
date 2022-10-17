@@ -1,17 +1,17 @@
-use crate::service::{crud_service::CrudService, sys_config_tab_service::SysConfigTabService};
 
-use crate::APPLICATION_CONTEXT;
+
+
 use axum::{
     extract::{Path, Query},
     response::IntoResponse,
     routing::get,
     Json, Router,
 };
-use cassie_common::{error::Error, RespVO};
+
 use cassie_domain::{
-    dto::sys_config_tab_dto::SysConfigTabDTO, entity::PageData, request::SysConfigTabQuery,
+    dto::sys_config_tab_dto::SysConfigTabDTO, request::SysConfigTabQuery,
 };
-use validator::Validate;
+
 
 pub async fn page(arg: Option<Query<SysConfigTabQuery>>) -> impl IntoResponse {
     // let service = APPLICATION_CONTEXT.get::<SysConfigTabService>();

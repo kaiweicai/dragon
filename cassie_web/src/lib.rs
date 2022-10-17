@@ -37,10 +37,10 @@ use crate::initialize::event::init_event_bus;
 // use crate::initialize::rules::init_rules;
 use crate::initialize::service::init_service;
 use crate::interceptor::interceptor::AgencyInterceptor;
-use crate::nacos::register_service;
-use crate::ws::ws_server::init_ws;
+
+
 // use crate::{cici_casbin::casbin_service::CasbinService, config::log::init_log};
-use crate::config::log::init_log;
+
 use axum::http::Uri;
 use axum::response::IntoResponse;
 use axum::{Router, Server};
