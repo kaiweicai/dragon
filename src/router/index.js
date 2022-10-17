@@ -27,7 +27,7 @@ export const pageRoutes = [
   { path: '/medical', component: () => import('@/views/modules/editor/medical'), name: 'chat', meta: { title: '病历' } },
   { path: '/builder', component: () => import('@/views/modules/editor/builder'), name: 'builder', meta: { title: '编辑器' } },
   { path: '/konva', component: () => import('@/views/modules/editor/konvaeditor'), name: 'konva', meta: { title: 'konva' } },
-  { path: '/dragon', component: () => import('@/views/modules/editor/builder'), name: 'builder', meta: { title: '编辑器' } }
+  // { path: '/dragon', component: () => import('@/views/modules/editor/builder'), name: 'builder', meta: { title: '编辑器' } }
 ]
 
 // 模块路由(基于主入口布局页面)

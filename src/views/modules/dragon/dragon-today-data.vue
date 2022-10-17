@@ -1,7 +1,6 @@
 <template>
   <el-dialog :visible.sync="visible" :title="!dataForm.id ? $t('add') : $t('update')" :close-on-click-modal="false"
-    :close-on-press-escape="false">
-    <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmitHandle()" label-width="120px">
+    :close-on-press-escape="false" width="80%">
 
       <!-- <div v-for="(item, idx) in dataForm.data" header-align="center" align="center">
           {{idx}}:
@@ -21,11 +20,12 @@
               <el-table-column prop="no" label="编号"></el-table-column>
               <el-table-column prop="name" label="姓名"></el-table-column>
               <el-table-column prop="amount" label="下单量"></el-table-column>
-              <el-table-column prop="disable" label="失效"></el-table-column>
+              <el-table-column prop="disable" label="失效" :formatter="formatBoolean" :show-overflow-tooltip="true">
+              </el-table-column>
               <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
                 <template slot-scope="scope">
                   <!-- <el-button   type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button> -->
-                  <el-button type="text" size="small" @click="disable(scope.row)">{{ $t('delete') }}
+                  <el-button type="text" size="small" @click="disable(scope.$index,scope.row)">{{ $t('delete') }}
                   </el-button>
                   <el-button type="text" size="small" @click="deleteHandle(scope.row.no)">{{ $t('delete') }}</el-button>
                 </template>
@@ -34,7 +34,6 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-form>
     <template slot="footer">
       <el-button @click="visible = false">{{ $t('cancel') }}</el-button>
       <el-button type="primary" @click="dataFormSubmitHandle()">{{ $t('confirm') }}</el-button>
@@ -50,9 +49,6 @@ export default {
   data() {
     return {
       visible: false,
-      roleList: [],
-      roleIdListDefault: [],
-      postList: [],
       dataForm: {
         id: '',
         content: '',
@@ -64,7 +60,7 @@ export default {
     init(id) {
       this.visible = true
       this.$nextTick(() => {
-        this.$refs['dataForm'].resetFields()
+        // this.$refs['dataForm'].resetFields()
         Promise.all([
           this.loadTodayData(id)
         ]).then(() => {
@@ -72,12 +68,6 @@ export default {
         })
       })
     },
-    //设置当前的接龙为无效
-    disable(dragonData){
-      dragonData.disable = true;
-      alert(JSON.stringify(dragonData));
-    },
-
     // 获取信息
     loadTodayData(id) {
       this.$http.get(`/dragon/todaydata/${id}`).then(({ data: res }) => {
@@ -85,11 +75,27 @@ export default {
           return this.$message.error(res.msg)
         }
         this.dataForm.data = res.data;
-        console.log(res.data[3000]);
       }).catch((e) => {
         console.log('发生错误' + e);
       })
     },
+    formatBoolean: function (row, index) {
+      var ret = ''
+      if (row.is_admin == true) {
+        ret = "yes" //根据自己的需求设定
+      } else {
+        ret = "no"
+      }
+      return ret;
+    },
+    //设置当前的接龙为无效
+    disable(index,row) {
+      alert(JSON.stringify(row));
+      row.disable = true;
+      alert(this.dataForm.data[0].dragonDataVec[0].disable);
+      this.$set(this.dataForm.data.dragonDataVec,index,row);
+    },
+
     // 表单提交
     dataFormSubmitHandle: debounce(function () {
       this.$refs['dataForm'].validate((valid) => {
