@@ -1,9 +1,12 @@
 use serde::{Deserialize, Serialize};
 
 use crate::entity::dragon_data_entity::DragonData;
+use validator_derive::Validate;
 
 //接龙
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Validate, Deserialize, Getters, Setters, Default)]
+#[serde(rename_all = "camelCase")]
+#[getset(get = "pub", set = "pub")]
 pub struct DragonDataDTO {
     pub no: u64,
     pub name: String,

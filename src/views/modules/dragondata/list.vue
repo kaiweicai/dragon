@@ -35,13 +35,13 @@
         <el-table-column prop="no" label="序号" sortable="custom" header-align="center" align="center"></el-table-column>
         <el-table-column prop="name" label="姓名" sortable="custom" header-align="center" align="center"></el-table-column>
         <el-table-column prop="amount" label="下单量" sortable="custom" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="prior" label="优先级" sortable="custom" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="disable" label="取消" sortable="custom" :formatter="formatBoolean" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="createDate" label="创建日期" :formatter="formatBoolean" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="prior" label="优先级" :formatter="formatBoolean" sortable="custom" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="disable" label="取消" :formatter="formatBoolean" sortable="custom"  header-align="center" align="center"></el-table-column>
+        <el-table-column prop="createDate" label="创建日期"  header-align="center" align="center"></el-table-column>
         <el-table-column :label="$t('handle')" fixed="right" header-align="center" align="center" width="150">
           <template slot-scope="scope">
             <!-- <el-button   type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">{{ $t('update') }}</el-button> -->
-            <el-button type="text" size="small" @click="gentodaydata(scope.row.id)">失效/有效</el-button>
+            <el-button type="text" size="small" @click="gentodaydata(scope.row.no)">失效/有效</el-button>
             <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">{{ $t('delete') }}</el-button>
           </template>
         </el-table-column>
@@ -100,11 +100,12 @@ export default {
       }
       return ret;
     },
-    gentodaydata(id){
+    gentodaydata(no){
+      alert(no);
       this.todayDataVisible = true;
       this.$nextTick(() => {
         // this.$refs.data.dataForm.smsCode = row.smsCode
-        this.$refs.todayData.init(id);
+        // this.$refs.todayData.init(no);
       })
     }
   }
