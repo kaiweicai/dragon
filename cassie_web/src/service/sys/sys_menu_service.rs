@@ -121,6 +121,23 @@ pub async fn get_user_menu_list(
             create_date: None,
             update_date: None,
         },
+        SysMenu {
+            id: Some(3),
+            pid: Some(1),
+            url: Some("/dragondata/list".to_string()),
+            name: Some("添加接龙".to_string()),
+            menu_type: Some(0),
+            icon: None,
+            permissions: Some("".to_string()),
+            sort: Some(1),
+            del_flag: Some(0),
+            creator: Some(1),
+            updater: Some(1),
+            method: Some("".to_string()),
+            path: None,
+            create_date: None,
+            update_date: None,
+        },
     ]);
 
     let sys_menu_service = APPLICATION_CONTEXT.get::<SysMenuService>();

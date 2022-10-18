@@ -61,12 +61,20 @@ pub async fn get_dragon_data_by_create_date(Path(create_date):Path<String>) -> i
     let dradon_list = dragon_data_service::list(create_date).await;
     return RespVO::from_result(&dradon_list).resp_json();
 }
+///获取dragondata 列表
+pub async fn get_dragon_data_by_today() -> impl IntoResponse{
+    let today = Local::now();
+    let create_date = format!("{}-{:02}-{:02}",today.year(),today.month(),today.day());
+    let dradon_list = dragon_data_service::list(create_date).await;
+    return RespVO::from_result(&dradon_list).resp_json();
+}
 
 
 pub fn init_router() -> Router {
     Router::new()
         .route("/dragon/list", get(list))
         .route("/dragondata/list/:create_date", get(get_dragon_data_by_create_date))
+        .route("/dragondata/list", get(get_dragon_data_by_today))
         .route("/dragon", post(insert))
         .route("/dragon/:id", delete(del))
         .route("/dragon/todaydata/:id", get(gen_today_dragon_data))
