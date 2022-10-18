@@ -9,7 +9,7 @@ use cassie_domain::{
 use rbatis::rbatis::Rbatis;
 
 ///查询接龙列表
-pub async fn list(create_date: String) -> Result<Vec<DragonDataDTO>> {
+pub async fn list(create_date: &str) -> Result<Vec<DragonDataDTO>> {
     let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
     let dragon_data_list =
         DragonData::select_by_column(&mut rb, "create_date", create_date).await?;

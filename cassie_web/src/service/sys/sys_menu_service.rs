@@ -125,7 +125,7 @@ pub async fn get_user_menu_list(
             id: Some(3),
             pid: Some(1),
             url: Some("/dragondata/list".to_string()),
-            name: Some("添加接龙".to_string()),
+            name: Some("接龙当日数据".to_string()),
             menu_type: Some(0),
             icon: None,
             permissions: Some("".to_string()),

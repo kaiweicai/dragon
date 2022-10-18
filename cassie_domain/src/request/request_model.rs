@@ -17,6 +17,22 @@ pub struct SysUserQuery {
     order: Option<String>,
     order_field: Option<String>,
 }
+
+/**
+*struct:SysDragonDataQuery
+*desc:接龙列表查询参数
+*author:String
+*email:348040933
+*/
+#[derive(Serialize, Deserialize, Clone, Debug, Getters, Setters)]
+#[getset(get = "pub", set = "pub")]
+pub struct SysDragonDataQuery {
+    create_date: Option<String>,
+    page: Option<u64>,
+    limit: Option<u64>,
+    order: Option<String>,
+    order_field: Option<String>,
+}
 /**
 *struct:struct
 *desc:字典项查询参数
