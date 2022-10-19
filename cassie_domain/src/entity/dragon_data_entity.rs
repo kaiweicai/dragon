@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 //接龙
 #[derive(Clone, Debug, Serialize, Deserialize,Getters,Setters)]
 pub struct DragonData {
+    pub id:Option<u64>,
     pub no: u64,
     pub name: String,
     pub amount: u64,
@@ -13,6 +14,8 @@ pub struct DragonData {
 }
 
 crud!(DragonData {});
+
+impl_update!(DragonData{update_by_name(name:&str) => "`where id = 1`"});
 
 impl_field_name_method!(DragonData {
     no,
@@ -37,6 +40,7 @@ impl TryFrom<&str> for DragonData {
             .unwrap()
             .trim();
         let dragon = Self {
+            id:None,
             no: match data[0].strip_suffix(".").unwrap().parse() {
                 Ok(n) => n,
                 Err(e) => {

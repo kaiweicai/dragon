@@ -1,31 +1,31 @@
-use std::collections::{BTreeMap};
+use std::collections::BTreeMap;
 
 use crate::APPLICATION_CONTEXT;
 use cassie_common::error::Result;
-use cassie_domain::{
-    dto::{dragon_data_dto::DragonDataDTO},
-    entity::{dragon_data_entity::DragonData},
-};
+use cassie_domain::{dto::dragon_data_dto::DragonDataDTO, entity::dragon_data_entity::DragonData};
+use log::info;
 use rbatis::rbatis::Rbatis;
 
 ///查询接龙列表
 pub async fn list(create_date: &str) -> Result<Vec<DragonDataDTO>> {
     let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
-    let dragon_data_list =
-        DragonData::select_by_column(&mut rb, "create_date", create_date).await?;
-    Ok(dragon_data_list.iter().map(|d| d.clone().into()).collect())
+    let dragon_data_list:Vec<DragonDataDTO> =
+        DragonData::select_by_column(&mut rb, "create_date", create_date).await?.iter().map(|d| d.clone().into()).collect();
+    info!("list dragon_data_list: {:?}", dragon_data_list.get(0));
+    Ok(dragon_data_list)
 }
 
-// //保存用户
-// pub async fn save(&self, dragon: DragonOriginDTO) {
-//     let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
-//     DragonService::save_today_dragon_data(
-//         dragon.content().clone(),
-//         dragon.create_date().clone(),
-//     )
-//     .await;
-//     DragonOrigin::insert(&mut rb, &dragon.into()).await;
-// }
+//保存用户
+pub async fn save_or_update_dragon_data(dragon: DragonDataDTO) -> Result<()> {
+    let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
+    let entity: DragonData = dragon.into();
+    if let Some(id) = entity.id {
+        DragonData::update_by_column(&mut rb, &entity, "id").await?;
+    } else {
+        DragonData::insert(&mut rb, &entity).await?;
+    }
+    Ok(())
+}
 // //删除
 // pub async fn del(&self, id: String) {
 //     let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();

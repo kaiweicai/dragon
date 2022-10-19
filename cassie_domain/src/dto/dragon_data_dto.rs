@@ -8,6 +8,7 @@ use validator_derive::Validate;
 #[serde(rename_all = "camelCase")]
 #[getset(get = "pub", set = "pub")]
 pub struct DragonDataDTO {
+    pub id:Option<u64>,
     pub no: u64,
     pub name: String,
     pub amount: u64,
@@ -25,17 +26,20 @@ pub struct DragonDataVecDTO {
 impl From<DragonData> for DragonDataDTO {
     fn from(dragon_data: DragonData) -> Self {
         Self {
+            id:dragon_data.id,
             no: dragon_data.no,
             name: dragon_data.name,
             amount: dragon_data.amount,
             prior: match dragon_data.prior {
                 Some(0) => Some(false),
+                // Some(1) => Some(true),
                 None => Some(false),
                 _ => Some(true),
             },
             disable: match dragon_data.disable {
                 Some(0) => Some(false),
                 None => Some(false),
+                Some(1)=>Some(true),
                 _ => Some(true),
             },
             create_date: dragon_data.create_date,
@@ -46,6 +50,7 @@ impl From<DragonData> for DragonDataDTO {
 impl Into<DragonData> for DragonDataDTO {
     fn into(self) -> DragonData {
         DragonData {
+            id:self.id,
             no: self.no,
             name: self.name,
             amount: self.amount,
