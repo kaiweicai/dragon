@@ -26,6 +26,8 @@ pub mod initialize;
 pub mod interceptor;
 pub mod observe;
 pub mod ws;
+//获取商户信息模块
+pub mod merchant_req;
 
 use std::collections::HashMap;
 use std::time::Duration;

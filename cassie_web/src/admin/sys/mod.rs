@@ -11,3 +11,4 @@ pub mod sys_role_resource;
 pub mod sys_upload_resource;
 pub mod sys_user_resource;
 pub mod sys_dragon_resource;
+pub mod sys_merchant_resources;

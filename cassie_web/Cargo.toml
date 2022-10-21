@@ -26,7 +26,7 @@ redis = { version = "0.21.5", features = ["tokio"] }
 #captcha 图片验证码
 captcha = "0.0.8"
 #http client,use rust-tls replace to native tls
-reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls","blocking"] }
+reqwest = { version = "0.11.12", default-features = false, features = ["json", "rustls-tls","blocking"] }
 #async trait
 async-trait = "0.1"
 #map
@@ -78,6 +78,6 @@ v8="0.53.1"
 #ws
 futures-channel = "0.3.21"
 futures-util = { version = "0.3", default-features = false, features = ["sink", "std"] }
-tokio-tungstenite = "*"
+tokio-tungstenite = "0.17.2"
 
 base64="0.13.0"
