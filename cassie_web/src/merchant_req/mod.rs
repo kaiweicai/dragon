@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::APPLICATION_CONTEXT;
 use cassie_domain::dto::merchant_dto::{MerchantResult, TokenDTO, LoginResponse, Plan, PlanData};
 use log::info;
-use percent_encoding::{utf8_percent_encode, AsciiSet, CONTROLS};
+
 use serde_json;
 
 static LOGIN_API_URL: &'static str = "http://mxhy9app.iaie83.com/api/account/Loginpwd";

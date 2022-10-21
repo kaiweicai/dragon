@@ -38,7 +38,7 @@ use crate::initialize::database::init_database;
 use crate::initialize::event::init_event_bus;
 // use crate::initialize::rules::init_rules;
 use crate::initialize::service::init_service;
-use crate::interceptor::interceptor::AgencyInterceptor;
+
 
 
 // use crate::{cici_casbin::casbin_service::CasbinService, config::log::init_log};
