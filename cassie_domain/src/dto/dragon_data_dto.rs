@@ -15,6 +15,7 @@ pub struct DragonDataDTO {
     pub prior: Option<bool>,
     pub disable: Option<bool>,
     pub create_date: Option<String>,
+    pub left_amount:Option<u64>
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -43,6 +44,7 @@ impl From<DragonData> for DragonDataDTO {
                 _ => Some(true),
             },
             create_date: dragon_data.create_date,
+            left_amount:None,
         }
     }
 }

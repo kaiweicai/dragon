@@ -81,3 +81,4 @@ futures-util = { version = "0.3", default-features = false, features = ["sink", 
 tokio-tungstenite = "0.17.2"
 
 base64="0.13.0"
+tokio-test = "*"
