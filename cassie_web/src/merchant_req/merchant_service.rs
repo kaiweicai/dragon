@@ -14,9 +14,9 @@ use log::info;
 
 use serde_json;
 
-static LOGIN_API_URL: &'static str = "http://mxhy9app.iaie83.com/api/account/Loginpwd";
+static LOGIN_API_URL: &'static str = "http://mxbhnty13app.miaoxiu993.com/api/account/Loginpwd";
 
-static ORDER_URL: &'static str = "http://mxhy9app.iaie83.com/api/own/GetUserPlan";
+static ORDER_URL: &'static str = "http://mxbhnty13app.miaoxiu993.com/api/own/GetUserPlan";
 //拿到token数据
 pub async fn login(login_dto: HashMap<String, String>) {
     let login_api_url = LOGIN_API_URL.to_string();
@@ -41,7 +41,7 @@ pub async fn login(login_dto: HashMap<String, String>) {
     }
 }
 
-pub async fn query_order() -> Result<MerchantResult<PlanData<Plan>>> {
+pub async fn query_system_order() -> Result<MerchantResult<PlanData<Plan>>> {
     let page_index = 1u64;
     let today = Local::now();
     let search_date = date_utils::today_date_str(&today);
@@ -110,6 +110,18 @@ async fn query_order_by_page(
     }
 }
 
+///开始匹配当日订单。
+pub async fn match_today_order()-> Result<Vec<(Plan, DragonDataDTO)>>{
+    //加载今日用户下单数据
+    let today = Local::now();
+    let dragon_date = date_utils::today_dragon_str(&today);
+    let mut dragon_today_order_list:Vec<DragonDataDTO> =  dragon_data_service::list(&dragon_date).await?;
+    info!("dragon_today_order_list is {:#?}",dragon_today_order_list);
+    let mut system_order_list:Vec<Plan> = query_system_order().await?.data.plan_list;
+    info!("system_order_list is {:#?}",system_order_list);
+    return match_order(&mut dragon_today_order_list,&mut system_order_list).await;
+}
+
 /// 开始配单
 /// 加载今日用户下单数据,加载系统订单数据
 /// 计算当日下单数据金额总和，计算订单金额总和，保证订单金额总和大于用户下单。
@@ -121,14 +133,13 @@ pub async fn match_order(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) -> Result<Vec<(Plan, DragonDataDTO)>> {
-    //加载今日用户下单数据
-    let today = Local::now();
-    let dragon_date = date_utils::today_dragon_str(&today);
-    // let mut dragon_order_list:Vec<DragonDataDTO> =  dragon_data_service::list(&dragon_date).await?;
+    
     let dragon_amount_sum: u64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
+    info!("dragon_amount_sum is:{}", dragon_amount_sum);
     //加载系统订单数据
     // let mut system_order_list:Vec<Plan> = query_order().await?.data.plan_list;
     let order_amount_sum: u64 = (&system_order_list).iter().map(|p| p.plan_price).sum();
+    info!("order_amount_sum is:{}", order_amount_sum);
     if order_amount_sum > dragon_amount_sum {
         return Err(Error::from("user order not enough amount"));
     }
@@ -136,7 +147,8 @@ pub async fn match_order(
     // dragon_order_list.sort_by(|a,b|b.amount.cmp(&a.amount));
     // system_order_list.sort_by(|a,b|b.plan_price.cmp(&a.plan_price));
     sort_orders(dragon_order_list, system_order_list);
-
+    // info!("system_order_list is:{:?}", system_order_list);
+    // info!("dragon_order_list is:{:?}", dragon_order_list);
     //如果系统订单数量小于用户订单数量，则需要拆分系统订单
     if system_order_list.len() < dragon_order_list.len() {
         // 9850    10000
@@ -154,7 +166,7 @@ pub async fn match_order(
         //开始系统拆单。
         //计算多出来的订单。
         let more_order_amount = dragon_order_list.len() - system_order_list.len();
-        for i in 0..more_order_amount {
+        for _ in 0..more_order_amount {
             let system_order = system_order_list.get(0).unwrap();
             let mut split_orders = system_order.split();
             system_order_list.append(&mut split_orders);
@@ -165,9 +177,15 @@ pub async fn match_order(
             system_order_list.len() == system_order_list.len(),
             "系统订单不匹配"
         );
-        // 重新排序。
-        check_amount_bt_plan_price(dragon_order_list, system_order_list);
     }
+
+    // 8467    10000
+    // 5232    5000
+    // 4925    5000
+    // 4925    5000
+    // 2341    5000
+    // 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。
+    check_amount_bt_plan_price(dragon_order_list, system_order_list);
 
     // 如果用户订单数量大于系统订单数量。
     // if system_order_list.len() < dragon_order_list.len() {
@@ -189,11 +207,14 @@ pub async fn match_order(
     //3 4234   5000
     //4 4234   5000
     //5 2341
-    let mut merge_dragon_order = dragon_order_list.clone();
+    // let mut merge_dragon_order = dragon_order_list.clone();
+    info!("start merge_dragon_order");
     let mut merge_list: Vec<(Plan, DragonDataDTO)> = system_order_list
         .iter()
-        .zip(merge_dragon_order.iter_mut())
+        .zip(dragon_order_list.iter_mut())
         .map(|(u, d)| {
+            info!("d is:{:#?}", d);
+            info!("u is:{:#?}", u);
             d.left_amount = Some(d.amount - u.plan_price);
             (u.clone(), d.clone())
         })
@@ -203,17 +224,15 @@ pub async fn match_order(
     //判断是否有多余的订单。
     if system_order_list.len() > merge_list.len() {
         //获取所有的优先订单.
-        // let mut prior_dragon_list: Vec<&DragonDataDTO> = dragon_order_list
-        //     .iter()
-        //     .filter(|dragon| dragon.prior.is_some())
-        //     .collect();
         // 优先订单排序
         dragon_order_list.sort_by(|a, b| b.left_amount.cmp(&a.left_amount));
         // 将未分配的订单分配给优先订单。
         let not_match_order_size = system_order_list.len() - merge_list.len();
-        for i in not_match_order_size..0 {
+        println!("not_match_order_size is:{:?}",not_match_order_size);
+        for i in 0..not_match_order_size {
+            println!("i is:{:?}",i);
             let len_of_system_order_list = system_order_list.len();
-            let not_match_order = system_order_list.get(len_of_system_order_list - i).unwrap();
+            let not_match_order = system_order_list.get(len_of_system_order_list - (not_match_order_size-i)).unwrap();
             //分配未匹配的订单。先找出所有剩余数量大于待分配量的订单，再找出有优先级的且剩余数量最大的订单，如果没有这样的订单则找到优先级最大的订单即可。
             let my_match_dragon_order;
             if let Some(match_dragon_order) = dragon_order_list
@@ -223,7 +242,7 @@ pub async fn match_order(
                 my_match_dragon_order = match_dragon_order;
             } else if let Some(match_dragon_order) = dragon_order_list
                 .iter()
-                .find(|d| d.prior.is_some() && d.left_amount.unwrap() >= not_match_order.plan_price)
+                .find(|d| d.left_amount.unwrap() >= not_match_order.plan_price)
             {
                 my_match_dragon_order = match_dragon_order;
             } else {
@@ -250,11 +269,13 @@ fn check_amount_bt_plan_price(
     // 重新排序。
     sort_orders(dragon_order_list, system_order_list);
     //并检查订单金额是否符合要求
-    if let Some(_) = system_order_list
+    if let Some(match_order) = system_order_list
         .iter()
         .zip(dragon_order_list.iter())
         .find(|(p, d)| p.plan_price > d.amount)
     {
+        // info!("match_order is: {:?},buyer name is:{:?}", match_order.0.plan_price,match_order.0.buyer_name);
+        // info!("system_order_list.len() is: {:?}", system_order_list.len());
         //需要继续拆单。
         let system_order = system_order_list.get(0).unwrap();
         let mut split_orders = system_order.split();
@@ -273,8 +294,9 @@ fn sort_orders(dragon_order_list: &mut Vec<DragonDataDTO>, system_order_list: &m
 #[cfg(test)]
 mod tests {
     use cassie_domain::dto::{dragon_data_dto::DragonDataDTO, merchant_dto::Plan};
+    use log::info;
 
-    use crate::merchant_req::merchant_service::check_amount_bt_plan_price;
+    use crate::merchant_req::merchant_service::{check_amount_bt_plan_price, match_today_order};
 
     use super::{sort_orders, match_order};
 
@@ -284,6 +306,12 @@ mod tests {
         tokio_test::block_on($e)
     };
   }
+
+//   #[test]
+//   fn test_match_today_order(){
+//     let result = aw!(match_today_order());
+//     info!("result: {:?}", result);
+//   }
 
     // 9850    10000
     // 8468    5000
@@ -332,7 +360,7 @@ mod tests {
 
     // 8467    10000
     // 5232    5000
-    // 4925    5000
+    // 5125    5000
     // 4925    5000
     // 2341    5000
     #[test]
@@ -365,7 +393,7 @@ mod tests {
         let mut p5 = Plan::default();
         p1.plan_price = 8467;
         p2.plan_price = 5232;
-        p3.plan_price = 4925;
+        p3.plan_price = 5125;
         p4.plan_price = 4925;
         p5.plan_price = 2341;
         system_order_list.push(p1);

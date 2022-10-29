@@ -25,7 +25,7 @@ pub async fn merchant_login(Json(merchant_login_dto): Json<MerchantLoginDTO>) ->
 }
 
 pub async fn query_order() -> impl IntoResponse {
-    let result = merchant_service::query_order().await;
+    let result = merchant_service::query_system_order().await;
     return RespVO::from_result(&result).resp_json();
 }
 

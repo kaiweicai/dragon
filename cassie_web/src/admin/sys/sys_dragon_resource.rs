@@ -1,3 +1,4 @@
+use crate::merchant_req::merchant_service;
 use crate::service::dragon_data_service;
 use crate::service::dragon_origin_service::DragonService;
 // use crate::service::cache_service::CacheService;
@@ -11,7 +12,7 @@ use cassie_common::error::Error;
 use cassie_common::RespVO;
 use cassie_domain::dto::dragon_data_dto::DragonDataDTO;
 use cassie_domain::dto::dragon_dto::DragonOriginDTO;
-use cassie_domain::request::{SysDragonDataQuery};
+use cassie_domain::request::SysDragonDataQuery;
 use chrono::{Datelike, Local};
 use log::info;
 use validator::Validate;
@@ -84,7 +85,7 @@ pub async fn get_dragon_data_by_today(arg: Option<Query<SysDragonDataQuery>>) ->
 }
 
 /// method put:/dragondata
-pub async fn update_dragon_data(Json(arg):Json<DragonDataDTO>)-> impl IntoResponse{
+pub async fn update_dragon_data(Json(arg): Json<DragonDataDTO>) -> impl IntoResponse {
     let dragon_data = arg;
     if let Err(e) = dragon_data.validate() {
         return RespVO::<()>::from_error(&Error::E(e.to_string())).resp_json();
@@ -94,13 +95,23 @@ pub async fn update_dragon_data(Json(arg):Json<DragonDataDTO>)-> impl IntoRespon
     return RespVO::from_result(&save_result).resp_json();
 }
 
+/// method put:/dragondata
+pub async fn get_match_today_order() -> impl IntoResponse {
+    let result = merchant_service::match_today_order().await;
+    return RespVO::from_result(&result).resp_json();
+}
+
 pub fn init_router() -> Router {
     Router::new()
         .route("/dragon/list", get(list))
         // .route("/dragondata/list/:create_date", get(get_dragon_data_by_create_date))
         .route("/dragondata/list", get(get_dragon_data_by_today))
-        .route("/dragondata", post(update_dragon_data).put(update_dragon_data))
+        .route(
+            "/dragondata",
+            post(update_dragon_data).put(update_dragon_data),
+        )
         .route("/dragon", post(insert))
         .route("/dragon/:id", delete(del))
         .route("/dragon/todaydata/:id", get(gen_today_dragon_data))
+        .route("/dragon/match_today", get(get_match_today_order))
 }
