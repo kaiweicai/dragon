@@ -9,8 +9,13 @@ use rbatis::rbatis::Rbatis;
 ///查询接龙列表
 pub async fn list(create_date: &str) -> Result<Vec<DragonDataDTO>> {
     let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
-    let dragon_data_list:Vec<DragonDataDTO> =
-        DragonData::select_by_column(&mut rb, "create_date", create_date).await?.iter().map(|d| d.clone().into()).collect();
+    let dragon_data_list: Vec<DragonDataDTO> =
+        DragonData::select_by_column(&mut rb, "create_date", create_date)
+            .await?
+            .iter()
+            .filter(|item| item.amount != 0)
+            .map(|d| d.clone().into())
+            .collect();
     info!("list dragon_data_list: {:?}", dragon_data_list.get(0));
     Ok(dragon_data_list)
 }

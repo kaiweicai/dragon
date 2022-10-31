@@ -41,10 +41,18 @@ pub async fn login(login_dto: HashMap<String, String>) {
     }
 }
 
-pub async fn query_system_order() -> Result<MerchantResult<PlanData<Plan>>> {
+// search_date 10-21-2022
+pub async fn query_system_order(search_date:String) -> Result<MerchantResult<PlanData<Plan>>> {
     let page_index = 1u64;
-    let today = Local::now();
-    let search_date = date_utils::today_date_str(&today);
+
+    
+    let search_date = if search_date.is_empty(){
+        let today = Local::now();
+        date_utils::today_date_str(&today)
+    }else{
+        search_date
+    };
+    
 
     let mut merchant_result = query_order_by_page(page_index, &search_date).await?;
 
@@ -111,15 +119,17 @@ async fn query_order_by_page(
 }
 
 ///开始匹配当日订单。
-pub async fn match_today_order()-> Result<Vec<(Plan, DragonDataDTO)>>{
+pub async fn match_today_order(search_date:String) -> Result<Vec<(Plan, DragonDataDTO)>> {
     //加载今日用户下单数据
     let today = Local::now();
     let dragon_date = date_utils::today_dragon_str(&today);
-    let mut dragon_today_order_list:Vec<DragonDataDTO> =  dragon_data_service::list(&dragon_date).await?;
-    info!("dragon_today_order_list is {:#?}",dragon_today_order_list);
-    let mut system_order_list:Vec<Plan> = query_system_order().await?.data.plan_list;
-    info!("system_order_list is {:#?}",system_order_list);
-    return match_order(&mut dragon_today_order_list,&mut system_order_list).await;
+    let mut dragon_today_order_list: Vec<DragonDataDTO> =
+        dragon_data_service::list(&dragon_date).await?;
+    info!("dragon_today_order_list.len() is {:#?}", dragon_today_order_list.len());
+    let mut system_order_list: Vec<Plan> = query_system_order(search_date).await?.data.plan_list;
+    
+    info!("system_order_list.len() is {:#?}", system_order_list.len());
+    return match_order(&mut dragon_today_order_list, &mut system_order_list).await;
 }
 
 /// 开始配单
@@ -133,7 +143,6 @@ pub async fn match_order(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) -> Result<Vec<(Plan, DragonDataDTO)>> {
-    
     let dragon_amount_sum: u64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
     info!("dragon_amount_sum is:{}", dragon_amount_sum);
     //加载系统订单数据
@@ -184,6 +193,13 @@ pub async fn match_order(
     // 4925    5000
     // 4925    5000
     // 2341    5000
+    for s in system_order_list.iter(){
+        println!("{:?}",s.plan_price);
+    }
+    println!("------------");
+    for d in dragon_order_list.iter(){
+        println!("{:?}",d.amount);
+    }
     // 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。
     check_amount_bt_plan_price(dragon_order_list, system_order_list);
 
@@ -228,11 +244,13 @@ pub async fn match_order(
         dragon_order_list.sort_by(|a, b| b.left_amount.cmp(&a.left_amount));
         // 将未分配的订单分配给优先订单。
         let not_match_order_size = system_order_list.len() - merge_list.len();
-        println!("not_match_order_size is:{:?}",not_match_order_size);
+        println!("not_match_order_size is:{:?}", not_match_order_size);
         for i in 0..not_match_order_size {
-            println!("i is:{:?}",i);
+            println!("i is:{:?}", i);
             let len_of_system_order_list = system_order_list.len();
-            let not_match_order = system_order_list.get(len_of_system_order_list - (not_match_order_size-i)).unwrap();
+            let not_match_order = system_order_list
+                .get(len_of_system_order_list - (not_match_order_size - i))
+                .unwrap();
             //分配未匹配的订单。先找出所有剩余数量大于待分配量的订单，再找出有优先级的且剩余数量最大的订单，如果没有这样的订单则找到优先级最大的订单即可。
             let my_match_dragon_order;
             if let Some(match_dragon_order) = dragon_order_list
@@ -268,20 +286,30 @@ fn check_amount_bt_plan_price(
 ) {
     // 重新排序。
     sort_orders(dragon_order_list, system_order_list);
+    let mut over_system_order_id = 0;
     //并检查订单金额是否符合要求
-    if let Some(match_order) = system_order_list
-        .iter()
-        .zip(dragon_order_list.iter())
-        .find(|(p, d)| p.plan_price > d.amount)
+    if let Some((system_order_index, plan_order)) =
+        system_order_list
+            .iter_mut()
+            .enumerate()
+            .find(|(index, system_order)| {
+                dragon_order_list.get(*index).is_some()
+                    && system_order.plan_price > dragon_order_list.get(*index).unwrap().amount
+            })
     {
         // info!("match_order is: {:?},buyer name is:{:?}", match_order.0.plan_price,match_order.0.buyer_name);
         // info!("system_order_list.len() is: {:?}", system_order_list.len());
         //需要继续拆单。
-        let system_order = system_order_list.get(0).unwrap();
-        let mut split_orders = system_order.split();
+        // let system_order = plan_order;
+        // let remove_order = system_order_list.remove(match_order.0);
+        let mut split_orders = plan_order.split();
         system_order_list.append(&mut split_orders);
-        system_order_list.remove(0);
+        over_system_order_id = system_order_index;
+        // system_order_list.drain_filter(|s| s.planid == system_order.planid);
         // 递归调用 重新检查是否仍有amount 大于plan的数据
+    }
+    if over_system_order_id > 0 {
+        system_order_list.remove(over_system_order_id);
         check_amount_bt_plan_price(dragon_order_list, system_order_list);
     }
 }
@@ -294,30 +322,36 @@ fn sort_orders(dragon_order_list: &mut Vec<DragonDataDTO>, system_order_list: &m
 #[cfg(test)]
 mod tests {
     use cassie_domain::dto::{dragon_data_dto::DragonDataDTO, merchant_dto::Plan};
-    use log::info;
 
-    use crate::merchant_req::merchant_service::{check_amount_bt_plan_price, match_today_order};
+    use crate::merchant_req::merchant_service::{check_amount_bt_plan_price};
 
-    use super::{sort_orders, match_order};
+    use super::{match_order, sort_orders};
 
+    macro_rules! aw {
+        ($e:expr) => {
+            tokio_test::block_on($e)
+        };
+    }
 
-  macro_rules! aw {
-    ($e:expr) => {
-        tokio_test::block_on($e)
-    };
-  }
+    //   #[test]
+    //   fn test_match_today_order(){
+    //     let result = aw!(match_today_order());
+    //     info!("result: {:?}", result);
+    //   }
 
-//   #[test]
-//   fn test_match_today_order(){
-//     let result = aw!(match_today_order());
-//     info!("result: {:?}", result);
-//   }
+    // 9850     10000
+    // 8468     5000
+    // 5232     5000
+    // 2341     5000
+    //          5000
+    //          2000
+    //          2000
 
-    // 9850    10000
-    // 8468    5000
-    // 5232    5000
-    // 2341    5000
-    //         5000
+    //0 8468   10000
+    //1 4925   5000
+    //2 4925   5000
+    //3 5232   5000
+    //4 2341   5000
     #[test]
     fn test_match_order() {
         let mut dragon_order_list: Vec<DragonDataDTO> = Default::default();
@@ -354,8 +388,8 @@ mod tests {
         system_order_list.push(p2);
         system_order_list.push(p3);
         system_order_list.push(p4);
-        let result = aw!(match_order(&mut dragon_order_list,&mut system_order_list));
-        println!("result is {:#?}",result);
+        let result = aw!(match_order(&mut dragon_order_list, &mut system_order_list));
+        println!("result is {:#?}", result);
     }
 
     // 8467    10000

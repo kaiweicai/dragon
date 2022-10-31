@@ -17,6 +17,8 @@ use chrono::{Datelike, Local};
 use log::info;
 use validator::Validate;
 
+use super::sys_user_resource::info;
+
 /// 用户登录接口。
 pub async fn insert(Json(mut dragon): Json<DragonOriginDTO>) -> impl IntoResponse {
     let dragon_service = APPLICATION_CONTEXT.get::<DragonService>();
@@ -96,8 +98,9 @@ pub async fn update_dragon_data(Json(arg): Json<DragonDataDTO>) -> impl IntoResp
 }
 
 /// method put:/dragondata
-pub async fn get_match_today_order() -> impl IntoResponse {
-    let result = merchant_service::match_today_order().await;
+pub async fn get_match_today_order(Path(search_date):Path<String>) -> impl IntoResponse {
+    info!("start match today order!");
+    let result = merchant_service::match_today_order(search_date).await;
     return RespVO::from_result(&result).resp_json();
 }
 
@@ -113,5 +116,5 @@ pub fn init_router() -> Router {
         .route("/dragon", post(insert))
         .route("/dragon/:id", delete(del))
         .route("/dragon/todaydata/:id", get(gen_today_dragon_data))
-        .route("/dragon/match_today", get(get_match_today_order))
+        .route("/dragon/match_order/:search_date", get(get_match_today_order))
 }

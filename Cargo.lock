@@ -871,6 +871,7 @@ dependencies = [
  "cassie_common",
  "getset",
  "jsonwebtoken",
+ "log",
  "rbatis",
  "rbs",
  "rbson",

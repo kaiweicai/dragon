@@ -1,3 +1,4 @@
+use log::info;
 use serde::{Deserialize, Serialize, de::Error};
 
 use validator_derive::Validate;
@@ -70,6 +71,7 @@ where
 impl Plan {
     //把一份订单拆分成两个订单。
     pub fn split(&self) -> Vec<Self> {
+        info!("被拆的订单号为:{:?}",self.planid);
         let mut p1 = self.clone();
         p1.origin_plan_code = self.plan_code.clone();
         p1.plan_price = self.plan_price / 2;

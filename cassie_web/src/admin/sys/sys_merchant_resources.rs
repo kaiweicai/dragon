@@ -6,6 +6,7 @@ use crate::merchant_req::merchant_service;
 // use crate::service::cache_service::CacheService;
 
 
+use axum::extract::Path;
 use axum::response::IntoResponse;
 use axum::routing::{get, post};
 use axum::{Json, Router};
@@ -24,13 +25,14 @@ pub async fn merchant_login(Json(merchant_login_dto): Json<MerchantLoginDTO>) ->
     return RespVO::from(&"保存接龙数据成功".to_string()).resp_json();
 }
 
-pub async fn query_order() -> impl IntoResponse {
-    let result = merchant_service::query_system_order().await;
+// 10-21-2022
+pub async fn query_order(Path(search_date): Path<String>) -> impl IntoResponse {
+    let result = merchant_service::query_system_order(search_date).await;
     return RespVO::from_result(&result).resp_json();
 }
 
 pub fn init_router() -> Router {
     Router::new()
     .route("/merchant/login", post(merchant_login))
-    .route("/merchant/query_order", get(query_order))
+    .route("/merchant/query_order/:search_date", get(query_order))
 }
