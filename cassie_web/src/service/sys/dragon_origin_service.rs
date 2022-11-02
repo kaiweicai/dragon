@@ -53,7 +53,7 @@ impl DragonService {
     pub async fn gen_today_dragon_data(id: String) -> Result<Vec<DragonDataVecDTO>> {
         let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
         let drogon_origin_today = DragonOrigin::select_by_column(&mut rb, "id", id).await?;
-        let mut invest_map = BTreeMap::<u64, Vec<DragonData>>::new();
+        let mut invest_map = BTreeMap::<i64, Vec<DragonData>>::new();
         let dragons = drogon_origin_today
             .get(0)
             .unwrap()
@@ -70,7 +70,7 @@ impl DragonService {
         let dto_vec: Vec<DragonDataVecDTO> = invest_map
             .iter()
             .map(|entry| DragonDataVecDTO {
-                amount: *entry.0,
+                amount: (*entry.0) as u64,
                 dragonDataVec: entry.1.clone(),
             })
             .collect();

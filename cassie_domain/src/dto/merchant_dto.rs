@@ -42,7 +42,7 @@ pub struct Plan {
     pub gsc_name: String,
     pub gsc_img: String,
     #[serde(deserialize_with = "de_u64_from_str")]
-    pub plan_price: u64,
+    pub plan_price: i64,
     pub trade_price: Option<u64>,
     pub seller_id: u64,
     pub seller_name: String,
@@ -60,12 +60,12 @@ pub struct Plan {
     pub origin_plan_code: Option<String>, //拆单后原始的订单plan_code
 }
 
-fn de_u64_from_str<'de, D>(deserializer: D) -> Result<u64, D::Error>
+fn de_u64_from_str<'de, D>(deserializer: D) -> Result<i64, D::Error>
 where
     D: serde::de::Deserializer<'de>,
 {
     let s:String = String::deserialize(deserializer)?;
-    s.parse::<u64>().map_err(Error::custom)
+    s.parse::<i64>().map_err(Error::custom)
 }
 
 impl Plan {

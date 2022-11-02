@@ -7,7 +7,7 @@ pub struct DragonData {
     pub id:Option<u64>,
     pub no: u64,
     pub name: String,
-    pub amount: u64,
+    pub amount: i64,
     pub prior: Option<u8>,
     pub disable:Option<u8>,
     pub create_date:Option<String>,

@@ -41,7 +41,7 @@ pub async fn save_or_update_dragon_data(dragon: DragonDataDTO) -> Result<()> {
 pub async fn save_today_dragon_data(content: String, create_date: Option<String>) {
     let mut rb = APPLICATION_CONTEXT.get::<Rbatis>();
     let dragons = content.split('\n').collect::<Vec<&str>>();
-    let mut invest_map = BTreeMap::<u64, Vec<DragonData>>::new();
+    let mut invest_map = BTreeMap::<i64, Vec<DragonData>>::new();
     for line in dragons.iter() {
         let dragon_data: DragonData = (*line).try_into().unwrap();
 

@@ -42,17 +42,15 @@ pub async fn login(login_dto: HashMap<String, String>) {
 }
 
 // search_date 10-21-2022
-pub async fn query_system_order(search_date:String) -> Result<MerchantResult<PlanData<Plan>>> {
+pub async fn query_system_order(search_date: String) -> Result<MerchantResult<PlanData<Plan>>> {
     let page_index = 1u64;
 
-    
-    let search_date = if search_date.is_empty(){
+    let search_date = if search_date.is_empty() {
         let today = Local::now();
         date_utils::today_date_str(&today)
-    }else{
+    } else {
         search_date
     };
-    
 
     let mut merchant_result = query_order_by_page(page_index, &search_date).await?;
 
@@ -119,15 +117,18 @@ async fn query_order_by_page(
 }
 
 ///开始匹配当日订单。
-pub async fn match_today_order(search_date:String) -> Result<Vec<(Plan, DragonDataDTO)>> {
+pub async fn match_today_order(search_date: String) -> Result<Vec<(Plan, DragonDataDTO)>> {
     //加载今日用户下单数据
     let today = Local::now();
     let dragon_date = date_utils::today_dragon_str(&today);
     let mut dragon_today_order_list: Vec<DragonDataDTO> =
         dragon_data_service::list(&dragon_date).await?;
-    info!("dragon_today_order_list.len() is {:#?}", dragon_today_order_list.len());
+    info!(
+        "dragon_today_order_list.len() is {:#?}",
+        dragon_today_order_list.len()
+    );
     let mut system_order_list: Vec<Plan> = query_system_order(search_date).await?.data.plan_list;
-    
+
     info!("system_order_list.len() is {:#?}", system_order_list.len());
     return match_order(&mut dragon_today_order_list, &mut system_order_list).await;
 }
@@ -143,11 +144,11 @@ pub async fn match_order(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) -> Result<Vec<(Plan, DragonDataDTO)>> {
-    let dragon_amount_sum: u64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
+    let dragon_amount_sum: i64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
     info!("dragon_amount_sum is:{}", dragon_amount_sum);
     //加载系统订单数据
     // let mut system_order_list:Vec<Plan> = query_order().await?.data.plan_list;
-    let order_amount_sum: u64 = (&system_order_list).iter().map(|p| p.plan_price).sum();
+    let order_amount_sum: i64 = (&system_order_list).iter().map(|p| p.plan_price).sum();
     info!("order_amount_sum is:{}", order_amount_sum);
     if order_amount_sum > dragon_amount_sum {
         return Err(Error::from("user order not enough amount"));
@@ -183,7 +184,7 @@ pub async fn match_order(
         }
         //确保订单是的数量一致。
         assert!(
-            system_order_list.len() == system_order_list.len(),
+            system_order_list.len() >= dragon_order_list.len(),
             "系统订单不匹配"
         );
     }
@@ -193,12 +194,12 @@ pub async fn match_order(
     // 4925    5000
     // 4925    5000
     // 2341    5000
-    for s in system_order_list.iter(){
-        println!("{:?}",s.plan_price);
+    for s in system_order_list.iter() {
+        println!("{:?}", s.plan_price);
     }
     println!("------------");
-    for d in dragon_order_list.iter(){
-        println!("{:?}",d.amount);
+    for d in dragon_order_list.iter() {
+        println!("{:?}", d.amount);
     }
     // 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。
     check_amount_bt_plan_price(dragon_order_list, system_order_list);
@@ -229,8 +230,6 @@ pub async fn match_order(
         .iter()
         .zip(dragon_order_list.iter_mut())
         .map(|(u, d)| {
-            info!("d is:{:#?}", d);
-            info!("u is:{:#?}", u);
             d.left_amount = Some(d.amount - u.plan_price);
             (u.clone(), d.clone())
         })
@@ -286,30 +285,70 @@ fn check_amount_bt_plan_price(
 ) {
     // 重新排序。
     sort_orders(dragon_order_list, system_order_list);
-    let mut over_system_order_id = 0;
     //并检查订单金额是否符合要求
-    if let Some((system_order_index, plan_order)) =
+
+    let (over_system_order_id, plan_order) = if let Some((system_order_index, plan_order)) =
         system_order_list
+            .iter()
+            .zip(dragon_order_list.iter_mut())
+            .map(|(u, d)| {
+                d.left_amount = Some(d.amount - u.plan_price);
+                d.clone()
+            })
+            .enumerate()
+            .find(|(i, d)| d.left_amount.unwrap() < 0)
+    {
+        (system_order_index, plan_order)
+    } else {
+        (0, DragonDataDTO::default())
+    };
+
+    if over_system_order_id > 0 {
+        //先找有没有left能够容纳的订单。
+        let dragon_over = if let Some((index, dragon)) = dragon_order_list
             .iter_mut()
             .enumerate()
-            .find(|(index, system_order)| {
-                dragon_order_list.get(*index).is_some()
-                    && system_order.plan_price > dragon_order_list.get(*index).unwrap().amount
+            .find(|(index, dragon_order)| dragon_order.left_amount.unwrap_or(0) > plan_order.amount)
+            .map(|(index, d)| {
+                d.set_amount(d.left_amount.unwrap());
+                (index, d)
             })
-    {
+        {
+            Some(dragon.clone())
+        }else{
+            None
+        };
+
+        if dragon_over.is_some(){
+            dragon_order_list.push(dragon_over.unwrap());
+            check_amount_bt_plan_price(dragon_order_list, system_order_list);
+        }
+    }
+
+    let over_system_order_id = if let Some((system_order_index, plan_order)) = system_order_list
+        .iter_mut()
+        .enumerate()
+        .find(|(index, system_order)| {
+            dragon_order_list.get(*index).is_some()
+                && system_order.plan_price > dragon_order_list.get(*index).unwrap().amount
+        }) {
         // info!("match_order is: {:?},buyer name is:{:?}", match_order.0.plan_price,match_order.0.buyer_name);
         // info!("system_order_list.len() is: {:?}", system_order_list.len());
         //需要继续拆单。
         // let system_order = plan_order;
         // let remove_order = system_order_list.remove(match_order.0);
-        let mut split_orders = plan_order.split();
-        system_order_list.append(&mut split_orders);
-        over_system_order_id = system_order_index;
+        // let mut split_orders = plan_order.split();
+        // system_order_list.append(&mut split_orders);
+        system_order_index
         // system_order_list.drain_filter(|s| s.planid == system_order.planid);
         // 递归调用 重新检查是否仍有amount 大于plan的数据
-    }
+    } else {
+        0
+    };
     if over_system_order_id > 0 {
-        system_order_list.remove(over_system_order_id);
+        let removed_order = system_order_list.remove(0);
+        let mut split_orders = removed_order.split();
+        system_order_list.append(&mut split_orders);
         check_amount_bt_plan_price(dragon_order_list, system_order_list);
     }
 }
@@ -323,7 +362,7 @@ fn sort_orders(dragon_order_list: &mut Vec<DragonDataDTO>, system_order_list: &m
 mod tests {
     use cassie_domain::dto::{dragon_data_dto::DragonDataDTO, merchant_dto::Plan};
 
-    use crate::merchant_req::merchant_service::{check_amount_bt_plan_price};
+    use crate::merchant_req::merchant_service::check_amount_bt_plan_price;
 
     use super::{match_order, sort_orders};
 
@@ -475,7 +514,7 @@ mod tests {
         dragon_order_list.push(d1);
         dragon_order_list.push(d2);
 
-        let dragon_amount_sum: u64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
+        let dragon_amount_sum: i64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
         println!("dragon_amount_sum is {:?}", dragon_amount_sum);
         //加载系统订单数据
         let mut system_order_list: Vec<Plan> = Default::default();
@@ -485,7 +524,7 @@ mod tests {
         p2.plan_price = 20;
         system_order_list.push(p1);
         system_order_list.push(p2);
-        let order_amount_sum: u64 = (&system_order_list).iter().map(|p| p.plan_price).sum();
+        let order_amount_sum: i64 = (&system_order_list).iter().map(|p| p.plan_price).sum();
         println!("order_amount_sum is {:?}", order_amount_sum);
     }
 
@@ -514,7 +553,7 @@ mod tests {
         dragon_order_list.push(d4);
         dragon_order_list.push(d5);
 
-        let dragon_amount_sum: u64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
+        let dragon_amount_sum: i64 = (&dragon_order_list).iter().map(|d| d.amount).sum();
         println!("dragon_amount_sum is {:?}", dragon_amount_sum);
         //加载系统订单数据
         let mut user_order_list: Vec<Plan> = Default::default();
@@ -536,7 +575,7 @@ mod tests {
         user_order_list.push(p4);
         user_order_list.push(p5);
         user_order_list.push(p6);
-        let order_amount_sum: u64 = (&user_order_list).iter().map(|p| p.plan_price).sum();
+        let order_amount_sum: i64 = (&user_order_list).iter().map(|p| p.plan_price).sum();
         println!("order_amount_sum is {:?}", order_amount_sum);
         println!("user_order_list is {:#?}", user_order_list);
         println!("dragon_order_list is {:#?}", dragon_order_list);

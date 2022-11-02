@@ -11,11 +11,11 @@ pub struct DragonDataDTO {
     pub id:Option<u64>,
     pub no: u64,
     pub name: String,
-    pub amount: u64,
+    pub amount: i64,
     pub prior: Option<bool>,
     pub disable: Option<bool>,
     pub create_date: Option<String>,
-    pub left_amount:Option<u64>
+    pub left_amount:Option<i64>
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
