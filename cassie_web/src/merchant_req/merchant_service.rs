@@ -286,7 +286,6 @@ fn check_amount_bt_plan_price(
     // 重新排序。
     sort_orders(dragon_order_list, system_order_list);
     //并检查订单金额是否符合要求
-
     let (over_system_order_id, plan_order) = if let Some((system_order_index, plan_order)) =
         system_order_list
             .iter()
@@ -312,19 +311,21 @@ fn check_amount_bt_plan_price(
             .map(|(index, d)| {
                 d.set_amount(d.left_amount.unwrap());
                 (index, d)
-            })
-        {
+            }) {
             Some(dragon.clone())
-        }else{
+        } else {
             None
         };
-
-        if dragon_over.is_some(){
-            dragon_order_list.push(dragon_over.unwrap());
+        // 如果有能够容纳的订单，则用户订单包容这个新订单。
+        if dragon_over.is_some() {
+            let mut dragon_over = dragon_over.unwrap();
+            dragon_over.match_plan_ids.push(over_system_order_id as u64);
+            dragon_order_list.push(dragon_over);
             check_amount_bt_plan_price(dragon_order_list, system_order_list);
         }
     }
 
+    //如果还有订单价格大于用户出价的，则拆分成两个小订单。
     let over_system_order_id = if let Some((system_order_index, plan_order)) = system_order_list
         .iter_mut()
         .enumerate()
