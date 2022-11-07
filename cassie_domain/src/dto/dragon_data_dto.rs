@@ -12,10 +12,11 @@ pub struct DragonDataDTO {
     pub no: u64,
     pub name: String,
     pub amount: i64,
+    pub origin_amount:i64,
     pub prior: Option<bool>,
     pub disable: Option<bool>,
     pub create_date: Option<String>,
-    pub left_amount:Option<i64>,
+    pub left_amount:i64,
     pub match_plan_ids:Vec<u64>
 }
 
@@ -32,6 +33,7 @@ impl From<DragonData> for DragonDataDTO {
             no: dragon_data.no,
             name: dragon_data.name,
             amount: dragon_data.amount,
+            origin_amount: dragon_data.amount,
             prior: match dragon_data.prior {
                 Some(0) => Some(false),
                 // Some(1) => Some(true),
@@ -45,7 +47,7 @@ impl From<DragonData> for DragonDataDTO {
                 _ => Some(true),
             },
             create_date: dragon_data.create_date,
-            left_amount:None,
+            left_amount:dragon_data.amount,
             match_plan_ids: Default::default(),
         }
     }
