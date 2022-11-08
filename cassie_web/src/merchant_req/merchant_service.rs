@@ -313,7 +313,7 @@ fn over_plan_match_left_dragon(
             .iter()
             .zip(dragon_order_list.iter_mut())
             .map(|(u, d)| {
-                d.left_amount = d.amount - u.plan_price; // 转变计算left_amount的量，修改了dragon_order_list内的dto的数据。
+                d.left_amount = d.amount - u.plan_price-d.match_amounts.iter().sum::<u64>() as i64; // 转变计算left_amount的量，修改了dragon_order_list内的dto的数据。
                 d
             })
             .enumerate()
@@ -340,8 +340,10 @@ fn over_plan_match_left_dragon(
                 .unwrap()
                 .plan_price;
                 let mut dragon = d.clone();
-                dragon.copy_plan_price = plan_price;
+                dragon.amount = plan_price;
+                dragon.left_amount = 0;
                 d.left_amount = d.left_amount - plan_price;
+                d.match_amounts.push(plan_price as u64);
                 (i,dragon)
             }) {
             Some(dragon)
@@ -353,7 +355,7 @@ fn over_plan_match_left_dragon(
             let mut dragon_over = dragon_over.unwrap();
             let mut dragon_over_clone = dragon_over.clone();
             // dragon_over.left_amount = dragon_over.left_amount - 4425;
-            dragon_over_clone.amount = dragon_over_clone.copy_plan_price;
+            // dragon_over_clone.amount = dragon_over_clone.copy_plan_price;
             dragon_over_clone.match_plan_ids.push(over_system_order_id as u64);
             dragon_order_list.push(dragon_over_clone);
             over_plan_match_left_dragon(dragon_order_list, system_order_list);
