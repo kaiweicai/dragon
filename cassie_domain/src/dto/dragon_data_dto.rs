@@ -17,6 +17,7 @@ pub struct DragonDataDTO {
     pub disable: Option<bool>,
     pub create_date: Option<String>,
     pub left_amount:i64,
+    pub copy_plan_price:i64,    //只是为了传值，并无具体的意义。
     pub match_plan_ids:Vec<u64>
 }
 
@@ -48,6 +49,7 @@ impl From<DragonData> for DragonDataDTO {
             },
             create_date: dragon_data.create_date,
             left_amount:dragon_data.amount,
+            copy_plan_price:0,
             match_plan_ids: Default::default(),
         }
     }

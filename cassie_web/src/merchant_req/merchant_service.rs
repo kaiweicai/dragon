@@ -300,7 +300,7 @@ fn divide_system_order(
 // 4233    4000
 // 4233    3000
 // 2341    3000
-fn over_plan_match_left_dradon(
+fn over_plan_match_left_dragon(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) {
@@ -334,6 +334,15 @@ fn over_plan_match_left_dradon(
                     .get(over_system_order_id)
                     .unwrap()
                     .plan_price <= dragon_order.left_amount
+            }).map(|(i,d)|{
+                let plan_price = system_order_list
+                .get(over_system_order_id)
+                .unwrap()
+                .plan_price;
+                let mut dragon = d.clone();
+                dragon.copy_plan_price = plan_price;
+                d.left_amount = d.left_amount - plan_price;
+                (i,dragon)
             }) {
             Some(dragon)
         } else {
@@ -343,11 +352,11 @@ fn over_plan_match_left_dradon(
         if dragon_over.is_some() {
             let mut dragon_over = dragon_over.unwrap();
             let mut dragon_over_clone = dragon_over.clone();
-            dragon_over.left_amount = dragon_over.left_amount - 4425;
-            dragon_over_clone.amount = dragon_over_clone.left_amount;
+            // dragon_over.left_amount = dragon_over.left_amount - 4425;
+            dragon_over_clone.amount = dragon_over_clone.copy_plan_price;
             dragon_over_clone.match_plan_ids.push(over_system_order_id as u64);
             dragon_order_list.push(dragon_over_clone);
-            over_plan_match_left_dradon(dragon_order_list, system_order_list);
+            over_plan_match_left_dragon(dragon_order_list, system_order_list);
         }
     }
 }
@@ -404,7 +413,7 @@ mod tests {
 
     use crate::merchant_req::merchant_service::check_amount_bt_plan_price;
 
-    use super::{divide_system_order, match_order, over_plan_match_left_dradon, sort_orders};
+    use super::{divide_system_order, match_order, over_plan_match_left_dragon, sort_orders};
 
     macro_rules! aw {
         ($e:expr) => {
@@ -510,7 +519,7 @@ mod tests {
         // 4233    4000
         // 4233    3000
         // 2341    3000
-        over_plan_match_left_dradon(&mut dragon_order_list, &mut system_order_list);
+        over_plan_match_left_dragon(&mut dragon_order_list, &mut system_order_list);
         show_base_dragon_orders(&mut dragon_order_list, &mut system_order_list);
     }
 
