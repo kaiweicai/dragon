@@ -34,7 +34,8 @@ pub struct PlanData<T> {
     pub page_size: u64,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, Default)]
+#[derive(Clone, Debug, Serialize, Deserialize, Default,Getters, Setters)]
+#[getset(get = "pub", set = "pub")]
 pub struct Plan {
     pub planid: Option<u64>,
     pub plan_code: Option<String>,

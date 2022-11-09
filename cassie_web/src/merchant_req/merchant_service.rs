@@ -304,44 +304,47 @@ fn over_plan_match_left_dragon(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) {
-    let mut dragon_default =DragonDataDTO::default();
+    let mut dragon_default = DragonDataDTO::default();
     // 重新排序。
     sort_orders(dragon_order_list, system_order_list);
     //并检查订单金额是否符合要求
+    let match_order_list = system_order_list
+        .iter()
+        .zip(dragon_order_list.iter_mut())
+        .map(|(u, d)| {
+            d.left_amount = d.amount - u.plan_price - d.match_amounts.iter().sum::<u64>() as i64; // 转变计算left_amount的量，修改了dragon_order_list内的dto的数据。
+            d
+        })
+        .enumerate()
+        .collect::<Vec<(usize,&mut DragonDataDTO)>>();
+
     let (over_system_order_id, dragon_order) = if let Some((system_order_index, dragon_order)) =
-        system_order_list
-            .iter()
-            .zip(dragon_order_list.iter_mut())
-            .map(|(u, d)| {
-                d.left_amount = d.amount - u.plan_price-d.match_amounts.iter().sum::<u64>() as i64; // 转变计算left_amount的量，修改了dragon_order_list内的dto的数据。
-                d
-            })
-            .enumerate()
-            .find(|(i, d)| d.left_amount < 0)
+        match_order_list
+        .iter()
+        .find(|(i, d)| d.left_amount < 0)
     {
         (system_order_index, dragon_order)
     } else {
-        (0, &mut dragon_default)
+        (&0_usize, &&mut dragon_default)
     };
 
     if over_system_order_id > 0 {
-        let over_plan_price = system_order_list
-        .get(over_system_order_id)
-        .unwrap()
-        .plan_price;
+        let over_plan_price = *system_order_list
+            .get(*over_system_order_id)
+            .unwrap()
+            .plan_price();
         //先找有没有left能够容纳的订单。
         let dragon_over = if let Some((index, dragon)) = dragon_order_list
             .iter_mut()
             .enumerate()
-            .find(|(index, dragon_order)| {
-                over_plan_price <= dragon_order.left_amount
-            }).map(|(i,d)|{
+            .find(|(index, dragon_order)| over_plan_price <= dragon_order.left_amount)
+            .map(|(i, d)| {
                 let mut dragon = d.clone();
                 d.left_amount = d.left_amount - over_plan_price;
                 d.match_amounts.push(over_plan_price as u64);
                 dragon.amount = over_plan_price;
                 dragon.left_amount = 0;
-                (i,dragon)
+                (i, dragon)
             }) {
             Some(dragon)
         } else {
@@ -353,7 +356,9 @@ fn over_plan_match_left_dragon(
             let mut dragon_over_clone = dragon_over.clone();
             // dragon_over.left_amount = dragon_over.left_amount - 4425;
             // dragon_over_clone.amount = dragon_over_clone.copy_plan_price;
-            dragon_over_clone.match_plan_ids.push(over_system_order_id as u64);
+            dragon_over_clone
+                .match_plan_ids
+                .push(*over_system_order_id as u64);
             dragon_order_list.push(dragon_over_clone);
             over_plan_match_left_dragon(dragon_order_list, system_order_list);
         }
