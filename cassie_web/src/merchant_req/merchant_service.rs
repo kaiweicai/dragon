@@ -173,37 +173,40 @@ pub async fn match_order(
     // 4925    5000
     // 4925    5000
     // 2341    5000
-    for s in system_order_list.iter() {
-        println!("{:?}", s.plan_price);
-    }
-    println!("------------");
-    for d in dragon_order_list.iter() {
-        println!("{:?}", d.amount);
-    }
+    // for s in system_order_list.iter() {
+    //     println!("{:?}", s.plan_price);
+    // }
+    // println!("------------");
+    // for d in dragon_order_list.iter() {
+    //     println!("{:?}", d.amount);
+    // }
+    over_plan_div_left_dragon(dragon_order_list, system_order_list);
     // 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。
-    check_amount_bt_plan_price(dragon_order_list, system_order_list);
+    over_system_dived_system(dragon_order_list, system_order_list);
 
     // 如果用户订单数量大于系统订单数量。
-    // if system_order_list.len() < dragon_order_list.len() {
-    // 9850    10000
-    // 8468    5000
-    // 5232    5000
-    // 2341    5000
-    //         5000
-    //
-    // 8468    10000
-    // 5232    5000
-    // 4925    5000
-    // 4925    5000
-    // 2341    5000
-
-    //0 5232   10000
-    //1 4925   5000
-    //2 4925   5000
-    //3 4234   5000
-    //4 4234   5000
-    //5 2341
     // let mut merge_dragon_order = dragon_order_list.clone();
+    //  4233 10000 10000
+    //  4233  5000  5000
+    //  2616  4000  4000
+    //  2616  4000  4000
+    //  2341  3000  3000
+    //  2212  3000  3000
+    //  2212     0     0
+    //  2212     0     0
+    //  2212     0     0
+    match_over_system_order(dragon_order_list, system_order_list);
+    let mut merge_list: Vec<(Plan, DragonDataDTO)> = Default::default();
+    // }
+    Ok(merge_list)
+}
+
+// 把多余的系统单分给接龙的用户，如果分不完，则挂了。
+fn match_over_system_order(
+    dragon_order_list: &mut Vec<DragonDataDTO>,
+    system_order_list: &mut Vec<Plan>,
+) {
+
     info!("start merge_dragon_order");
     let mut merge_list: Vec<(Plan, DragonDataDTO)> = system_order_list
         .iter()
@@ -247,9 +250,6 @@ pub async fn match_order(
             merge_list.push((not_match_order.clone(), my_match_dragon_order.clone()));
         }
     }
-
-    // }
-    Ok(merge_list)
 }
 
 // 9850    10000
@@ -289,6 +289,7 @@ fn divide_system_order(
     }
 }
 
+// 如果系统单大于用户单，则先拆大的用户单。
 //经过divide_system_order检查后。
 // 再检查是否有系统订单的金额超过用户的订单金额的匹对。如果有的话，检查用户订单的剩余金额是否有大于系统订单计划价格的订单。
 // 如果满足条件，则增加一个amount为leftamount的用户接龙单，相当于一个用户支付两个订单。vec<>订单包含的个数需要加1。
@@ -300,11 +301,12 @@ fn divide_system_order(
 // 4233    4000
 // 4233    3000
 // 2341    3000
-fn over_plan_match_left_dragon(
+fn over_plan_div_left_dragon(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) {
     let mut dragon_default = DragonDataDTO::default();
+    let mut dragon_refer = &mut dragon_default;
     // 重新排序。
     sort_orders(dragon_order_list, system_order_list);
     //并检查订单金额是否符合要求
@@ -316,21 +318,18 @@ fn over_plan_match_left_dragon(
             d
         })
         .enumerate()
-        .collect::<Vec<(usize,&mut DragonDataDTO)>>();
+        .collect::<Vec<(usize, &mut DragonDataDTO)>>();
 
     let (over_system_order_id, dragon_order) = if let Some((system_order_index, dragon_order)) =
-        match_order_list
-        .iter()
-        .find(|(i, d)| d.left_amount < 0)
+        match_order_list.iter().find(|(i, d)| d.left_amount < 0)
     {
-        (system_order_index, dragon_order)
+        (*system_order_index, dragon_order)
     } else {
-        (&0_usize, &&mut dragon_default)
+        (0_usize, &dragon_refer)
     };
-
     if over_system_order_id > 0 {
         let over_plan_price = *system_order_list
-            .get(*over_system_order_id)
+            .get(over_system_order_id)
             .unwrap()
             .plan_price();
         //先找有没有left能够容纳的订单。
@@ -358,9 +357,9 @@ fn over_plan_match_left_dragon(
             // dragon_over_clone.amount = dragon_over_clone.copy_plan_price;
             dragon_over_clone
                 .match_plan_ids
-                .push(*over_system_order_id as u64);
+                .push(over_system_order_id as u64);
             dragon_order_list.push(dragon_over_clone);
-            over_plan_match_left_dragon(dragon_order_list, system_order_list);
+            over_plan_div_left_dragon(dragon_order_list, system_order_list);
         }
     }
 }
@@ -371,7 +370,7 @@ fn over_plan_match_left_dragon(
 // 4925    5000
 // 2341    5000
 // 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。
-fn check_amount_bt_plan_price(
+fn over_system_dived_system(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) {
@@ -402,7 +401,7 @@ fn check_amount_bt_plan_price(
         let removed_order = system_order_list.remove(0);
         let mut split_orders = removed_order.split();
         system_order_list.append(&mut split_orders);
-        check_amount_bt_plan_price(dragon_order_list, system_order_list);
+        over_system_dived_system(dragon_order_list, system_order_list);
     }
 }
 
@@ -415,9 +414,9 @@ fn sort_orders(dragon_order_list: &mut Vec<DragonDataDTO>, system_order_list: &m
 mod tests {
     use cassie_domain::dto::{dragon_data_dto::DragonDataDTO, merchant_dto::Plan};
 
-    use crate::merchant_req::merchant_service::check_amount_bt_plan_price;
+    use crate::merchant_req::merchant_service::over_system_dived_system;
 
-    use super::{divide_system_order, match_order, over_plan_match_left_dragon, sort_orders};
+    use super::{divide_system_order, match_order, over_plan_div_left_dragon, sort_orders};
 
     macro_rules! aw {
         ($e:expr) => {
@@ -523,7 +522,7 @@ mod tests {
         // 4233    4000
         // 4233    3000
         // 2341    3000
-        over_plan_match_left_dragon(&mut dragon_order_list, &mut system_order_list);
+        over_plan_div_left_dragon(&mut dragon_order_list, &mut system_order_list);
         show_base_dragon_orders(&mut dragon_order_list, &mut system_order_list);
     }
 
@@ -534,7 +533,7 @@ mod tests {
     // 4233 3000
     // 2341 3000
     #[test]
-    fn test_amount_bt_plan_price() {
+    fn test_over_system_dived_system() {
         let mut amount_vec = Vec::new();
         amount_vec.push(10000);
         amount_vec.push(5000);
@@ -554,9 +553,10 @@ mod tests {
         plan_price_vec.push(2341);
         let mut system_order_list: Vec<Plan> = mock_system_order_list(&plan_price_vec);
 
-        check_amount_bt_plan_price(&mut dragon_order_list, &mut system_order_list);
-        println!("system_order_list is:{:#?}", system_order_list);
-        println!("dragon_order_list is:{:#?}", dragon_order_list);
+        over_system_dived_system(&mut dragon_order_list, &mut system_order_list);
+        show_base_system_orders(&mut dragon_order_list, &mut system_order_list);
+        println!("");
+        show_base_dragon_orders(&mut dragon_order_list, &mut system_order_list);
     }
 
     // 9850     10000
