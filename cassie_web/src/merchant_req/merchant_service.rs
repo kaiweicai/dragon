@@ -325,25 +325,22 @@ fn over_plan_match_left_dragon(
     };
 
     if over_system_order_id > 0 {
+        let over_plan_price = system_order_list
+        .get(over_system_order_id)
+        .unwrap()
+        .plan_price;
         //先找有没有left能够容纳的订单。
         let dragon_over = if let Some((index, dragon)) = dragon_order_list
             .iter_mut()
             .enumerate()
             .find(|(index, dragon_order)| {
-                system_order_list
-                    .get(over_system_order_id)
-                    .unwrap()
-                    .plan_price <= dragon_order.left_amount
+                over_plan_price <= dragon_order.left_amount
             }).map(|(i,d)|{
-                let plan_price = system_order_list
-                .get(over_system_order_id)
-                .unwrap()
-                .plan_price;
                 let mut dragon = d.clone();
-                dragon.amount = plan_price;
+                d.left_amount = d.left_amount - over_plan_price;
+                d.match_amounts.push(over_plan_price as u64);
+                dragon.amount = over_plan_price;
                 dragon.left_amount = 0;
-                d.left_amount = d.left_amount - plan_price;
-                d.match_amounts.push(plan_price as u64);
                 (i,dragon)
             }) {
             Some(dragon)
@@ -496,7 +493,7 @@ mod tests {
     }
 
     #[test]
-    fn test_over_plan_match_left_dradon() {
+    fn test_over_plan_match_left_dragon() {
         let mut amount_vec = Vec::new();
         amount_vec.push(10000);
         amount_vec.push(5000);
