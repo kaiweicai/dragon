@@ -182,19 +182,19 @@ pub async fn match_order(
     // }
     over_plan_div_left_dragon(dragon_order_list, system_order_list);
     // 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。
-    over_system_dived_system(dragon_order_list, system_order_list);
+    // over_system_dived_system(dragon_order_list, system_order_list);
 
     // 如果用户订单数量大于系统订单数量。
     // let mut merge_dragon_order = dragon_order_list.clone();
-    //  4233 10000 10000
-    //  4233  5000  5000
-    //  2616  4000  4000
-    //  2616  4000  4000
-    //  2341  3000  3000
-    //  2212  3000  3000
-    //  2212     0     0
-    //  2212     0     0
-    //  2212     0     0
+    // 5232 10000 10000 
+    // 4425  5000  5000 
+    // 2341  4000  4000 
+    // 2212  4000  4000 
+    // 2212  3000  3000 
+    // 2116  3000  3000 
+    // 2116     0     0 
+    // 2116     0     0 
+    // 2116     0     0
     match_over_system_order(dragon_order_list, system_order_list);
     let mut merge_list: Vec<(Plan, DragonDataDTO)> = Default::default();
     // }
@@ -206,7 +206,12 @@ fn match_over_system_order(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
 ) {
-
+    let system_len = system_order_list.len();
+    let dragon_len = dragon_order_list.len();
+    if system_len > dragon_len{
+        let more_system_order_vec = system_order_list.iter().filter(|s|s.clone()).collet();
+    }
+    let more_system_than_user = system_order_list.len() - dragon_order_list.len();
     info!("start merge_dragon_order");
     let mut merge_list: Vec<(Plan, DragonDataDTO)> = system_order_list
         .iter()
@@ -369,7 +374,7 @@ fn over_plan_div_left_dragon(
 // 4925    5000
 // 4925    5000
 // 2341    5000
-// 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。
+// 检查当前排序中是否存在系统订单金额大于用户订单的情况，如果有，则进行拆单。拆分超过用户出价的订单。
 fn over_system_dived_system(
     dragon_order_list: &mut Vec<DragonDataDTO>,
     system_order_list: &mut Vec<Plan>,
@@ -398,7 +403,7 @@ fn over_system_dived_system(
         0
     };
     if over_system_order_id > 0 {
-        let removed_order = system_order_list.remove(0);
+        let removed_order = system_order_list.remove(over_system_order_id);
         let mut split_orders = removed_order.split();
         system_order_list.append(&mut split_orders);
         over_system_dived_system(dragon_order_list, system_order_list);
