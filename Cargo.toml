@@ -8,6 +8,7 @@ members = [
    "cassie_macros",
    "cassie_orm",
    "src-tauri",
+   "cassie_increase",
 ]
 [profile.release]
 codegen-units = 1

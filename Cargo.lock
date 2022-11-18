@@ -883,6 +883,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "cassie_increase"
+version = "0.1.0"
+
+[[package]]
 name = "cassie_macros"
 version = "0.1.0"
 dependencies = [
